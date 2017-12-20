@@ -1,0 +1,14 @@
+E:\Esempi Sviluppo\WpfUsingWebBrowser\ComInteropLib\bin\Debug\ComInteropLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\ComInteropLib\bin\Debug\ComInteropLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\ComInteropLib\bin\Debug\ComInteropLib.tlb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.csprojResolveAssemblyReference.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.csproj.CoreCompileInputs.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.pdb
+D:\Development Samples\WpfUsingWebBrowser\ComInteropLib\bin\Debug\ComInteropLib.dll
+D:\Development Samples\WpfUsingWebBrowser\ComInteropLib\bin\Debug\ComInteropLib.pdb
+D:\Development Samples\WpfUsingWebBrowser\ComInteropLib\bin\Debug\ComInteropLib.tlb
+D:\Development Samples\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.csprojResolveAssemblyReference.cache
+D:\Development Samples\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.csproj.CoreCompileInputs.cache
+D:\Development Samples\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.dll
+D:\Development Samples\WpfUsingWebBrowser\ComInteropLib\obj\Debug\ComInteropLib.pdb
