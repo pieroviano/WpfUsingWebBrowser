@@ -14,20 +14,28 @@ namespace WpfUsingWebBrowser.WebServer
         public EmbeddedWebServer(string[] prefixes, Func<HttpListenerRequest, string> method)
         {
             if (!HttpListener.IsSupported)
+            {
                 throw new NotSupportedException(
                     "Needs Windows XP SP2, Server 2003 or later.");
+            }
 
             // URI prefixes are required, for example 
             // "http://localhost:8080/index/".
             if (prefixes == null || prefixes.Length == 0)
+            {
                 throw new ArgumentException("prefixes");
+            }
 
             // A responder method is required
             if (method == null)
+            {
                 throw new ArgumentException("method");
+            }
 
             foreach (var s in prefixes)
+            {
                 _listener.Prefixes.Add(s);
+            }
 
             _responderMethod = method;
             _listener.Start();
@@ -42,13 +50,16 @@ namespace WpfUsingWebBrowser.WebServer
         {
             ThreadPool.QueueUserWorkItem(o =>
             {
+                Thread.CurrentThread.IsBackground = true;
                 Debug.WriteLine("Webserver running...");
                 try
                 {
                     while (_listener.IsListening)
+                    {
                         ThreadPool.QueueUserWorkItem(c =>
                         {
                             var ctx = c as HttpListenerContext;
+                            Thread.CurrentThread.IsBackground = true;
                             try
                             {
                                 if (ctx != null)
@@ -69,6 +80,7 @@ namespace WpfUsingWebBrowser.WebServer
                                 ctx?.Response.OutputStream.Close();
                             }
                         }, _listener.GetContext());
+                    }
                 }
                 catch (Exception ex)
                 {

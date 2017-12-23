@@ -14,9 +14,15 @@ namespace WebBrowserLib.Extensions
 
         public static Tuple<TT, TQ, TR>[] Items<TT, TQ, TR>(this List<Tuple<TT, TQ, TR>> list, TT key, TQ value, TR item3)
         {
-            var enumerable = list.Where(l => l.Item1.Equals(key) &&
-                                             l.Item2.Equals(value) &&
-                                             l.Item3.Equals(item3)).ToArray();
+            bool CompareTupleValue(Tuple<TT, TQ, TR> l)
+            {
+                return 
+                    l.Item1.Equals(key) && 
+                    l.Item2.Equals(value) && 
+                    l.Item3.Equals(item3);
+            }
+
+            var enumerable = list.Where(CompareTupleValue).ToArray();
             return enumerable;
         }
 

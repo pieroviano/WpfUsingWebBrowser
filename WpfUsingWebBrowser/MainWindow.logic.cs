@@ -1,7 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using ComInteropLib;
+using mshtml;
+using WebBrowserLib.Extensions;
 using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.WebBrowserControl.Helpers;
+using WpfAdornedControl.WpfControls.Extensions;
 using WpfUsingWebBrowser.Controllers;
 using WpfUsingWebBrowser.Controllers.Logic;
 using WpfUsingWebBrowser.Model;
@@ -13,46 +19,109 @@ namespace WpfUsingWebBrowser
         private readonly MainWindowController _controller;
         private readonly MainWindowModel _model;
 
-        private void AttachEventHandlerToControl(Func<CustomWebBrowserControlEventHandler> getCustomEventHandler, Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        private bool _alreadyEntered;
+
+        private void AttachEventHandlerToControl(Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            Func<bool> customEventDelegate = CustomOnClickFunction;
-            var functionHash = (IntPtr)customEventDelegate.GetHashCode();
-            WebBrowser.AttachEventHandlerToControl("logout", "onclick", customEventDelegate, functionHash, getCustomEventHandler, setCustomEventHandler, true);
+            var comVisibleClass = new ComVisibleClass();
+            comVisibleClass.HitBreakpoint = false;
+            comVisibleClass.EventFromComVisibleClass += (sender, args) =>
+            {
+                IdentityServerLogic.SetAuthorization(null);
+                WebBrowser.InjectAndExecuteJavascript(_model.LogoutJavascript);
+            };
+            var registerCsCodeCallableFromJavascript = WebBrowser.RegisterCsCodeCallableFromJavascript(ref comVisibleClass);
+            var javascriptToExecute = "document.all['logout'].onclick = function(){" +
+                                      registerCsCodeCallableFromJavascript + "}";
+            WebBrowser.InjectAndExecuteJavascript(javascriptToExecute);
         }
 
-        private bool CustomOnClickFunction()
+        private void GetAuthenticationDictionary()
         {
-            IdentityServerLogic.SetAuthorization(null);
-            WebBrowser.InjectAndExecuteJavascript(_model.LogoutJavascript);
-            return false;
+            bool hasToLogin;
+            bool hasToNavigate;
+            _controller.GetAuthenticationDictionary(WebBrowser.Source.ToString(), out hasToLogin, out hasToNavigate);
+            LoginOrNavigateIfNecessary(hasToLogin, hasToNavigate);
         }
 
-        private void DisableOnContextMenuToDocument(
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler, Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        private string GetCurrentUrl()
         {
-            WebBrowser.DisableOnContextMenuToDocument(getCustomEventHandler, setCustomEventHandler);
+            var url = WebBrowser.Source.ToString();
+            return url;
         }
 
-        private void EnableOnContextMenuToDocument()
+        private void HandleScripts(bool isIdentityServer, string url)
         {
-            WebBrowser.EnableOnContextMenuToDocument(_model.GetCustomEventHandler, _model.SetCustomEventHandler);
+            if (!isIdentityServer)
+            {
+#if DEBUG
+                var customComVisibleClass = new CustomComVisibleClass(WebBrowser);
+                customComVisibleClass.RaisedEvent += CustomComVisibleClass_RaisedEvent;
+                Func<bool> customEventDelegate = customComVisibleClass.CodeToExecute;
+                var functionHash = customEventDelegate.GetFullNameHashCode();
+                WebBrowser.AttachCustomFunctionOnDocument("onclick",customEventDelegate, functionHash,
+                    _model.GetCustomEventHandler,
+                    _model.SetCustomEventHandler);
+#endif
+                if (!_model.DontDisableOnSelectionStartToDocument)
+                {
+#if !DONTUSEJAVASCRIPT
+                    WebBrowser.InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
+#else
+                    WebBrowser.DisableEventOnDocument("onselectstart", _model.GetCustomEventHandler,
+                        _model.SetCustomEventHandler);
+#endif
+                }
+                if (!_model.DontDisableOnContextMenuToDocument)
+                {
+#if !DONTUSEJAVASCRIPT
+                    WebBrowser.InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
+#else
+                    WebBrowser.DisableOnContextMenuOnDocument(_model.GetCustomEventHandler,
+                        _model.SetCustomEventHandler);
+#endif
+                }
+                bool isIndexPage;
+                _controller.ProcessIndexOrCallbackFromidentityServer(url,
+                    _model.GetCustomEventHandler, _model.SetCustomEventHandler,
+                    out isIndexPage);
+                if (isIndexPage)
+                {
+                    WebBrowser.InjectAndExecuteJavascript("$(function(){$('#login').hide();})");
+                    AttachEventHandlerToControl(_model.GetCustomEventHandler, _model.SetCustomEventHandler);
+                    GetAuthenticationDictionary();
+                }
+            }
+            else
+            {
+                if (!_alreadyEntered)
+                {
+                    LoadingAdorner.StartStopWait(WebBrowser);
+                    _alreadyEntered = true;
+                }
+                WebBrowser.InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
+                WebBrowser.InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
+            }
         }
 
-        private Dictionary<string, string> GetAuthenticationDictionary()
+        private void CustomComVisibleClass_RaisedEvent(object sender, EventArgs e)
         {
-            return _controller.GetAuthenticationDictionary(WebBrowser.Source.ToString(), Navigate,
-                InjectAndExecuteJavascript,
-                _model.LoginJavascript);
+            if (Debugger.IsAttached)
+                Debugger.Break();
         }
 
-        private void InjectAndExecuteJavascript(string javascript)
+        private void LoginOrNavigateIfNecessary(bool hasToLogin, bool hasToNavigate)
         {
-            WebBrowser.InjectAndExecuteJavascript(javascript);
+            if (hasToLogin)
+            {
+                WebBrowser.InjectAndExecuteJavascript(_model.LoginJavascript);
+            }
+            else if (hasToNavigate)
+            {
+                WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+            }
         }
 
-        private void Navigate(string url)
-        {
-            WebBrowser.Navigate(url);
-        }
     }
 }

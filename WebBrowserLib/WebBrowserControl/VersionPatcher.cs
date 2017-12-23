@@ -23,15 +23,25 @@ namespace WebBrowserLib.WebBrowserControl
 
             //// set the appropriate IE version
             if (ieVersion >= 11)
+            {
                 regVal = 11001;
+            }
             else if (ieVersion >= 10)
+            {
                 regVal = 10001;
+            }
             else if (ieVersion >= 9)
+            {
                 regVal = 9999;
+            }
             else if (ieVersion >= 8)
+            {
                 regVal = 8888;
+            }
             else
+            {
                 regVal = 7000;
+            }
 
             // set the actual key
             using (var key =
@@ -40,8 +50,10 @@ namespace WebBrowserLib.WebBrowserControl
                     RegistryKeyPermissionCheck.ReadWriteSubTree))
             {
                 if (key != null && key.GetValue(Process.GetCurrentProcess().ProcessName + ".exe") == null)
+                {
                     key.SetValue(Process.GetCurrentProcess().ProcessName + ".exe", regVal,
                         RegistryValueKind.DWord);
+                }
             }
         }
     }

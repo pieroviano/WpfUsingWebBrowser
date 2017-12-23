@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using mshtml;
 using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.WebBrowserControl.StarbExplorer.Utility;
 using WpfUsingWebBrowser.Controllers.Logic;
 using WpfUsingWebBrowser.Model;
 
@@ -20,71 +22,94 @@ namespace WpfUsingWebBrowser.Controllers
             WebBrowserExtension.JavascriptInjectionEnabled = _model.WebBrowserExtensionJavascriptInjectionEnabled;
         }
 
-        public async Task DoCallApi(string url, Action<string> navigate,
-            Func<Dictionary<string, string>> getAuthenticationDictionary)
+
+        public async Task<Tuple<bool, bool>> DoCallApi(string url)
         {
-            var newSlotData = getAuthenticationDictionary();
+            bool hasToLogin;
+            bool hasToNavigate;
+            var newSlotData = GetAuthenticationDictionary(url, out hasToLogin, out hasToNavigate);
+            if (hasToNavigate || hasToLogin)
+            {
+                return new Tuple<bool, bool>(hasToLogin, hasToNavigate);
+            }
             if (newSlotData == null)
-                return;
+            {
+                return new Tuple<bool, bool>(false, false);
+            }
             var lower = url.ToLower();
             if (!lower.Contains(_model.IndexPage))
             {
-                navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
-                return;
+                hasToNavigate = true;
+                return new Tuple<bool, bool>(false, false);
             }
             var accessToken = newSlotData[_model.AccessToken];
             await IdentityServerLogic.CallApi(accessToken);
+            return new Tuple<bool, bool>(false, false);
         }
 
-        public void DoWorkOnPage(string url,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler,
-            Action<Func<CustomWebBrowserControlEventHandler>, Action<CustomWebBrowserControlEventHandler>> attachEventHandlerToControl,
-            Action<string> injectAndExecuteJavascript, string javascript,
-            Func<Dictionary<string, string>> getAuthenticationDictionary,
-            Action<Func<CustomWebBrowserControlEventHandler>, Action<CustomWebBrowserControlEventHandler>> disableOnContextMenuToDocument)
+        public Dictionary<string, string> GetAuthenticationDictionary(string url, out bool hasToLogin,
+            out bool hasToNavigate)
         {
-            if (_model.DisableOnContextMenuToDocument)
-                disableOnContextMenuToDocument(getCustomEventHandler, setCustomEventHandler);
-            injectAndExecuteJavascript(javascript);
-            var lower = url.ToLower();
-            if (lower.Contains(_model.IndexPage))
-            {
-                attachEventHandlerToControl(getCustomEventHandler, setCustomEventHandler);
-                getAuthenticationDictionary();
-            }
-            else
-            {
-                if (lower.Contains(_model.CallbackPage) && !lower.Contains(_model.RedirectUri))
-                {
-                    lower = url.Substring(lower.IndexOf('#') + 1);
-                    var dict = lower.Split('&').Select(s =>
-                        {
-                            var strings = s.Split('=');
-                            return new { Key = strings[0], Value = strings[1] };
-                        })
-                        .ToDictionary(t => t.Key, t => t.Value);
-                    IdentityServerLogic.SetAuthorization(dict);
-                }
-            }
-        }
-
-        public Dictionary<string, string> GetAuthenticationDictionary(string url, Action<string> navigate,
-            Action<string> injectAndExecuteJavascript, string javascript)
-        {
+            hasToNavigate = false;
             var newSlotData = IdentityServerLogic.GetAuthorization();
             if (newSlotData == null)
             {
                 var lower = url.ToLower();
                 if (!lower.Contains(_model.IndexPage))
                 {
-                    navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+                    hasToNavigate = true;
+                    hasToLogin = false;
                     return null;
                 }
-                injectAndExecuteJavascript(
-                    javascript);
+                hasToLogin = true;
+                return null;
             }
+            hasToLogin = false;
             return newSlotData;
+        }
+
+        public string HandleStatusAndGetUrl(HTMLDocument document, out bool isIdentityServer, string url)
+        {
+            isIdentityServer = false;
+            string returnValue;
+            if (!MainWindowModel.IsIdentityServerUrl(url))
+            {
+                ScriptInjector.AddJQueryElement(document?.getElementsByTagName("head")
+                    .item(0));
+                returnValue = "";
+            }
+            else
+            {
+                isIdentityServer = true;
+                returnValue = url.Substring(0, url.LastIndexOf('?'));
+            }
+            return returnValue;
+        }
+
+        public void ProcessIndexOrCallbackFromidentityServer(string url,
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler,
+            out bool isIndexPage)
+        {
+            var lower = url.ToLower();
+            isIndexPage = lower.Contains(_model.IndexPage);
+            var isCallbackFromIdentityServer =
+                lower.Contains(_model.CallbackPage) && !lower.Contains(_model.RedirectUri);
+            if (isIndexPage)
+            {
+                return;
+            }
+            if (isCallbackFromIdentityServer)
+            {
+                lower = url.Substring(lower.IndexOf('#') + 1);
+                var dict = lower.Split('&').Select(s =>
+                    {
+                        var strings = s.Split('=');
+                        return new {Key = strings[0], Value = strings[1]};
+                    })
+                    .ToDictionary(t => t.Key, t => t.Value);
+                IdentityServerLogic.SetAuthorization(dict);
+            }
         }
     }
 }

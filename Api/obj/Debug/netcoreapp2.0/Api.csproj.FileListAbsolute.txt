@@ -52,3 +52,4 @@ D:\Development Samples\WpfUsingWebBrowser\Api\obj\Debug\netcoreapp2.0\Api.Assemb
 D:\Development Samples\WpfUsingWebBrowser\Api\obj\Debug\netcoreapp2.0\Api.AssemblyInfo.cs
 D:\Development Samples\WpfUsingWebBrowser\Api\obj\Debug\netcoreapp2.0\Api.dll
 D:\Development Samples\WpfUsingWebBrowser\Api\obj\Debug\netcoreapp2.0\Api.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\Api\obj\Debug\netcoreapp2.0\Api.csprojResolveAssemblyReference.cache

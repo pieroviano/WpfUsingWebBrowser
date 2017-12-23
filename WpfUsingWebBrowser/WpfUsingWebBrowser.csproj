@@ -161,6 +161,10 @@
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>
       <Name>WebBrowserLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfAdornedControl\WpfAdornedControl.csproj">
+      <Project>{BFC4E960-D657-4AFF-910C-396834743241}</Project>
+      <Name>WpfAdornedControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

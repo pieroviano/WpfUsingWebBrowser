@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfUsingWebBrowser"
+        xmlns:wpfAdornedControl="clr-namespace:WpfAdornedControl;assembly=WpfAdornedControl"
+        xmlns:wpfControls1="clr-namespace:WpfAdornedControl.WpfControls;assembly=WpfAdornedControl"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1280">
+        Title="MainWindow" Height="800" Width="1280" Closing="Window_Closing">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -15,10 +16,18 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Height="20">
-            <StatusBarItem><TextBlock Name="StatusBar"></TextBlock></StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Name="StatusBar"></TextBlock>
+            </StatusBarItem>
         </StatusBar>
-        <Grid>
-            <WebBrowser x:Name="WebBrowser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="WebBrowser_Loaded" Navigated="WebBrowser_Navigated" />
-        </Grid>
+        <wpfAdornedControl:AdornedControl Name="LoadingAdorner">
+            <wpfAdornedControl:AdornedControl.AdornerContent>
+                <wpfControls1:LoadingWait></wpfControls1:LoadingWait>
+            </wpfAdornedControl:AdornedControl.AdornerContent>
+            <Grid>
+                <WebBrowser x:Name="WebBrowser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="WebBrowser_Loaded" LoadCompleted="WebBrowser_LoadCompleted" />
+            </Grid>
+        </wpfAdornedControl:AdornedControl>
     </DockPanel>
 </Window>
+

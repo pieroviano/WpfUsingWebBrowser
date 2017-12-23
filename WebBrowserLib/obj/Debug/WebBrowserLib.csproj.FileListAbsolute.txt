@@ -4,7 +4,6 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.tlb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csprojResolveAssemblyReference.cache
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.dll
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.pdb
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.tlb
@@ -12,3 +11,6 @@ D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csproj.CoreCompileInputs.cache
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.dll
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csprojResolveAssemblyReference.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WpfAdornedControl.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WpfAdornedControl.pdb
