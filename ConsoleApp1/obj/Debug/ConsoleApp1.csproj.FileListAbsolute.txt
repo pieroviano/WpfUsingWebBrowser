@@ -1,6 +1,0 @@
-E:\Esempi Sviluppo\WpfUsingWebBrowser\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
-E:\Esempi Sviluppo\WpfUsingWebBrowser\ConsoleApp1\bin\Debug\ConsoleApp1.exe
-E:\Esempi Sviluppo\WpfUsingWebBrowser\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\ConsoleApp1\obj\Debug\ConsoleApp1.csproj.CoreCompileInputs.cache
-E:\Esempi Sviluppo\WpfUsingWebBrowser\ConsoleApp1\obj\Debug\ConsoleApp1.exe
-E:\Esempi Sviluppo\WpfUsingWebBrowser\ConsoleApp1\obj\Debug\ConsoleApp1.pdb

@@ -12,5 +12,3 @@ D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.dll
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csprojResolveAssemblyReference.cache
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WpfAdornedControl.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\bin\Debug\WpfAdornedControl.pdb

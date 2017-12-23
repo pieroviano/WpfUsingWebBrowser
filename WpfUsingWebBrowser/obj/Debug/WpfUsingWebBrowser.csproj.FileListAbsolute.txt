@@ -91,4 +91,3 @@ D:\Development Samples\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\WpfUsingW
 D:\Development Samples\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\WpfUsingWebBrowser.exe
 D:\Development Samples\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\WpfUsingWebBrowser.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WpfAdornedControl.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WpfAdornedControl.pdb

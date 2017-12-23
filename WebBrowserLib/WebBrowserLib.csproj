@@ -67,11 +67,5 @@
     <Compile Include="WebBrowserControl\WebBrowserExtension.Wpf.cs" />
     <Compile Include="Windows\FocusDetector.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WpfAdornedControl\WpfAdornedControl.csproj">
-      <Project>{bfc4e960-d657-4aff-910c-396834743241}</Project>
-      <Name>WpfAdornedControl</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
