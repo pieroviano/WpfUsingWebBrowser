@@ -1,0 +1,8 @@
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\obj\Debug\WebBrowserLib.WinForms.csprojResolveAssemblyReference.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\obj\Debug\WebBrowserLib.WinForms.csproj.CoreCompileInputs.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowserLib.WinForms.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowserLib.WinForms.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowserLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\obj\Debug\WebBrowserLib.WinForms.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\obj\Debug\WebBrowserLib.WinForms.pdb

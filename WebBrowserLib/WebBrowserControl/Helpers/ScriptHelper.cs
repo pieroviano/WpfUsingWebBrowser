@@ -2,7 +2,7 @@
 
 namespace WebBrowserLib.WebBrowserControl.Helpers
 {
-    public class ScriptHelper
+    public static class ScriptHelper
     {
         public static string GetJavascriptToExecuteToRemoveHandlers(string controlId, string cleanHandlers)
         {

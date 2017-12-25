@@ -1,0 +1,10 @@
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.csprojResolveAssemblyReference.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.Properties.Resources.resources
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.csproj.GenerateResource.Cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.csproj.CoreCompileInputs.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.Wpf.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.Wpf.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.pdb

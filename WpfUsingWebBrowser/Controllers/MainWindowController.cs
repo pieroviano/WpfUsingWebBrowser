@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using mshtml;
 using WebBrowserLib.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl.StarbExplorer.Utility;
+using WebBrowserLib.WebBrowserControl.Helpers;
 using WpfUsingWebBrowser.Controllers.Logic;
 using WpfUsingWebBrowser.Model;
 
@@ -18,8 +18,8 @@ namespace WpfUsingWebBrowser.Controllers
         public MainWindowController(MainWindowModel model)
         {
             _model = model;
-            WebBrowserExtension.Enabled = _model.WebBrowserExtensionEnabled;
-            WebBrowserExtension.JavascriptInjectionEnabled = _model.WebBrowserExtensionJavascriptInjectionEnabled;
+            WebBrowserExtension.Instance.Enabled = _model.WebBrowserExtensionEnabled;
+            WebBrowserExtension.Instance.JavascriptInjectionEnabled = _model.WebBrowserExtensionJavascriptInjectionEnabled;
         }
 
 
@@ -74,8 +74,8 @@ namespace WpfUsingWebBrowser.Controllers
             string returnValue;
             if (!MainWindowModel.IsIdentityServerUrl(url))
             {
-                ScriptInjector.AddJQueryElement(document?.getElementsByTagName("head")
-                    .item(0));
+                var item = document?.getElementsByTagName("head").item(0) as HTMLHeadElement;
+                WebBrowserExtension.Instance.AddJQueryElement(item);
                 returnValue = "";
             }
             else

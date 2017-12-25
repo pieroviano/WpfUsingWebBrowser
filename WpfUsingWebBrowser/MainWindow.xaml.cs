@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
 using mshtml;
-using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 using WpfUsingWebBrowser.Controllers;
 using WpfUsingWebBrowser.Model;
@@ -21,7 +21,7 @@ namespace WpfUsingWebBrowser
             _model = new MainWindowModel();
             _controller = new MainWindowController(_model);
 
-            WebBrowser.RemoveHandlersOnNavigating(_model.GetCustomEventHandler, _model.SetCustomEventHandler);
+            WebBrowserExtensionWpf.Instance.RemoveHandlersOnNavigating(WebBrowser, _model.GetCustomEventHandler, _model.SetCustomEventHandler);
         }
 
         private async void MenuItemCallApi_Click(object sender, RoutedEventArgs e)
@@ -52,7 +52,7 @@ namespace WpfUsingWebBrowser
             LoadingAdorner.StartStopWait(WebBrowser);
             WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
         }
-        
+
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             Process.GetCurrentProcess().Kill();

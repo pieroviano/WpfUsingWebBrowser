@@ -14,7 +14,7 @@ namespace WebBrowserLib.WebBrowserControl
             Delegates = customEventDelegate;
         }
 
-        internal List<Tuple<string, Delegate, int>> Delegates { get; set; }
+        public List<Tuple<string, Delegate, int>> Delegates { get; set; }
 
         public bool EventHandlerIsAttached(string formattableString, int functionHash,Type eventInfoEventHandlerType, object firstArgument, Delegate customEventDelegate, out Delegate @delegate)
         {

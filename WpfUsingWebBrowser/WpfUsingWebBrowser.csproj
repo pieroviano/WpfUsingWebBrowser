@@ -160,6 +160,10 @@
       <Project>{3f09572a-7429-48c9-99b2-ed11105f5e2f}</Project>
       <Name>ComInteropLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebBrowserLib.Wpf\WebBrowserLib.Wpf.csproj">
+      <Project>{63360344-6b20-4be0-9f71-ea5d687e50c4}</Project>
+      <Name>WebBrowserLib.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib\WebBrowserLib.csproj">
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>
       <Name>WebBrowserLib</Name>
