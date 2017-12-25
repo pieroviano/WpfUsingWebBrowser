@@ -22,12 +22,10 @@ namespace WinFormUsingWebBrowser
                 _model.SetCustomEventHandler);
         }
 
-        private void callAPIToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void callAPIToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var doCallApi = _controller.DoCallApi(WebBrowser.Url.ToString(),
+            var tuple = await _controller.DoCallApi(WebBrowser.Url.ToString(),
                 new Func<string, DialogResult>(MessageBox.Show));
-            doCallApi.Wait();
-            var tuple = doCallApi.Result;
             var hasToLogin = tuple.Item1;
             var hasToNavigate = tuple.Item2;
             LoginOrNavigateIfNecessary(hasToLogin, hasToNavigate);

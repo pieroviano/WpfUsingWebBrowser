@@ -37,8 +37,8 @@
     <StartupObject>WpfUsingWebBrowser.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdentityModel, Version=2.16.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityModel.2.16.0\lib\net461\IdentityModel.dll</HintPath>
+    <Reference Include="IdentityModel, Version=2.16.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.2.16.1\lib\net461\IdentityModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
@@ -151,6 +151,9 @@
       <Project>{CC2918D6-7A8A-44E3-A59A-63B81346FD53}</Project>
       <Name>UsingWebBrowserLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\app.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

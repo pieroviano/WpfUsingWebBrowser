@@ -5,9 +5,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UsingWebBrowserLib.Model;
-using UsingWebBrowserLib.Properties;
 using UsingWebBrowserLib.WebServer;
 using WebBrowserLib.mshtml.WebBrowserControl;
+using WinFormUsingWebBrowser.Properties;
 
 namespace WinFormUsingWebBrowser
 {
@@ -34,8 +34,14 @@ namespace WinFormUsingWebBrowser
         {
             var substring = request.Url.ToString().Substring(MainWindowModel.UrlPrefix.Length).ToLower()
                 .Replace(".", "_").Replace("-", "_");
-            var propertyInfo = typeof(Resources).GetProperty(substring);
-            var value = (string)propertyInfo?.GetValue(typeof(Resources));
+            var type = typeof(Resources);
+            var propertyInfo = type.GetProperty(substring);
+            if(propertyInfo==null)
+            {
+                type = typeof(UsingWebBrowserLib.Properties.Resources);
+                propertyInfo=type.GetProperty(substring);
+            }
+            var value = (string)propertyInfo?.GetValue(type);
             return value;
         }
     }

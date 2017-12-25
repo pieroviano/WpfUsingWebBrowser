@@ -59,5 +59,29 @@ namespace WpfUsingWebBrowser.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to function log() {
+        ///    document.getElementById(&apos;results&apos;).innerText = &apos;&apos;;
+        ///
+        ///    Array.prototype.forEach.call(arguments, function (msg) {
+        ///        if (msg instanceof Error) {
+        ///            msg = &quot;Error: &quot; + msg.message;
+        ///        }
+        ///        else if (typeof msg !== &apos;string&apos;) {
+        ///            msg = JSON.stringify(msg, null, 2);
+        ///        }
+        ///        document.getElementById(&apos;results&apos;).innerHTML += msg + &apos;\r\n&apos;;
+        ///    });
+        ///}
+        ///
+        ///document.getElementById(&quot;login&quot;).addEventListener(&quot;click&quot;, login, false);
+        ///document.getElementById(&quot;api&quot;).a [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string app_js {
+            get {
+                return ResourceManager.GetString("app_js", resourceCulture);
+            }
+        }
     }
 }

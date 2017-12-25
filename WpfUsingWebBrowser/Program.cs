@@ -27,8 +27,14 @@ namespace WpfUsingWebBrowser
         {
             var substring = request.Url.ToString().Substring(MainWindowModel.UrlPrefix.Length).ToLower()
                 .Replace(".", "_").Replace("-", "_");
-            var propertyInfo = typeof(UsingWebBrowserLib.Properties.Resources).GetProperty(substring);
-            var value = (string) propertyInfo?.GetValue(typeof(UsingWebBrowserLib.Properties.Resources));
+            var type = typeof(Resources);
+            var propertyInfo = type.GetProperty(substring);
+            if (propertyInfo == null)
+            {
+                type = typeof(UsingWebBrowserLib.Properties.Resources);
+                propertyInfo = type.GetProperty(substring);
+            }
+            var value = (string)propertyInfo?.GetValue(type);
             return value;
         }
     }
