@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using mshtml;
+using WebBrowserLib.mshtml.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl.Interfaces;
 
 namespace WebBrowserLib.Wpf.WebBrowserControl
 {
-    public partial class WebBrowserExtensionWpf
-    {
+    public partial class WebBrowserExtensionWpf { 
+        object IWebBrowserExtension.Instance => Instance;
+
         void IWebBrowserExtension.AttachEventHandlerToControl(object htmlDocument, string controlId, string eventName,
             object firstArgument,
             Func<bool> customEventDelegate, int functionHash,

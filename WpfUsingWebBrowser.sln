@@ -11,13 +11,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUsingWebBrowser", "WpfUs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib", "WebBrowserLib\WebBrowserLib.csproj", "{844655D9-F659-447E-90CD-8162A41262AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComInteropLib", "ComInteropLib\ComInteropLib.csproj", "{3F09572A-7429-48C9-99B2-ED11105F5E2F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.WinForms", "WebBrowserLib.WinForms\WebBrowserLib.WinForms.csproj", "{A2C9412D-4D1F-4001-83EC-64FE2C926B36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.Wpf", "WebBrowserLib.Wpf\WebBrowserLib.Wpf.csproj", "{63360344-6B20-4BE0-9F71-EA5D687E50C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.mshtml", "WebBrowserLib.mshtml\WebBrowserLib.mshtml.csproj", "{DEDFCF81-A59C-4688-B089-38E56D7AFB41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserLib", "WpfUsingWebBrowserLib\UsingWebBrowserLib.csproj", "{CC2918D6-7A8A-44E3-A59A-63B81346FD53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormUsingWebBrowser", "WinFormUsingWebBrowser\WinFormUsingWebBrowser.csproj", "{8825B87E-8525-4EE2-B1E2-74B2DC8A3030}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +43,6 @@ Global
 		{844655D9-F659-447E-90CD-8162A41262AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{844655D9-F659-447E-90CD-8162A41262AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{844655D9-F659-447E-90CD-8162A41262AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F09572A-7429-48C9-99B2-ED11105F5E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F09572A-7429-48C9-99B2-ED11105F5E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F09572A-7429-48C9-99B2-ED11105F5E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F09572A-7429-48C9-99B2-ED11105F5E2F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2C9412D-4D1F-4001-83EC-64FE2C926B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2C9412D-4D1F-4001-83EC-64FE2C926B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2C9412D-4D1F-4001-83EC-64FE2C926B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +55,14 @@ Global
 		{DEDFCF81-A59C-4688-B089-38E56D7AFB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEDFCF81-A59C-4688-B089-38E56D7AFB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEDFCF81-A59C-4688-B089-38E56D7AFB41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC2918D6-7A8A-44E3-A59A-63B81346FD53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC2918D6-7A8A-44E3-A59A-63B81346FD53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC2918D6-7A8A-44E3-A59A-63B81346FD53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC2918D6-7A8A-44E3-A59A-63B81346FD53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8825B87E-8525-4EE2-B1E2-74B2DC8A3030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8825B87E-8525-4EE2-B1E2-74B2DC8A3030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8825B87E-8525-4EE2-B1E2-74B2DC8A3030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8825B87E-8525-4EE2-B1E2-74B2DC8A3030}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

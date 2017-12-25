@@ -46,9 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebBrowserControl\VersionPatcher.cs" />
+    <Compile Include="WebBrowserControl\WebBrowserExtensionMsHtmlDocument.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="WebBrowserControl\" />
+    <ProjectReference Include="..\WebBrowserLib\WebBrowserLib.csproj">
+      <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>
+      <Name>WebBrowserLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

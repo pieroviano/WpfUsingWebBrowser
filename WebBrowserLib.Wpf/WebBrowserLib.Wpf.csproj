@@ -76,9 +76,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="WebBrowserControl\WebBrowserExtensionWpf.IWebBrowserExtension.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.mshtml.csproj">
+      <Project>{dedfcf81-a59c-4688-b089-38e56d7afb41}</Project>
+      <Name>WebBrowserLib.mshtml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib\WebBrowserLib.csproj">
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>
       <Name>WebBrowserLib</Name>

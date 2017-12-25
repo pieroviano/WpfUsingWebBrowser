@@ -8,3 +8,5 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\obj\Debug\WebBrowserLib.Wpf.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.mshtml.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Wpf\bin\Debug\WebBrowserLib.mshtml.pdb

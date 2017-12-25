@@ -1,10 +1,8 @@
-using mshtml;
-
-namespace WebBrowserLib.WebBrowserControl.Helpers
+namespace WebBrowserLib.WebBrowserControl.Interfaces
 {
-    public interface IScriptInjector
+    public interface IScriptInjector<THead>
     {
-        void AddJQueryElement(object head);
-        void AddScriptElement(object head, string scriptBody);
+        void AddJQueryElement(THead head);
+        void AddScriptElement(THead head, string scriptBody);
     }
 }

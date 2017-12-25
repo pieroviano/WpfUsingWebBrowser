@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Net;
+using UsingWebBrowserLib.Model;
+using UsingWebBrowserLib.WebServer;
+using WebBrowserLib.mshtml.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl;
-using WpfUsingWebBrowser.Model;
 using WpfUsingWebBrowser.Properties;
-using WpfUsingWebBrowser.WebServer;
 
 namespace WpfUsingWebBrowser
 {
@@ -26,8 +27,8 @@ namespace WpfUsingWebBrowser
         {
             var substring = request.Url.ToString().Substring(MainWindowModel.UrlPrefix.Length).ToLower()
                 .Replace(".", "_").Replace("-", "_");
-            var propertyInfo = typeof(Resources).GetProperty(substring);
-            var value = (string) propertyInfo?.GetValue(typeof(Resources));
+            var propertyInfo = typeof(UsingWebBrowserLib.Properties.Resources).GetProperty(substring);
+            var value = (string) propertyInfo?.GetValue(typeof(UsingWebBrowserLib.Properties.Resources));
             return value;
         }
     }

@@ -2,22 +2,21 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using ComInteropLib;
 using mshtml;
+using UsingWebBrowserLib.Controllers;
+using UsingWebBrowserLib.Controllers.Logic;
+using UsingWebBrowserLib.Model;
 using WebBrowserLib.Extensions;
 using WebBrowserLib.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl.Helpers;
 using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
-using WpfUsingWebBrowser.Controllers;
-using WpfUsingWebBrowser.Controllers.Logic;
-using WpfUsingWebBrowser.Model;
 
 namespace WpfUsingWebBrowser
 {
     public partial class MainWindow
     {
-        private readonly MainWindowController _controller;
+        private readonly MainWindowController<WebBrowser, object, IHTMLElement> _controller;
         private readonly MainWindowModel _model;
 
         private bool _alreadyEntered;
@@ -57,7 +56,7 @@ namespace WpfUsingWebBrowser
             if (!isIdentityServer)
             {
 #if DEBUG
-                var customComVisibleClass = new CustomComVisibleClass(WebBrowser);
+                var customComVisibleClass = new CustomComVisibleClassWpf(WebBrowser);
                 customComVisibleClass.RaisedEvent += CustomComVisibleClass_RaisedEvent;
                 Func<bool> customEventDelegate = customComVisibleClass.CodeToExecute;
                 var functionHash = customEventDelegate.GetFullNameHashCode();

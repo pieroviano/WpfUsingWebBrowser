@@ -6,3 +6,9 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowse
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowserLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\obj\Debug\WebBrowserLib.WinForms.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\obj\Debug\WebBrowserLib.WinForms.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowserLib.mshtml.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\WebBrowserLib.mshtml.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\System.Security.Cryptography.Algorithms.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\System.Security.Cryptography.Encoding.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\System.Security.Cryptography.Primitives.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.WinForms\bin\Debug\System.Security.Cryptography.X509Certificates.dll

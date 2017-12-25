@@ -5,13 +5,14 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using mshtml;
 using WebBrowserLib.Extensions;
+using WebBrowserLib.mshtml.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl.Helpers;
 using WebBrowserLib.WebBrowserControl.Interfaces;
 
 namespace WebBrowserLib.WinForms.WebBrowserControl
 {
-    public partial class WebBrowserExtensionWinForm : IWebBrowserExtension
+    public class WebBrowserExtensionWinForm : IWebBrowserExtension<WebBrowser, object, IHTMLElement>
     {
         private WebBrowserExtensionWinForm()
         {
@@ -19,31 +20,32 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
 
         public static WebBrowserExtensionWinForm Instance { get; } = new WebBrowserExtensionWinForm();
 
-        public dynamic ExecuteJavascript(object htmlDocument, string javascriptToExecute)
+        public bool Enabled
         {
-            return ExecuteJavascript(htmlDocument as WebBrowser, javascriptToExecute);
+            get => WebBrowserExtensionMsHtmlDocument.Instance.Enabled;
+            set => WebBrowserExtensionMsHtmlDocument.Instance.Enabled = value;
         }
 
-        public void AddJQueryElement(HtmlElement head)
+        public bool JavascriptInjectionEnabled
         {
-            WebBrowserExtension.Instance.AddJQueryElement(head.DomElement as HTMLHeadElement);
+            get => WebBrowserExtensionMsHtmlDocument.Instance.JavascriptInjectionEnabled;
+            set => WebBrowserExtensionMsHtmlDocument.Instance.JavascriptInjectionEnabled = value;
         }
 
-        public void AddScriptElement(HtmlElement head, string scriptBody)
+        public void AddJQueryElement(object head)
         {
-            WebBrowserExtension.Instance.AddScriptElement(head.DomElement as HTMLHeadElement, scriptBody);
+            WebBrowserExtensionMsHtmlDocument.Instance.AddJQueryElement(head as HTMLHeadElement);
         }
 
-        public void AttachCustomFunctionOnDocument(WebBrowser webBrowser, Func<bool> codeToExecute,
-            int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        public void AddScriptElement(object head, string scriptBody)
         {
-            var codeToExecuteClass = new CodeToExecuteClass(codeToExecute);
-            functionHash += new Func<bool>(codeToExecuteClass.CustomEventDelegate).GetFullNameHashCode();
-            WebBrowserExtension.Instance.AttachEventHandlerToDocument((HTMLDocument) webBrowser.Document?.DomDocument,
-                "onclick", codeToExecuteClass,
-                codeToExecuteClass.CustomEventDelegate, functionHash,
-                getCustomEventHandler, setCustomEventHandler);
+            WebBrowserExtensionMsHtmlDocument.Instance.AddScriptElement(head as HTMLHeadElement, scriptBody);
+        }
+
+        public dynamic ExecuteJavascript(WebBrowser htmlDocument, string javascriptToExecute)
+        {
+            return WebBrowserExtensionMsHtmlDocument.Instance.ExecuteJavascript(
+                htmlDocument.Document?.DomDocument as HTMLDocument, javascriptToExecute);
         }
 
         public void AttachEventHandlerToControl(WebBrowser browser, string controlId, string eventName,
@@ -54,7 +56,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             if (browser.Document != null)
             {
                 var htmlDocument = browser.Document.DomDocument as HTMLDocument;
-                WebBrowserExtension.Instance.AttachEventHandlerToControl(htmlDocument, controlId, eventName,
+                WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToControl(htmlDocument, controlId,
+                    eventName,
                     firstArgument, customEventDelegate,
                     functionHash, getCustomEventHandler, setCustomEventHandler, removeHandlers);
             }
@@ -68,19 +71,11 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             if (browser.Document != null)
             {
                 var htmlDocument = browser.Document.DomDocument as HTMLDocument;
-                WebBrowserExtension.Instance.AttachEventHandlerToDocument(htmlDocument, eventName, firstArgument,
+                WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToDocument(htmlDocument, eventName,
+                    firstArgument,
                     customEventDelegate, functionHash,
                     getCustomEventHandler, setCustomEventHandler);
             }
-        }
-
-        public void CauseCsBreakpoint(WebBrowser browser, ref ComVisibleClass comVisibleClass)
-        {
-            if (comVisibleClass == null)
-            {
-                comVisibleClass = new ComVisibleClass();
-            }
-            RunCsFromJavascript(browser, comVisibleClass.CodeToExecute);
         }
 
         public void DetachEventHandlersFromControl(WebBrowser browser, string controlId,
@@ -169,7 +164,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             var htmlDocument = webBrowser.Document?.DomDocument as HTMLDocument;
             if (htmlDocument != null)
             {
-                return WebBrowserExtension.Instance.FindElementByAttributeValue(htmlDocument, tagName, attribute,
+                return WebBrowserExtensionMsHtmlDocument.Instance.FindElementByAttributeValue(htmlDocument, tagName,
+                    attribute,
                     value);
             }
             return null;
@@ -181,7 +177,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             var htmlDocument = webBrowser.Document?.DomDocument as HTMLDocument;
             if (htmlDocument != null)
             {
-                return WebBrowserExtension.Instance.FindElementsByAttributeValue(htmlDocument, tagName, attribute,
+                return WebBrowserExtensionMsHtmlDocument.Instance.FindElementsByAttributeValue(htmlDocument, tagName,
+                    attribute,
                     value);
             }
             return null;
@@ -192,7 +189,7 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             if (browser.Document != null)
             {
                 var htmlDocument = browser.Document.DomDocument as HTMLDocument;
-                return WebBrowserExtension.Instance.GetElementById(htmlDocument, controlId);
+                return WebBrowserExtensionMsHtmlDocument.Instance.GetElementById(htmlDocument, controlId);
             }
             return null;
         }
@@ -201,7 +198,7 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             string cssQuery)
         {
             var htmlDocument = browser.Document?.DomDocument as HTMLDocument;
-            return WebBrowserExtension.Instance.GetElementsByCssQuery(htmlDocument, cssQuery);
+            return WebBrowserExtensionMsHtmlDocument.Instance.GetElementsByCssQuery(htmlDocument, cssQuery);
         }
 
         public object GetGlobalVariable(WebBrowser browser, string variable)
@@ -228,7 +225,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             if (browser.Document != null)
             {
                 var htmlDocument = browser.Document.DomDocument as HTMLDocument;
-                return WebBrowserExtension.Instance.InjectAndExecuteJavascript(htmlDocument, javascriptToExecute);
+                return WebBrowserExtensionMsHtmlDocument.Instance.InjectAndExecuteJavascript(htmlDocument,
+                    javascriptToExecute);
             }
             return null;
         }
@@ -236,7 +234,75 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
         public void InjectScript(WebBrowser browser, string scriptUrl)
         {
             var htmlDocument = browser.Document?.DomDocument as HTMLDocument;
-            WebBrowserExtension.Instance.InjectScript(htmlDocument, scriptUrl);
+            WebBrowserExtensionMsHtmlDocument.Instance.InjectScript(htmlDocument, scriptUrl);
+        }
+
+        public void RemoveEventHandlerToControl(WebBrowser browser, string controlId, string eventName,
+            int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler)
+        {
+            if (browser.Document != null)
+            {
+                var htmlDocument = browser.Document.DomDocument as HTMLDocument;
+                WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToControl(htmlDocument, controlId,
+                    eventName,
+                    functionHash,
+                    getCustomEventHandler);
+            }
+        }
+
+        public void RemoveEventHandlerToDocument(WebBrowser browser, string eventName,
+            int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler)
+        {
+            if (browser.Document != null)
+            {
+                var htmlDocument = browser.Document.DomDocument as HTMLDocument;
+                WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToDocument(htmlDocument, eventName,
+                    functionHash, getCustomEventHandler);
+            }
+        }
+
+        public void RemoveHandlersOnNavigating(WebBrowser webBrowser,
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        {
+            webBrowser.Navigating += new NavigatingInterceptorWinForm(getCustomEventHandler, webBrowser)
+                .WebBrowserOnNavigating;
+            if (getCustomEventHandler() != null)
+            {
+                setCustomEventHandler(null);
+            }
+        }
+
+        public void AddJQueryElement(HtmlElement head)
+        {
+            WebBrowserExtensionMsHtmlDocument.Instance.AddJQueryElement(head.DomElement as HTMLHeadElement);
+        }
+
+        public void AddScriptElement(HtmlElement head, string scriptBody)
+        {
+            WebBrowserExtensionMsHtmlDocument.Instance.AddScriptElement(head.DomElement as HTMLHeadElement, scriptBody);
+        }
+
+        public void AttachCustomFunctionOnDocument(WebBrowser webBrowser, string eventName, Func<bool> codeToExecute,
+            int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        {
+            var codeToExecuteClass = new CodeToExecuteClass(codeToExecute);
+            functionHash += new Func<bool>(codeToExecuteClass.CustomEventDelegate).GetFullNameHashCode();
+            WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToDocument(
+                (HTMLDocument) webBrowser.Document?.DomDocument,
+                eventName, codeToExecuteClass,
+                codeToExecuteClass.CustomEventDelegate, functionHash,
+                getCustomEventHandler, setCustomEventHandler);
+        }
+
+        public void CauseCsBreakpoint(WebBrowser browser, ref ComVisibleClass comVisibleClass)
+        {
+            if (comVisibleClass == null)
+            {
+                comVisibleClass = new ComVisibleClass();
+            }
+            RunCsFromJavascript(browser, comVisibleClass.CodeToExecute);
         }
 
         public string RegisterCsCodeCallableFromJavascript(WebBrowser browser, ref ComVisibleClass comVisibleClass)
@@ -259,41 +325,6 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             htmlDocument.ObjectForScripting = htmlDocumentObjectForScripting;
             var javascriptToExecute = $"window.external.{codeToExecute.Method.Name}();";
             return javascriptToExecute;
-        }
-
-        public void RemoveEventHandlerToControl(WebBrowser browser, string controlId, string eventName,
-            int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler)
-        {
-            if (browser.Document != null)
-            {
-                var htmlDocument = browser.Document.DomDocument as HTMLDocument;
-                WebBrowserExtension.Instance.RemoveEventHandlerToControl(htmlDocument, controlId, eventName,
-                    functionHash,
-                    getCustomEventHandler);
-            }
-        }
-
-        public void RemoveEventHandlerToDocument(WebBrowser browser, string eventName,
-            int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler)
-        {
-            if (browser.Document != null)
-            {
-                var htmlDocument = browser.Document.DomDocument as HTMLDocument;
-                WebBrowserExtension.Instance.RemoveEventHandlerToDocument(htmlDocument, eventName,
-                    functionHash, getCustomEventHandler);
-            }
-        }
-
-        public void RemoveHandlersOnNavigating(WebBrowser webBrowser,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
-        {
-            webBrowser.Navigating += new NavigatingInterceptorWinForm(getCustomEventHandler, webBrowser)
-                .WebBrowserOnNavigating;
-            if (getCustomEventHandler() != null)
-            {
-                setCustomEventHandler(null);
-            }
         }
 
         public bool RunCsFromJavascript(WebBrowser htmlDocument, Func<bool> codeToExecute)
@@ -327,16 +358,16 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
                 {
                     var eventHandlerDelegate = eventHandlerDelegates[index];
                     var eventName = eventHandlerDelegate.Item1;
-                    if (eventName.StartsWith($"{WebBrowserExtension.Instance.DocumentEventPrefix}."))
+                    if (eventName.StartsWith($"{WebBrowserExtensionMsHtmlDocument.Instance.DocumentEventPrefix}."))
                     {
-                        WebBrowserExtension.Instance.RemoveEventHandlerToDocument(
-                            _webBrowser.Document?.DomDocument as HTMLDocument, eventName, eventHandlerDelegate.Item3,
+                        WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToDocument(
+                            _webBrowser.Document?.DomDocument as HTMLDocument, eventName.Split('.')[1], eventHandlerDelegate.Item3,
                             _getCustomEventHandler);
                     }
                     else
                     {
                         var strings = eventName.Split('.');
-                        WebBrowserExtension.Instance.RemoveEventHandlerToControl(
+                        WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToControl(
                             _webBrowser.Document?.DomDocument as HTMLDocument, strings[0], strings[1],
                             eventHandlerDelegate.Item3,
                             _getCustomEventHandler);

@@ -90,12 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Controllers\MainWindowController.cs" />
-    <Compile Include="Controllers\Logic\IdentityServerLogic.cs" />
+    <Compile Include="CustomComVisibleClass.cs" />
     <Compile Include="MainWindow.logic.cs" />
-    <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="WebServer\EmbeddedWebServer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -138,27 +135,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\app.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\callback.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\index.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\oidc-client.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\oidc-client.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\jquery-3.2.1.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ComInteropLib\ComInteropLib.csproj">
-      <Project>{3f09572a-7429-48c9-99b2-ed11105f5e2f}</Project>
-      <Name>ComInteropLib</Name>
+    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.mshtml.csproj">
+      <Project>{DEDFCF81-A59C-4688-B089-38E56D7AFB41}</Project>
+      <Name>WebBrowserLib.mshtml</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib.Wpf\WebBrowserLib.Wpf.csproj">
       <Project>{63360344-6b20-4be0-9f71-ea5d687e50c4}</Project>
@@ -167,6 +146,10 @@
     <ProjectReference Include="..\WebBrowserLib\WebBrowserLib.csproj">
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>
       <Name>WebBrowserLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfUsingWebBrowserLib\UsingWebBrowserLib.csproj">
+      <Project>{CC2918D6-7A8A-44E3-A59A-63B81346FD53}</Project>
+      <Name>UsingWebBrowserLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

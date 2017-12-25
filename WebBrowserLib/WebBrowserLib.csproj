@@ -55,9 +55,6 @@
     <Compile Include="WebBrowserControl\Helpers\ScriptHelper.cs" />
     <Compile Include="Extensions\ListExtender.cs" />
     <Compile Include="WebBrowserControl\Interfaces\IWebBrowserExtension.cs" />
-    <Compile Include="WebBrowserControl\VersionPatcher.cs" />
-    <Compile Include="WebBrowserControl\WebBrowserExtension.cs" />
-    <Compile Include="WebBrowserControl\WebBrowserExtension.IWebBrowserExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,8 @@
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\bin\Debug\WebBrowserLib.mshtml.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\bin\Debug\WebBrowserLib.mshtml.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\bin\Debug\WebBrowserLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\bin\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\obj\Debug\WebBrowserLib.mshtml.csprojResolveAssemblyReference.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\obj\Debug\WebBrowserLib.mshtml.csproj.CoreCompileInputs.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\obj\Debug\WebBrowserLib.mshtml.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.mshtml\obj\Debug\WebBrowserLib.mshtml.pdb

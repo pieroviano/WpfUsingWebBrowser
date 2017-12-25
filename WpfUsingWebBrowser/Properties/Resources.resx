@@ -119,22 +119,4 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   
-  <data name="jquery_3_2_1_min_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\jquery-3.2.1.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="app_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\app.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="callback_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\callback.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="index_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\index.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="oidc_client_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oidc-client.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="oidc_client_min_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oidc-client.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
 </root>

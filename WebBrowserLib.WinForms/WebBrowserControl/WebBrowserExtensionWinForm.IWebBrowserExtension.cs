@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using mshtml;
+using WebBrowserLib.mshtml.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl.Helpers;
 using WebBrowserLib.WebBrowserControl.Interfaces;
@@ -10,6 +11,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
 {
     public partial class WebBrowserExtensionWinForm
     {
+        object IWebBrowserExtension.Instance => Instance;
+
         void IWebBrowserExtension.AttachEventHandlerToControl(object htmlDocument, string controlId, string eventName,
             object firstArgument,
             Func<bool> customEventDelegate, int functionHash,
@@ -153,7 +156,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
 
         private dynamic ExecuteJavascript(WebBrowser htmlDocument, string javascriptToExecute)
         {
-            return WebBrowserExtension.Instance.ExecuteJavascript(htmlDocument.Document?.DomDocument as HTMLDocument,
+            return WebBrowserExtensionMsHtmlDocument.Instance.ExecuteJavascript(
+                htmlDocument.Document?.DomDocument as HTMLDocument,
                 javascriptToExecute);
         }
     }
