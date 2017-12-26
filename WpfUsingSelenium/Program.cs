@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Net;
+using UsingSeleniumFromWpf.Properties;
 using UsingWebBrowserLib.Model;
 using UsingWebBrowserLib.WebServer;
 using WebBrowserLib.mshtml.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl;
-using WpfUsingSelenium.Properties;
 
-namespace WpfUsingWebBrowser
+namespace UsingSeleniumFromWpf
 {
     internal class Program
     {
@@ -17,7 +16,7 @@ namespace WpfUsingWebBrowser
 
             var ws = new EmbeddedWebServer(SendResponse, MainWindowModel.UrlPrefix);
             ws.Run();
-            var app = new WpfUsingSelenium.App();
+            var app = new App();
             app.InitializeComponent();
             app.Run();
             ws.Stop();

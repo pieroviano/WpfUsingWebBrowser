@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using mshtml;
 
-namespace WpfUsingWebBrowser
+namespace UsingWebBrowserFromWpf
 {
     public class CustomComVisibleClassWpf
     {

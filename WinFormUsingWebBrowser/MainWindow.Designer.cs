@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace WinFormUsingWebBrowser
+namespace UsingWebBrowserFromWinForm
 {
     partial class MainWindow : Form
     {

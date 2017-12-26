@@ -9,19 +9,19 @@ using WebBrowserLib.WebBrowserControl;
 
 namespace UsingWebBrowserLib.Controllers
 {
-    public class MainWindowController<TControl, THead, THtmlElementType>
+    public class MainWindowController<THtmlElementType>
     {
+        public IWebBrowserExtensionWithEvent<THtmlElementType> WebBrowserExtensionWithEvent { get; }
         private readonly MainWindowModel _model;
-        private readonly IWebBrowserExtension<TControl, THead, THtmlElementType> _instance;
 
 
         public MainWindowController(MainWindowModel model,
-            IWebBrowserExtension<TControl, THead, THtmlElementType> instance)
+            IWebBrowserExtensionWithEvent<THtmlElementType> instance)
         {
             _model = model;
             instance.Enabled = _model.WebBrowserExtensionEnabled;
             instance.JavascriptInjectionEnabled = _model.WebBrowserExtensionJavascriptInjectionEnabled;
-            _instance = instance;
+            WebBrowserExtensionWithEvent = instance;
         }
 
 
@@ -69,13 +69,13 @@ namespace UsingWebBrowserLib.Controllers
             return newSlotData;
         }
 
-        public string HandleStatusAndGetUrl(THead item, out bool isIdentityServer, string url)
+        public string HandleStatusAndGetUrl(out bool isIdentityServer, string url)
         {
             isIdentityServer = false;
             string returnValue;
             if (!MainWindowModel.IsIdentityServerUrl(url))
             {
-                _instance.AddJQueryElement(item);
+                WebBrowserExtensionWithEvent.AddJQueryElement();
                 returnValue = "";
             }
             else

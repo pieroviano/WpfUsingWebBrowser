@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using UsingWebBrowserFromWinForm.Properties;
 using UsingWebBrowserLib.Model;
 using UsingWebBrowserLib.WebServer;
 using WebBrowserLib.mshtml.WebBrowserControl;
-using WinFormUsingWebBrowser.Properties;
 
-namespace WinFormUsingWebBrowser
+namespace UsingWebBrowserFromWinForm
 {
     static class Program
     {
@@ -26,7 +23,7 @@ namespace WinFormUsingWebBrowser
             ws.Run();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            Application.Run(new UsingWebBrowserFromWinForm.MainWindow());
             ws.Stop();
         }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace WpfUsingWebBrowser
+namespace UsingWebBrowserFromWpf
 {
     /// <summary>
     ///     Interaction logic for App.xaml

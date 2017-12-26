@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Net;
+using UsingWebBrowserFromWpf.Properties;
 using UsingWebBrowserLib.Model;
 using UsingWebBrowserLib.WebServer;
 using WebBrowserLib.mshtml.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl;
-using WpfUsingWebBrowser.Properties;
 
-namespace WpfUsingWebBrowser
+namespace UsingWebBrowserFromWpf
 {
     internal class Program
     {
@@ -17,7 +16,7 @@ namespace WpfUsingWebBrowser
 
             var ws = new EmbeddedWebServer(SendResponse, MainWindowModel.UrlPrefix);
             ws.Run();
-            var app = new App();
+            var app = new UsingWebBrowserFromWpf.App();
             app.InitializeComponent();
             app.Run();
             ws.Stop();

@@ -1,6 +1,6 @@
 namespace WebBrowserLib.Interfaces
 {
-    public interface IScriptInjector<THead>
+    public interface IScriptInjector<in THead>
     {
         void AddJQueryElement(THead head);
         void AddScriptElement(THead head, string scriptBody);

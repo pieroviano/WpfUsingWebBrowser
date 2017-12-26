@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DelegateExtender.cs" />
+    <Compile Include="Interfaces\IWebBrowserExtensionWithEventBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebBrowserControl\CustomWebBrowserControlEventHandler.cs" />
     <Compile Include="WebBrowserControl\EventHandlerAttacher.cs" />

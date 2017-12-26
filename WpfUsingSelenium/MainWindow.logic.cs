@@ -1,28 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Controls;
-using mshtml;
+﻿using mshtml;
 using UsingWebBrowserLib.Controllers;
-using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
-using WebBrowserLib.Extensions;
-using WebBrowserLib.WebBrowserControl;
 using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 
-namespace WpfUsingSelenium
+namespace UsingSeleniumFromWpf
 {
     public partial class MainWindow
     {
-        private readonly MainWindowController<WebBrowser, object, IHTMLElement> _controller;
+        private readonly MainWindowController<IHTMLElement> _controller;
         private readonly MainWindowModel _model;
 
         private bool _alreadyEntered;
-
-        private void AttachEventHandlerToControl(Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
-        {
-        }
 
         private void GetAuthenticationDictionary()
         {
@@ -44,11 +33,13 @@ namespace WpfUsingSelenium
             {
                 if (!_model.DontDisableOnSelectionStartToDocument)
                 {
-                    WebBrowserExtensionWpf.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnSelectStart);
+                    _controller.WebBrowserExtensionWithEvent
+                        .InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
                 }
                 if (!_model.DontDisableOnContextMenuToDocument)
                 {
-                    WebBrowserExtensionWpf.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnContextMenu);
+                    _controller.WebBrowserExtensionWithEvent
+                        .InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
                 }
                 bool isIndexPage;
                 _controller.ProcessIndexOrCallbackFromidentityServer(url,
@@ -56,9 +47,8 @@ namespace WpfUsingSelenium
                     out isIndexPage);
                 if (isIndexPage)
                 {
-                    WebBrowserExtensionWpf.Instance.InjectAndExecuteJavascript(WebBrowser, "$(function(){$('#login').hide();$('#logout').hide();})");
-                    AttachEventHandlerToControl(_model.GetCustomEventHandler, _model.SetCustomEventHandler);
-                    GetAuthenticationDictionary();
+                    _controller.WebBrowserExtensionWithEvent
+                        .InjectAndExecuteJavascript("$(function(){$('#login').hide();$('#logout').hide();})");
                 }
             }
             else
@@ -68,8 +58,8 @@ namespace WpfUsingSelenium
                     LoadingAdornerxtension.StartStopWait(LoadingAdorner, WebBrowser);
                     _alreadyEntered = true;
                 }
-                WebBrowserExtensionWpf.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnSelectStart);
-                WebBrowserExtensionWpf.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnContextMenu);
+                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
+                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
             }
         }
 
@@ -77,13 +67,12 @@ namespace WpfUsingSelenium
         {
             if (hasToLogin)
             {
-                WebBrowserExtensionWpf.Instance.InjectAndExecuteJavascript(WebBrowser,_model.LoginJavascript);
+                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.LoginJavascript);
             }
             else if (hasToNavigate)
             {
                 WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
             }
         }
-
     }
 }

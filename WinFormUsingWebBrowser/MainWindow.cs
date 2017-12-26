@@ -5,9 +5,9 @@ using UsingWebBrowserLib.Controllers;
 using UsingWebBrowserLib.Model;
 using WebBrowserLib.WinForms.WebBrowserControl;
 
-namespace WinFormUsingWebBrowser
+namespace UsingWebBrowserFromWinForm
 {
-    public partial class MainWindow : Form
+    public partial class MainWindow
     {
         private readonly LoadingAdorner _loadingAdorner = new LoadingAdorner();
 
@@ -15,10 +15,11 @@ namespace WinFormUsingWebBrowser
         {
             InitializeComponent();
             _model = new MainWindowModel();
+            var webBrowserExtensionWinForm = WebBrowserExtensionWinForm.GetInstance(WebBrowser);
             _controller =
-                new MainWindowController<WebBrowser, object, IHTMLElement>(_model, WebBrowserExtensionWinForm.Instance);
+                new MainWindowController<IHTMLElement>(_model, webBrowserExtensionWinForm);
 
-            WebBrowserExtensionWinForm.Instance.RemoveHandlersOnNavigating(WebBrowser, _model.GetCustomEventHandler,
+            webBrowserExtensionWinForm.RemoveHandlersOnNavigating(_model.GetCustomEventHandler,
                 _model.SetCustomEventHandler);
         }
 
@@ -47,12 +48,9 @@ namespace WinFormUsingWebBrowser
         {
             bool isIdentityServer;
             var url = GetCurrentUrl();
-            var item =
-                (WebBrowser.Document?.DomDocument as HTMLDocument)?.getElementsByTagName("head")
-                .item(0) as HTMLHeadElement;
 
             StatusBar.Text =
-                _controller.HandleStatusAndGetUrl(item, out isIdentityServer, url);
+                _controller.HandleStatusAndGetUrl(out isIdentityServer, url);
 
             HandleScripts(isIdentityServer, url);
         }

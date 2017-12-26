@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Navigation;
 using mshtml;
 using UsingWebBrowserLib.Controllers;
@@ -10,7 +9,7 @@ using UsingWebBrowserLib.Model;
 using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 
-namespace WpfUsingWebBrowser
+namespace UsingWebBrowserFromWpf
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -22,10 +21,12 @@ namespace WpfUsingWebBrowser
             InitializeComponent();
             _model = new MainWindowModel();
             _controller =
-                new MainWindowController<WebBrowser, object, IHTMLElement>(_model, WebBrowserExtensionWpf.Instance);
+                new MainWindowController<IHTMLElement>(_model, WebBrowserExtensionWpf.GetInstance(WebBrowser));
 
-            WebBrowserExtensionWpf.Instance.RemoveHandlersOnNavigating(WebBrowser, _model.GetCustomEventHandler,
+            _controller.WebBrowserExtensionWithEvent.RemoveHandlersOnNavigating(_model.GetCustomEventHandler,
                 _model.SetCustomEventHandler);
+
+            WebBrowser.LoadCompleted += WebBrowser_LoadCompleted;
         }
 
         private async void MenuItemCallApi_Click(object sender, RoutedEventArgs e)
@@ -46,23 +47,22 @@ namespace WpfUsingWebBrowser
         {
             bool isIdentityServer;
             var url = GetCurrentUrl();
-            var item = (WebBrowser.Document as HTMLDocument)?.getElementsByTagName("head").item(0) as HTMLHeadElement;
 
             StatusBar.Text =
-                _controller.HandleStatusAndGetUrl(item, out isIdentityServer, url);
+                _controller.HandleStatusAndGetUrl(out isIdentityServer, url);
 
             HandleScripts(isIdentityServer, url);
-        }
-
-        private void WebBrowser_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadingAdorner.StartStopWait(WebBrowser);
-            WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             Process.GetCurrentProcess().Kill();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadingAdorner.StartStopWait(WebBrowser);
+            WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
         }
     }
 }

@@ -11,4 +11,3 @@ D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csproj.CoreCompileInputs.cache
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.dll
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csprojResolveAssemblyReference.cache

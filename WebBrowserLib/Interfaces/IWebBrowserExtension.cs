@@ -5,7 +5,7 @@ using WebBrowserLib.WebBrowserControl;
 
 namespace WebBrowserLib.Interfaces
 {
-    public interface IWebBrowserExtension<TControl, THead, THtmlElementType> : IScriptInjector<THead>
+    public interface IWebBrowserExtension<in TControl, THead, out THtmlElementType> : IScriptInjector<THead>
     {
         bool Enabled { get; set; }
 

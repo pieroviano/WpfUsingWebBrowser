@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace WpfUsingSelenium
+namespace UsingSeleniumFromWpf
 {
     /// <summary>
     ///     Interaction logic for App.xaml

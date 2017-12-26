@@ -1,38 +1,44 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Windows.Forms;
 using mshtml;
 using UsingWebBrowserLib.Controllers;
 using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
 using WebBrowserLib.Extensions;
 using WebBrowserLib.Helpers;
-using WebBrowserLib.WebBrowserControl;
 using WebBrowserLib.WinForms.WebBrowserControl;
 
-namespace WinFormUsingWebBrowser
+namespace UsingWebBrowserFromWinForm
 {
     public partial class MainWindow
     {
-        private readonly MainWindowController<WebBrowser, object, IHTMLElement> _controller;
+        private readonly MainWindowController<IHTMLElement> _controller;
         private readonly MainWindowModel _model;
 
         private bool _alreadyEntered;
 
-        private void AttachEventHandlerToControl(Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        private void AttachEventHandlerToControl()
         {
             var comVisibleClass = new ComVisibleClass();
             comVisibleClass.HitBreakpoint = false;
             comVisibleClass.EventFromComVisibleClass += (sender, args) =>
             {
                 IdentityServerLogic.SetAuthorization(null);
-                WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,_model.LogoutJavascript);
+                WebBrowserExtensionWinForm.GetInstance(WebBrowser).InjectAndExecuteJavascript(_model.LogoutJavascript);
             };
-            var registerCsCodeCallableFromJavascript = WebBrowserExtensionWinForm.Instance.RegisterCsCodeCallableFromJavascript(WebBrowser,ref comVisibleClass);
+            var registerCsCodeCallableFromJavascript = WebBrowserExtensionWinForm.GetInstance(WebBrowser)
+                .RegisterCsCodeCallableFromJavascript(ref comVisibleClass);
             var javascriptToExecute = "document.all['logout'].onclick = function(){" +
                                       registerCsCodeCallableFromJavascript + "}";
-            WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,javascriptToExecute);
+            WebBrowserExtensionWinForm.GetInstance(WebBrowser).InjectAndExecuteJavascript(javascriptToExecute);
+        }
+
+        private void CustomComVisibleClass_RaisedEvent(object sender, EventArgs e)
+        {
+            if (Debugger.IsAttached)
+            {
+                Debugger.Break();
+            }
         }
 
         private void GetAuthenticationDictionary()
@@ -58,14 +64,16 @@ namespace WinFormUsingWebBrowser
                 customComVisibleClass.RaisedEvent += CustomComVisibleClass_RaisedEvent;
                 Func<bool> customEventDelegate = customComVisibleClass.CodeToExecute;
                 var functionHash = customEventDelegate.GetFullNameHashCode();
-                WebBrowserExtensionWinForm.Instance.AttachCustomFunctionOnDocument(WebBrowser, "onclick",customEventDelegate, functionHash,
+                WebBrowserExtensionWinForm.GetInstance(WebBrowser).AttachCustomFunctionOnDocument(WebBrowser, "onclick",
+                    customEventDelegate, functionHash,
                     _model.GetCustomEventHandler,
                     _model.SetCustomEventHandler);
 #endif
                 if (!_model.DontDisableOnSelectionStartToDocument)
                 {
 #if !DONTUSEJAVASCRIPT
-                    WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnSelectStart);
+                    WebBrowserExtensionWinForm.GetInstance(WebBrowser)
+                        .InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
 #else
                     WebBrowser.DisableEventOnDocument("onselectstart", _model.GetCustomEventHandler,
                         _model.SetCustomEventHandler);
@@ -74,7 +82,8 @@ namespace WinFormUsingWebBrowser
                 if (!_model.DontDisableOnContextMenuToDocument)
                 {
 #if !DONTUSEJAVASCRIPT
-                    WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnContextMenu);
+                    WebBrowserExtensionWinForm.GetInstance(WebBrowser)
+                        .InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
 #else
                     WebBrowser.DisableOnContextMenuOnDocument(_model.GetCustomEventHandler,
                         _model.SetCustomEventHandler);
@@ -86,8 +95,9 @@ namespace WinFormUsingWebBrowser
                     out isIndexPage);
                 if (isIndexPage)
                 {
-                    WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,"$(function(){$('#login').hide();})");
-                    AttachEventHandlerToControl(_model.GetCustomEventHandler, _model.SetCustomEventHandler);
+                    WebBrowserExtensionWinForm.GetInstance(WebBrowser)
+                        .InjectAndExecuteJavascript("$(function(){$('#login').hide();})");
+                    AttachEventHandlerToControl();
                     GetAuthenticationDictionary();
                 }
             }
@@ -98,28 +108,23 @@ namespace WinFormUsingWebBrowser
                     _loadingAdorner.StartStopWait(WebBrowser);
                     _alreadyEntered = true;
                 }
-                WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnSelectStart);
-                WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,_model.IgnoreOnContextMenu);
+                WebBrowserExtensionWinForm.GetInstance(WebBrowser)
+                    .InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
+                WebBrowserExtensionWinForm.GetInstance(WebBrowser)
+                    .InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
             }
-        }
-
-        private void CustomComVisibleClass_RaisedEvent(object sender, EventArgs e)
-        {
-            if (Debugger.IsAttached)
-                Debugger.Break();
         }
 
         private void LoginOrNavigateIfNecessary(bool hasToLogin, bool hasToNavigate)
         {
             if (hasToLogin)
             {
-                WebBrowserExtensionWinForm.Instance.InjectAndExecuteJavascript(WebBrowser,_model.LoginJavascript);
+                WebBrowserExtensionWinForm.GetInstance(WebBrowser).InjectAndExecuteJavascript(_model.LoginJavascript);
             }
             else if (hasToNavigate)
             {
                 WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
             }
         }
-
     }
 }

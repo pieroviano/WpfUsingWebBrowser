@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using mshtml;
 
-namespace WinFormUsingWebBrowser
+namespace UsingWebBrowserFromWinForm
 {
     public class CustomComVisibleClassWinForm
     {

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Navigation;
 using mshtml;
 using UsingWebBrowserLib.Controllers;
@@ -11,7 +10,7 @@ using UsingWebBrowserLib.Model;
 using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 
-namespace WpfUsingSelenium
+namespace UsingSeleniumFromWpf
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -23,10 +22,12 @@ namespace WpfUsingSelenium
             InitializeComponent();
             _model = new MainWindowModel();
             _controller =
-                new MainWindowController<WebBrowser, object, IHTMLElement>(_model, WebBrowserExtensionWpf.Instance);
+                new MainWindowController<IHTMLElement>(_model, WebBrowserExtensionWpf.GetInstance(WebBrowser));
 
-            WebBrowserExtensionWpf.Instance.RemoveHandlersOnNavigating(WebBrowser, _model.GetCustomEventHandler,
+            _controller.WebBrowserExtensionWithEvent.RemoveHandlersOnNavigating(_model.GetCustomEventHandler,
                 _model.SetCustomEventHandler);
+            WebBrowser.LoadCompleted += WebBrowser_LoadCompleted;
+            WebBrowser.Loaded += WebBrowser_Loaded;
         }
 
         private async void MenuItemCallApi_Click(object sender, RoutedEventArgs e)
@@ -43,14 +44,19 @@ namespace WpfUsingSelenium
             Close();
         }
 
+        private void MenuItemLogout_OnClick(object sender, RoutedEventArgs e)
+        {
+            IdentityServerLogic.SetAuthorization(null);
+            _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.LogoutJavascript);
+        }
+
         private void WebBrowser_LoadCompleted(object sender, NavigationEventArgs e)
         {
             bool isIdentityServer;
             var url = GetCurrentUrl();
-            var item = (WebBrowser.Document as HTMLDocument)?.getElementsByTagName("head").item(0) as HTMLHeadElement;
 
             StatusBar.Text =
-                _controller.HandleStatusAndGetUrl(item, out isIdentityServer, url);
+                _controller.HandleStatusAndGetUrl(out isIdentityServer, url);
 
             HandleScripts(isIdentityServer, url);
         }
@@ -64,12 +70,6 @@ namespace WpfUsingSelenium
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             Process.GetCurrentProcess().Kill();
-        }
-
-        private void MenuItemLogout_OnClick(object sender, RoutedEventArgs e)
-        {
-            IdentityServerLogic.SetAuthorization(null);
-            WebBrowserExtensionWpf.Instance.InjectAndExecuteJavascript(WebBrowser, _model.LogoutJavascript);
         }
     }
 }
