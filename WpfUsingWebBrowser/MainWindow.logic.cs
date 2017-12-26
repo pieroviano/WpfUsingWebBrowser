@@ -7,8 +7,8 @@ using UsingWebBrowserLib.Controllers;
 using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
 using WebBrowserLib.Extensions;
+using WebBrowserLib.Helpers;
 using WebBrowserLib.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl.Helpers;
 using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 

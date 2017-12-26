@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using mshtml;
 using WebBrowserLib.Extensions;
+using WebBrowserLib.Helpers;
+using WebBrowserLib.Interfaces;
 using WebBrowserLib.mshtml.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl.Helpers;
-using WebBrowserLib.WebBrowserControl.Interfaces;
 
 namespace WebBrowserLib.WinForms.WebBrowserControl
 {
-    public class WebBrowserExtensionWinForm : IWebBrowserExtension<WebBrowser, object, IHTMLElement>
+    public class WebBrowserExtensionWinForm : IWebBrowserExtensionWithEvent<WebBrowser, object, IHTMLElement>
     {
         private WebBrowserExtensionWinForm()
         {
@@ -273,6 +273,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             }
         }
 
+        public event EventHandler DocumentReady;
+
         public void AddJQueryElement(HtmlElement head)
         {
             WebBrowserExtensionMsHtmlDocument.Instance.AddJQueryElement(head.DomElement as HTMLHeadElement);
@@ -361,7 +363,8 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
                     if (eventName.StartsWith($"{WebBrowserExtensionMsHtmlDocument.Instance.DocumentEventPrefix}."))
                     {
                         WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToDocument(
-                            _webBrowser.Document?.DomDocument as HTMLDocument, eventName.Split('.')[1], eventHandlerDelegate.Item3,
+                            _webBrowser.Document?.DomDocument as HTMLDocument, eventName.Split('.')[1],
+                            eventHandlerDelegate.Item3,
                             _getCustomEventHandler);
                     }
                     else

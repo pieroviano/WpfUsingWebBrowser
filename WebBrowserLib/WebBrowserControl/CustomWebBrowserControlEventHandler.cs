@@ -16,41 +16,14 @@ namespace WebBrowserLib.WebBrowserControl
 
         public List<Tuple<string, Delegate, int>> Delegates { get; set; }
 
-        public bool EventHandlerIsAttached(string formattableString, int functionHash,Type eventInfoEventHandlerType, object firstArgument, Delegate customEventDelegate, out Delegate @delegate)
+        public bool EventHandlerIsAttached(string formattableString, int functionHash, Type eventInfoEventHandlerType,
+            object firstArgument, Delegate customEventDelegate, out Delegate @delegate)
         {
-            @delegate = GetDelegate(formattableString, eventInfoEventHandlerType, firstArgument, customEventDelegate, functionHash);
+            @delegate = GetDelegate(formattableString, eventInfoEventHandlerType, firstArgument, customEventDelegate,
+                functionHash);
             var contains = Delegates.ContainsKey(formattableString, functionHash) &&
                            Delegates.Items(formattableString, @delegate, functionHash).Any();
             return contains;
-        }
-
-        public Delegate GetDelegate(string fullEventName, Type eventHandlerType, object objectHavingHandler,
-            Delegate customEventDelegate, int functionHash)
-        {
-            var type = typeof(Handler);
-            Delegate @delegate = GetCurrentDelegateForFullEventName(fullEventName, functionHash);
-            if (@delegate == null)
-            {
-                if (customEventDelegate == null)
-                {
-                    var handler = new Handler(Delegates, fullEventName, functionHash);
-                    var methodInfo = type.GetMethod("HandleEvent", BindingFlags.Instance | BindingFlags.NonPublic);
-                    Debug.Assert(methodInfo != null);
-                    @delegate = Delegate.CreateDelegate(eventHandlerType, handler, methodInfo);
-                    handler.Delegate = @delegate;
-                }
-                else if (objectHavingHandler != null)
-                {
-                    var methodInfo = customEventDelegate.Method;
-                    @delegate = Delegate.CreateDelegate(eventHandlerType, objectHavingHandler, methodInfo);
-                }
-                else
-                {
-                    var methodInfo = customEventDelegate.Method;
-                    @delegate = Delegate.CreateDelegate(eventHandlerType, methodInfo);
-                }
-            }
-            return @delegate;
         }
 
         private Delegate GetCurrentDelegateForFullEventName(string fullEventName, int functionHash)
@@ -71,6 +44,35 @@ namespace WebBrowserLib.WebBrowserControl
                         @delegate = returnValue.Item2;
                         break;
                     }
+                }
+            }
+            return @delegate;
+        }
+
+        public Delegate GetDelegate(string fullEventName, Type eventHandlerType, object objectHavingHandler,
+            Delegate customEventDelegate, int functionHash)
+        {
+            var type = typeof(Handler);
+            var @delegate = GetCurrentDelegateForFullEventName(fullEventName, functionHash);
+            if (@delegate == null)
+            {
+                if (customEventDelegate == null)
+                {
+                    var handler = new Handler(Delegates, fullEventName, functionHash);
+                    var methodInfo = type.GetMethod("HandleEvent", BindingFlags.Instance | BindingFlags.NonPublic);
+                    Debug.Assert(methodInfo != null);
+                    @delegate = Delegate.CreateDelegate(eventHandlerType, handler, methodInfo);
+                    handler.Delegate = @delegate;
+                }
+                else if (objectHavingHandler != null)
+                {
+                    var methodInfo = customEventDelegate.Method;
+                    @delegate = Delegate.CreateDelegate(eventHandlerType, objectHavingHandler, methodInfo);
+                }
+                else
+                {
+                    var methodInfo = customEventDelegate.Method;
+                    @delegate = Delegate.CreateDelegate(eventHandlerType, methodInfo);
                 }
             }
             return @delegate;

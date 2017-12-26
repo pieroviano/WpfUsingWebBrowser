@@ -111,6 +111,25 @@ namespace QuickstartIdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         "api1"
                     }
+                },
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "jsselenium",
+                    ClientName = "JavaScript Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = {"http://localhost:5004/callback.html"},
+                    PostLogoutRedirectUris = {"http://localhost:5004/index.html"},
+                    AllowedCorsOrigins = {"http://localhost:5004"},
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    }
                 }
             };
         }

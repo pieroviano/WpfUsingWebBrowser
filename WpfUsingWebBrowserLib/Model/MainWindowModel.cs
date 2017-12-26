@@ -9,7 +9,7 @@ namespace UsingWebBrowserLib.Model
         private CustomWebBrowserControlEventHandler _customWebBrowserControlEventHandler;
         public static int Port { get; set; } = 5003;
 
-        public static string CsBreakpoints { get; set; }
+        public static string StartupJavascript { get; set; }
         public string IndexPage { get; } = "index.html";
         public string CallbackPage { get; } = "callback.html";
         public string RedirectUri { get; } = "redirect_uri";
@@ -33,7 +33,7 @@ namespace UsingWebBrowserLib.Model
 
 
         public string LoginJavascript =>
-            @"$(function () {" + CsBreakpoints + "login();});";
+            @"$(function () {" + StartupJavascript + "login();});";
 
         public static string UrlPrefix => $"http://localhost:{Port}/";
 

@@ -6,14 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using mshtml;
 using WebBrowserLib.Extensions;
+using WebBrowserLib.Helpers;
+using WebBrowserLib.Interfaces;
 using WebBrowserLib.mshtml.WebBrowserControl;
 using WebBrowserLib.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl.Helpers;
-using WebBrowserLib.WebBrowserControl.Interfaces;
 
 namespace WebBrowserLib.Wpf.WebBrowserControl
 {
-    public class WebBrowserExtensionWpf : IWebBrowserExtension<WebBrowser, object, IHTMLElement>
+    public class WebBrowserExtensionWpf : IWebBrowserExtensionWithEvent<WebBrowser, object, IHTMLElement>
     {
         private WebBrowserExtensionWpf()
         {
@@ -243,6 +243,8 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
                 setCustomEventHandler(null);
             }
         }
+
+        public event EventHandler DocumentReady;
 
         public void AttachCustomFunctionOnControl(WebBrowser webBrowser, string controlId, string eventName,
             Func<bool> codeToExecute,

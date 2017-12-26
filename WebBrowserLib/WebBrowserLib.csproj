@@ -50,11 +50,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebBrowserControl\CustomWebBrowserControlEventHandler.cs" />
     <Compile Include="WebBrowserControl\EventHandlerAttacher.cs" />
-    <Compile Include="WebBrowserControl\Helpers\ComVisibleClass.cs" />
-    <Compile Include="WebBrowserControl\Interfaces\IScriptInjector.cs" />
-    <Compile Include="WebBrowserControl\Helpers\ScriptHelper.cs" />
+    <Compile Include="Helpers\ComVisibleClass.cs" />
+    <Compile Include="Interfaces\IScriptInjector.cs" />
+    <Compile Include="Helpers\ScriptHelper.cs" />
     <Compile Include="Extensions\ListExtender.cs" />
-    <Compile Include="WebBrowserControl\Interfaces\IWebBrowserExtension.cs" />
+    <Compile Include="Interfaces\IWebBrowserExtension.cs" />
+    <Compile Include="Interfaces\IWebBrowserExtensionWithEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

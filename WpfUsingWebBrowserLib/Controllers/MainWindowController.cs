@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
+using WebBrowserLib.Interfaces;
 using WebBrowserLib.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl.Interfaces;
 
 namespace UsingWebBrowserLib.Controllers
 {
