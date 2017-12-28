@@ -1,7 +1,5 @@
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf.csprojResolveAssemblyReference.cache
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\App.baml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\MainWindow.baml
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\App.g.cs
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\MainWindow.g.cs
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf_MarkupCompile.cache
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf.g.resources
@@ -23,12 +21,8 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\System.Security
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\System.ValueTuple.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\UsingWebBrowserLib.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.mshtml.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.Wpf.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebDriver.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WpfAdornedControl.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.mshtml.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.Wpf.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\UsingWebBrowserLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\IdentityModel.xml
@@ -38,3 +32,10 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\System.ValueTup
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebDriver.xml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf.exe
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf_Content.g.cs
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\chromedriver.exe
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.Selenium.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.Selenium.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\HostAppInPanelLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WpfAdornedControl.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf.csproj.UsingSeleniumFromWpf.exe.config

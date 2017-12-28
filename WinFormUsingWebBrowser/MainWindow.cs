@@ -41,7 +41,7 @@ namespace UsingWebBrowserFromWinForm
         {
             Controls.Add(_loadingAdorner);
             _loadingAdorner.StartStopWait(WebBrowser);
-            WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+            _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
         }
 
         private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)

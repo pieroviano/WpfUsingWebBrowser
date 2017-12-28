@@ -4,23 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
+using WebBrowserLib.EventHandling;
 using WebBrowserLib.Interfaces;
-using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.Selenium.WebBrowserControl;
 
 namespace UsingWebBrowserLib.Controllers
 {
     public class MainWindowController<THtmlElementType>
     {
-        public IWebBrowserExtensionWithEvent<THtmlElementType> WebBrowserExtensionWithEvent { get; }
+        public IWebBrowserExtensionWithEventBase<THtmlElementType> WebBrowserExtensionWithEvent { get; }
         private readonly MainWindowModel _model;
 
 
         public MainWindowController(MainWindowModel model,
-            IWebBrowserExtensionWithEvent<THtmlElementType> instance)
+            IWebBrowserExtensionWithEventBase<THtmlElementType> instance)
         {
             _model = model;
             instance.Enabled = _model.WebBrowserExtensionEnabled;
-            instance.JavascriptInjectionEnabled = _model.WebBrowserExtensionJavascriptInjectionEnabled;
             WebBrowserExtensionWithEvent = instance;
         }
 

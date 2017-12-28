@@ -113,9 +113,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.mshtml.csproj">
+    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.MsHtml.csproj">
       <Project>{dedfcf81-a59c-4688-b089-38e56d7afb41}</Project>
-      <Name>WebBrowserLib.mshtml</Name>
+      <Name>WebBrowserLib.MsHtml</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib.WinForms\WebBrowserLib.WinForms.csproj">
       <Project>{a2c9412d-4d1f-4001-83ec-64fe2c926b36}</Project>

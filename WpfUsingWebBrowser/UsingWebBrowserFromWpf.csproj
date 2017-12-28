@@ -81,28 +81,17 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfAdornedControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfAdornedControl.PieroViano.1.0.0\lib\net461\WpfAdornedControl.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="CustomComVisibleClass.cs" />
-    <Compile Include="MainWindow.logic.cs" />
+    <Compile Include="MainWindowWpf.logic.cs" />
     <Compile Include="Program.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="MainWindowWpf.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="MainWindowWpf.xaml.cs">
+      <DependentUpon>MainWindowWpf.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -135,9 +124,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.mshtml.csproj">
+    <ProjectReference Include="..\..\HostAppInPanel\HostAppInPanelLib\HostAppInPanelLib.csproj">
+      <Project>{69CFBE7E-52AB-4B81-A9F9-52830B9D9748}</Project>
+      <Name>HostAppInPanelLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WpfAdornedControl\WpfAdornedControl\WpfAdornedControl.csproj">
+      <Project>{bfc4e960-d657-4aff-910c-396834743241}</Project>
+      <Name>WpfAdornedControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.MsHtml.csproj">
       <Project>{DEDFCF81-A59C-4688-B089-38E56D7AFB41}</Project>
-      <Name>WebBrowserLib.mshtml</Name>
+      <Name>WebBrowserLib.MsHtml</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib.Wpf\WebBrowserLib.Wpf.csproj">
       <Project>{63360344-6b20-4be0-9f71-ea5d687e50c4}</Project>

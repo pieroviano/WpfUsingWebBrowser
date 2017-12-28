@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
-using mshtml;
-using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.EventHandling;
 
 namespace WebBrowserLib.Interfaces
 {
     public interface IWebBrowserExtensionWithEventBase<out THtmlElementType>
     {
         bool Enabled { get; set; }
-
-        bool JavascriptInjectionEnabled { get; set; }
 
         void AddJQueryElement();
         void AddScriptElement(string scriptBody);
@@ -45,21 +42,17 @@ namespace WebBrowserLib.Interfaces
         dynamic FindElementByAttributeValue(string tagName,
             string attribute, string value);
 
-        List<object> FindElementsByAttributeValue(string tagName,
+        IEnumerable<THtmlElementType> FindElementsByAttributeValue(string tagName,
             string attribute, string value);
 
-        IHTMLElement GetElementById(string controlId);
+        THtmlElementType GetElementById(string controlId);
 
         IEnumerable<THtmlElementType> GetElementsByCssQuery(string cssQuery);
 
-        object GetGlobalVariable(string variable);
+        dynamic GetGlobalVariable(string variable);
 
         dynamic InjectAndExecuteJavascript(string javascriptToExecute);
 
-        void InjectScript(string scriptUrl);
-
-        void RemoveHandlersOnNavigating(
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandle,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandlerr);
+        void Navigate(string targetUrl);
     }
 }

@@ -1,29 +1,20 @@
-﻿using mshtml;
+﻿using OpenQA.Selenium;
 using UsingWebBrowserLib.Controllers;
 using UsingWebBrowserLib.Model;
-using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 
 namespace UsingSeleniumFromWpf
 {
     public partial class MainWindow
     {
-        private readonly MainWindowController<IHTMLElement> _controller;
+        private readonly MainWindowController<IWebElement> _controller;
         private readonly MainWindowModel _model;
 
         private bool _alreadyEntered;
 
-        private void GetAuthenticationDictionary()
-        {
-            bool hasToLogin;
-            bool hasToNavigate;
-            _controller.GetAuthenticationDictionary(WebBrowser.Source.ToString(), out hasToLogin, out hasToNavigate);
-            LoginOrNavigateIfNecessary(hasToLogin, hasToNavigate);
-        }
-
         private string GetCurrentUrl()
         {
-            var url = WebBrowser.Source.ToString();
+            var url = WebBrowser.WebDriver.Url;
             return url;
         }
 
@@ -55,7 +46,7 @@ namespace UsingSeleniumFromWpf
             {
                 if (!_alreadyEntered)
                 {
-                    LoadingAdornerxtension.StartStopWait(LoadingAdorner, WebBrowser);
+                    WebBrowser.LoadingAdornerControl.StartStopWait(WebBrowser);
                     _alreadyEntered = true;
                 }
                 _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
@@ -71,7 +62,7 @@ namespace UsingSeleniumFromWpf
             }
             else if (hasToNavigate)
             {
-                WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+                _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
             }
         }
     }

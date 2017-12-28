@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using mshtml;
+using WebBrowserLib.EventHandling;
 using WebBrowserLib.Extensions;
 using WebBrowserLib.Helpers;
 using WebBrowserLib.Interfaces;
-using WebBrowserLib.WebBrowserControl;
 
-namespace WebBrowserLib.mshtml.WebBrowserControl
+namespace WebBrowserLib.MsHtml.WebBrowserControl
 {
     public class WebBrowserExtensionMsHtmlDocument : IWebBrowserExtension<HTMLDocument, HTMLHeadElement, IHTMLElement>
     {
@@ -139,7 +139,7 @@ namespace WebBrowserLib.mshtml.WebBrowserControl
             {
                 if (!string.IsNullOrEmpty(cleanHandlers))
                 {
-                    InjectAndExecuteJavascript(htmlDocument, cleanHandlers);
+                    ExecuteJavascript(htmlDocument, cleanHandlers);
                 }
                 return;
             }
@@ -147,7 +147,7 @@ namespace WebBrowserLib.mshtml.WebBrowserControl
                 ScriptHelper.GetJavascriptToExecuteToRemoveHandlers(controlId, cleanHandlers);
             if (!string.IsNullOrEmpty(javascriptToExecuteToRemoveHandlers))
             {
-                InjectAndExecuteJavascript(htmlDocument, javascriptToExecuteToRemoveHandlers);
+                ExecuteJavascript(htmlDocument, javascriptToExecuteToRemoveHandlers);
             }
         }
 
@@ -240,6 +240,10 @@ namespace WebBrowserLib.mshtml.WebBrowserControl
 
         public dynamic ExecuteJavascript(HTMLDocument htmlDocument, string javascriptToExecute)
         {
+            if (!Enabled)
+            {
+                return null;
+            }
             return htmlDocument.parentWindow.execScript(javascriptToExecute);
         }
 
@@ -261,10 +265,10 @@ namespace WebBrowserLib.mshtml.WebBrowserControl
             return null;
         }
 
-        public List<dynamic> FindElementsByAttributeValue(HTMLDocument htmlDocument, string tagName,
+        public IEnumerable<IHTMLElement> FindElementsByAttributeValue(HTMLDocument htmlDocument, string tagName,
             string attribute, string value)
         {
-            var ret = new List<dynamic>();
+            var ret = new List<IHTMLElement>();
             if (!Enabled)
             {
                 return ret;
@@ -317,7 +321,7 @@ namespace WebBrowserLib.mshtml.WebBrowserControl
             while (i < variablePath.Length)
             {
                 variableName = variableName + "." + variablePath[i];
-                result = InjectAndExecuteJavascript(htmlDocument, variableName);
+                result = ExecuteJavascript(htmlDocument, variableName);
                 if (result == null)
                 {
                     return null;
@@ -327,27 +331,16 @@ namespace WebBrowserLib.mshtml.WebBrowserControl
             return result;
         }
 
-        public dynamic InjectAndExecuteJavascript(HTMLDocument htmlDocument, string javascriptToExecute)
+        public void AddScriptByUrl(HTMLHeadElement htmlHeadElement, string scriptUrl)
         {
-            if (!Enabled || !JavascriptInjectionEnabled)
-            {
-                return null;
-            }
-            return ExecuteJavascript(htmlDocument, javascriptToExecute);
-        }
-
-        public void InjectScript(HTMLDocument htmlDocument, string scriptUrl)
-        {
-            var htmlDocument2 = htmlDocument as IHTMLDocument2;
-            var htmlHeadElement = (HTMLHeadElement)htmlDocument.getElementsByTagName("head").item(0);
-            var htmlElement = htmlDocument2?.createElement("meta");
+            var htmlElement = htmlHeadElement.document?.createElement("meta");
             if (htmlElement != null)
             {
                 htmlElement.setAttribute("http-equiv", "x-ua-compatible");
                 htmlElement.setAttribute("content", "IE=9");
                 htmlHeadElement.appendChild((IHTMLDOMNode)htmlElement);
             }
-            htmlElement = htmlDocument2?.createElement("script");
+            htmlElement = htmlHeadElement.document?.createElement("script");
             if (htmlElement != null)
             {
                 htmlElement.setAttribute("type", "text/javascript");
@@ -355,7 +348,7 @@ namespace WebBrowserLib.mshtml.WebBrowserControl
                 htmlHeadElement.appendChild((IHTMLDOMNode)htmlElement);
             }
 
-            InjectAndExecuteJavascript(htmlDocument, @"var markup = document.documentElement.innerHTML;alert(markup);");
+            ExecuteJavascript(htmlHeadElement.document, @"var markup = document.documentElement.innerHTML;alert(markup);");
         }
 
 

@@ -13,6 +13,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,9 +39,6 @@
     <StartupObject>UsingSeleniumFromWpf.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HostAppInPanelLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HostAppInPanelLib.PieroViano.1.0.0\lib\net461\HostAppInPanelLib.dll</HintPath>
-    </Reference>
     <Reference Include="IdentityModel, Version=2.16.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityModel.2.16.1\lib\net461\IdentityModel.dll</HintPath>
     </Reference>
@@ -91,25 +90,14 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfAdornedControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfAdornedControl.PieroViano.1.0.0\lib\net461\WpfAdornedControl.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="MainWindow.logic.cs" />
     <Compile Include="Program.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -144,13 +132,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.mshtml.csproj">
-      <Project>{DEDFCF81-A59C-4688-B089-38E56D7AFB41}</Project>
-      <Name>WebBrowserLib.mshtml</Name>
+    <ProjectReference Include="..\..\HostAppInPanel\HostAppInPanelLib\HostAppInPanelLib.csproj">
+      <Project>{69cfbe7e-52ab-4b81-a9f9-52830b9d9748}</Project>
+      <Name>HostAppInPanelLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebBrowserLib.Wpf\WebBrowserLib.Wpf.csproj">
-      <Project>{63360344-6b20-4be0-9f71-ea5d687e50c4}</Project>
-      <Name>WebBrowserLib.Wpf</Name>
+    <ProjectReference Include="..\..\WpfAdornedControl\WpfAdornedControl\WpfAdornedControl.csproj">
+      <Project>{bfc4e960-d657-4aff-910c-396834743241}</Project>
+      <Name>WpfAdornedControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebBrowserLib.Selenium\WebBrowserLib.Selenium.csproj">
+      <Project>{9b380ef2-1168-420d-b864-44c7fd827674}</Project>
+      <Name>WebBrowserLib.Selenium</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib\WebBrowserLib.csproj">
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>
@@ -164,5 +156,17 @@
   <ItemGroup>
     <None Include="Resources\app.js" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Selenium.Chrome.WebDriver.2.33\build\Selenium.Chrome.WebDriver.targets" Condition="Exists('..\packages\Selenium.Chrome.WebDriver.2.33\build\Selenium.Chrome.WebDriver.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Selenium.Chrome.WebDriver.2.33\build\Selenium.Chrome.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.Chrome.WebDriver.2.33\build\Selenium.Chrome.WebDriver.targets'))" />
+  </Target>
 </Project>

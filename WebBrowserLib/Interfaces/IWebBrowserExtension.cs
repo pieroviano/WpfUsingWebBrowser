@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using mshtml;
-using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.EventHandling;
 
 namespace WebBrowserLib.Interfaces
 {
@@ -55,18 +54,14 @@ namespace WebBrowserLib.Interfaces
         dynamic FindElementByAttributeValue(TControl htmlDocument, string tagName,
             string attribute, string value);
 
-        List<object> FindElementsByAttributeValue(TControl htmlDocument, string tagName,
+        IEnumerable<THtmlElementType> FindElementsByAttributeValue(TControl htmlDocument, string tagName,
             string attribute, string value);
 
-        IHTMLElement GetElementById(TControl htmlDocument, string controlId);
+        THtmlElementType GetElementById(TControl htmlDocument, string controlId);
 
         IEnumerable<THtmlElementType> GetElementsByCssQuery(TControl htmlDocument, string cssQuery);
 
         object GetGlobalVariable(TControl htmlDocument, string variable);
-
-        dynamic InjectAndExecuteJavascript(TControl htmlDocument, string javascriptToExecute);
-
-        void InjectScript(TControl htmlDocument, string scriptUrl);
 
         void RemoveEventHandlerToControl(TControl htmlDocument, string controlId,
             string eventName, int functionHash,

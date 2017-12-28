@@ -123,7 +123,7 @@ namespace UsingWebBrowserFromWinForm
             }
             else if (hasToNavigate)
             {
-                WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+                _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
             }
         }
     }

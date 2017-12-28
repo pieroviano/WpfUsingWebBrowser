@@ -65,7 +65,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="WebBrowserControl\CodeToExecuteClass.cs" />
+    <Compile Include="Utility\CodeToExecuteClass.cs" />
     <Compile Include="WebBrowserControl\WebBrowserExtensionWpf.cs" />
     <Compile Include="Windows\FocusDetector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -78,9 +78,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.mshtml.csproj">
+    <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.MsHtml.csproj">
       <Project>{dedfcf81-a59c-4688-b089-38e56d7afb41}</Project>
-      <Name>WebBrowserLib.mshtml</Name>
+      <Name>WebBrowserLib.MsHtml</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib\WebBrowserLib.csproj">
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>

@@ -1,12 +1,14 @@
 ﻿using System;
+using WebBrowserLib.EventHandling;
 using WebBrowserLib.Helpers;
-using WebBrowserLib.WebBrowserControl;
 
 namespace WebBrowserLib.Interfaces
 {
     public interface
         IWebBrowserExtensionWithEvent<out THtmlElementType> : IWebBrowserExtensionWithEventBase<THtmlElementType>
     {
+        bool JavascriptInjectionEnabled { get; set; }
+
         void AttachCustomFunctionOnControl(string controlId, string eventName,
             Func<bool> codeToExecute,
             int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
@@ -31,13 +33,17 @@ namespace WebBrowserLib.Interfaces
             bool removeHandlers = false,
             params string[] eventNames);
 
+        string RegisterCsCodeCallableFromJavascript(ref ComVisibleClass comVisibleClass);
+
         void RemoveEventHandlerToControl(string controlId,
             string eventName, int functionHash,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler);
 
-        string RegisterCsCodeCallableFromJavascript(ref ComVisibleClass comVisibleClass);
-
         void RemoveEventHandlerToDocument(string eventName,
             int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler);
+
+        void RemoveHandlersOnNavigating(
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandle,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandlerr);
     }
 }

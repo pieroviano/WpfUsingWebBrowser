@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using HostAppInPanelLib.Utility;
 using UsingSeleniumFromWpf.Properties;
 using UsingWebBrowserLib.Model;
 using UsingWebBrowserLib.WebServer;
@@ -13,12 +14,13 @@ namespace UsingSeleniumFromWpf
         public static void Main(string[] args)
         {
             VersionPatcher.PatchInternetExplorerVersion();
+            MainWindowModel.Port = 5005;
+
 
             var ws = new EmbeddedWebServer(SendResponse, MainWindowModel.UrlPrefix);
             ws.Run();
-            var app = new App();
-            app.InitializeComponent();
-            app.Run();
+            var wpfRunner = new WpfRunner(typeof(MainWindow));
+            wpfRunner.RunWpfFromMain();
             ws.Stop();
         }
 

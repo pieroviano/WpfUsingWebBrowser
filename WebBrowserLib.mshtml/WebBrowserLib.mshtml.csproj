@@ -7,8 +7,8 @@
     <ProjectGuid>{DEDFCF81-A59C-4688-B089-38E56D7AFB41}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebBrowserLib.mshtml</RootNamespace>
-    <AssemblyName>WebBrowserLib.mshtml</AssemblyName>
+    <RootNamespace>WebBrowserLib.MsHtml</RootNamespace>
+    <AssemblyName>WebBrowserLib.MsHtml</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebBrowserControl\VersionPatcher.cs" />
+    <Compile Include="Utility\VersionPatcher.cs" />
     <Compile Include="WebBrowserControl\WebBrowserExtensionMsHtmlDocument.cs" />
   </ItemGroup>
   <ItemGroup />

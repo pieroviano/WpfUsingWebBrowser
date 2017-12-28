@@ -5,11 +5,12 @@ using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using mshtml;
+using WebBrowserLib.EventHandling;
 using WebBrowserLib.Extensions;
 using WebBrowserLib.Helpers;
 using WebBrowserLib.Interfaces;
-using WebBrowserLib.mshtml.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.MsHtml.WebBrowserControl;
+using WebBrowserLib.Wpf.Utility;
 
 namespace WebBrowserLib.Wpf.WebBrowserControl
 {
@@ -41,32 +42,37 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
 
         public void AddJQueryElement()
         {
-            var head=(HTMLHeadElement)((HTMLDocument)_webBrowser.Document)?.getElementsByTagName("head").item(0);
+            var head = (HTMLHeadElement) ((HTMLDocument) _webBrowser.Document)?.getElementsByTagName("head").item(0);
 
             if (head != null)
             {
                 var htmlDocument = head.ownerDocument as HTMLDocument;
                 var scriptEl = htmlDocument?.createElement("script") as HTMLScriptElement;
-                var jQueryElement = (IHTMLScriptElement)scriptEl;
+                var jQueryElement = (IHTMLScriptElement) scriptEl;
                 if (jQueryElement != null)
                 {
                     jQueryElement.src = @"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js";
                 }
 
-                head.appendChild((IHTMLDOMNode)scriptEl);
+                head.appendChild((IHTMLDOMNode) scriptEl);
             }
         }
 
         public void AddScriptElement(string scriptBody)
         {
-            var head = (HTMLHeadElement)((HTMLDocument)_webBrowser.Document)?.getElementsByTagName("head").item(0);
+            var head = (HTMLHeadElement) ((HTMLDocument) _webBrowser.Document)?.getElementsByTagName("head").item(0);
             var scriptEl = (head?.ownerDocument as HTMLDocument)?.createElement("script") as HTMLScriptElement;
             if (scriptEl != null)
             {
                 scriptEl.innerHTML = scriptBody;
 
-                head.appendChild((IHTMLDOMNode)scriptEl);
+                head.appendChild((IHTMLDOMNode) scriptEl);
             }
+        }
+
+        public void Navigate(string targetUrl)
+        {
+            _webBrowser.Navigate(targetUrl);
         }
 
         public void AttachEventHandlerToControl(string controlId, string eventName,
@@ -187,7 +193,7 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
                 attribute, value);
         }
 
-        public List<dynamic> FindElementsByAttributeValue(string tagName,
+        public IEnumerable<IHTMLElement> FindElementsByAttributeValue(string tagName,
             string attribute, string value)
         {
             var htmlDocument = _webBrowser.Document as HTMLDocument;
@@ -230,14 +236,8 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
         public dynamic InjectAndExecuteJavascript(string javascriptToExecute)
         {
             var htmlDocument = _webBrowser.Document as HTMLDocument;
-            return WebBrowserExtensionMsHtmlDocument.Instance.InjectAndExecuteJavascript(htmlDocument,
+            return WebBrowserExtensionMsHtmlDocument.Instance.ExecuteJavascript(htmlDocument,
                 javascriptToExecute);
-        }
-
-        public void InjectScript(string scriptUrl)
-        {
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            WebBrowserExtensionMsHtmlDocument.Instance.InjectScript(htmlDocument, scriptUrl);
         }
 
         public void RemoveEventHandlerToControl(string controlId, string eventName,
@@ -301,6 +301,22 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
                 getCustomEventHandler, setCustomEventHandler);
         }
 
+        public string RegisterCsCodeCallableFromJavascript(ref ComVisibleClass comVisibleClass)
+        {
+            if (comVisibleClass == null)
+            {
+                comVisibleClass = new ComVisibleClass();
+            }
+            return RegisterCsCodeCallableFromJavascript(comVisibleClass.CodeToExecute);
+        }
+
+        public void AddJavascriptByUrl(string scriptUrl)
+        {
+            var htmlDocument = _webBrowser.Document as HTMLDocument;
+            var item = htmlDocument?.getElementsByName("head").item(0);
+            WebBrowserExtensionMsHtmlDocument.Instance.AddScriptByUrl(item, scriptUrl);
+        }
+
         public void CauseCsBreakpoint(ref ComVisibleClass comVisibleClass)
         {
             if (comVisibleClass == null)
@@ -317,15 +333,6 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
                 WebBrowserExtensionWpfs.Add(webBrowser, new WebBrowserExtensionWpf(webBrowser));
             }
             return WebBrowserExtensionWpfs[webBrowser];
-        }
-
-        public string RegisterCsCodeCallableFromJavascript(ref ComVisibleClass comVisibleClass)
-        {
-            if (comVisibleClass == null)
-            {
-                comVisibleClass = new ComVisibleClass();
-            }
-            return RegisterCsCodeCallableFromJavascript(comVisibleClass.CodeToExecute);
         }
 
         public string RegisterCsCodeCallableFromJavascript(

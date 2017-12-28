@@ -3,11 +3,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
+using HostAppInPanelLib;
 using mshtml;
+using OpenQA.Selenium;
 using UsingWebBrowserLib.Controllers;
 using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
-using WebBrowserLib.Wpf.WebBrowserControl;
+using WebBrowserLib.Selenium.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 
 namespace UsingSeleniumFromWpf
@@ -17,22 +19,23 @@ namespace UsingSeleniumFromWpf
     /// </summary>
     public partial class MainWindow
     {
+        public ChromeWrapperControl WebBrowser;
         public MainWindow()
         {
             InitializeComponent();
+            WebBrowser= new ChromeWrapperControl();
+            DockPanel.Children.Add(WebBrowser);
+
             _model = new MainWindowModel();
             _controller =
-                new MainWindowController<IHTMLElement>(_model, WebBrowserExtensionWpf.GetInstance(WebBrowser));
+                new MainWindowController<IWebElement>(_model, WebBrowserExtensionSelenium.GetInstance(WebBrowser));
 
-            _controller.WebBrowserExtensionWithEvent.RemoveHandlersOnNavigating(_model.GetCustomEventHandler,
-                _model.SetCustomEventHandler);
-            WebBrowser.LoadCompleted += WebBrowser_LoadCompleted;
-            WebBrowser.Loaded += WebBrowser_Loaded;
+            _controller.WebBrowserExtensionWithEvent.DocumentReady += WebBrowser_LoadCompleted;
         }
 
         private async void MenuItemCallApi_Click(object sender, RoutedEventArgs e)
         {
-            var tuple = await _controller.DoCallApi(WebBrowser.Source.ToString(),
+            var tuple = await _controller.DoCallApi(WebBrowser.WebDriver.Url,
                 new Func<string, MessageBoxResult>(MessageBox.Show));
             var hasToLogin = tuple.Item1;
             var hasToNavigate = tuple.Item2;
@@ -50,7 +53,7 @@ namespace UsingSeleniumFromWpf
             _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.LogoutJavascript);
         }
 
-        private void WebBrowser_LoadCompleted(object sender, NavigationEventArgs e)
+        private void WebBrowser_LoadCompleted(object sender, EventArgs eventArgs)
         {
             bool isIdentityServer;
             var url = GetCurrentUrl();
@@ -61,10 +64,10 @@ namespace UsingSeleniumFromWpf
             HandleScripts(isIdentityServer, url);
         }
 
-        private void WebBrowser_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            LoadingAdorner.StartStopWait(WebBrowser);
-            WebBrowser.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+            //WebBrowser.LoadingAdornerControl.StartStopWait(WebBrowser);
+            _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)

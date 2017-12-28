@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.EventHandling;
 
 namespace UsingWebBrowserLib.Model
 {

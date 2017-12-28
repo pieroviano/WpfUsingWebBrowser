@@ -30,3 +30,4 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WinFormUsingWebBrowser\bin\Debug\Newtonsof
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WinFormUsingWebBrowser\bin\Debug\System.ValueTuple.xml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WinFormUsingWebBrowser\obj\Debug\UsingWebBrowserFromWinForm.exe
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WinFormUsingWebBrowser\obj\Debug\UsingWebBrowserFromWinForm.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WinFormUsingWebBrowser\obj\Debug\UsingWebBrowserFromWinForm.csproj.UsingWebBrowserFromWinForm.exe.config

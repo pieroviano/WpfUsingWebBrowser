@@ -1,0 +1,16 @@
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csprojResolveAssemblyReference.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csproj.CoreCompileInputs.cache
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.Selenium.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.Selenium.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\HostAppInPanelLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\log4net.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebDriver.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WpfAdornedControl.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\log4net.xml
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebDriver.xml
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\HostAppInPanelLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WpfAdornedControl.pdb

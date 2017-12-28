@@ -65,19 +65,19 @@ namespace UsingWebBrowserFromWinForm
             // callAPIToolStripMenuItem
             // 
             this.callAPIToolStripMenuItem.Name = "callAPIToolStripMenuItem";
-            this.callAPIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.callAPIToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.callAPIToolStripMenuItem.Text = "&Call API";
             this.callAPIToolStripMenuItem.Click += new System.EventHandler(this.callAPIToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(112, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -115,7 +115,7 @@ namespace UsingWebBrowserFromWinForm
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
-            this.Text = "Main Window";
+            this.Text = "Window using WebBrowser Windows Forms";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

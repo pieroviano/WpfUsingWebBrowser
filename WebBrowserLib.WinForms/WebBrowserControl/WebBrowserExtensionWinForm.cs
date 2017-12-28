@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using mshtml;
+using WebBrowserLib.EventHandling;
 using WebBrowserLib.Extensions;
 using WebBrowserLib.Helpers;
 using WebBrowserLib.Interfaces;
-using WebBrowserLib.mshtml.WebBrowserControl;
-using WebBrowserLib.WebBrowserControl;
+using WebBrowserLib.MsHtml.WebBrowserControl;
 
 namespace WebBrowserLib.WinForms.WebBrowserControl
 {
@@ -47,6 +48,11 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
         {
             WebBrowserExtensionMsHtmlDocument.Instance.AddScriptElement(
                 _webBrowser.Document?.GetElementsByTagName("head")[0].DomElement as HTMLHeadElement, scriptBody);
+        }
+
+        public void Navigate(string targetUrl)
+        {
+            _webBrowser.Navigate(targetUrl);
         }
 
         public dynamic ExecuteJavascript(string javascriptToExecute)
@@ -176,7 +182,7 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             return null;
         }
 
-        public List<dynamic> FindElementsByAttributeValue(string tagName,
+        public IEnumerable<IHTMLElement> FindElementsByAttributeValue(string tagName,
             string attribute, string value)
         {
             var htmlDocument = _webBrowser.Document?.DomDocument as HTMLDocument;
@@ -230,16 +236,17 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             if (_webBrowser.Document != null)
             {
                 var htmlDocument = _webBrowser.Document.DomDocument as HTMLDocument;
-                return WebBrowserExtensionMsHtmlDocument.Instance.InjectAndExecuteJavascript(htmlDocument,
+                return WebBrowserExtensionMsHtmlDocument.Instance.ExecuteJavascript(htmlDocument,
                     javascriptToExecute);
             }
             return null;
         }
 
-        public void InjectScript(string scriptUrl)
+        public void AddJavascriptByUrl(string scriptUrl)
         {
             var htmlDocument = _webBrowser.Document?.DomDocument as HTMLDocument;
-            WebBrowserExtensionMsHtmlDocument.Instance.InjectScript(htmlDocument, scriptUrl);
+            var htmlHeadElement = htmlDocument.getElementsByName("head").item(0) as HTMLHeadElement;
+            WebBrowserExtensionMsHtmlDocument.Instance.AddScriptByUrl(htmlHeadElement, scriptUrl);
         }
 
         public void RemoveEventHandlerToControl(string controlId, string eventName,
@@ -285,7 +292,7 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            var codeToExecuteClass = new CodeToExecuteClass(codeToExecute);
+            var codeToExecuteClass = new Utility.CodeToExecuteClass(codeToExecute);
             functionHash += new Func<bool>(codeToExecuteClass.CustomEventDelegate).GetFullNameHashCode();
 
             WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToControl(
@@ -300,7 +307,7 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            var codeToExecuteClass = new CodeToExecuteClass(codeToExecute);
+            var codeToExecuteClass = new Utility.CodeToExecuteClass(codeToExecute);
             functionHash += new Func<bool>(codeToExecuteClass.CustomEventDelegate).GetFullNameHashCode();
 
             WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToDocument(
@@ -325,7 +332,7 @@ namespace WebBrowserLib.WinForms.WebBrowserControl
             int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            var codeToExecuteClass = new CodeToExecuteClass(codeToExecute);
+            var codeToExecuteClass = new Utility.CodeToExecuteClass(codeToExecute);
             functionHash += new Func<bool>(codeToExecuteClass.CustomEventDelegate).GetFullNameHashCode();
             WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToDocument(
                 (HTMLDocument) webBrowser.Document?.DomDocument,

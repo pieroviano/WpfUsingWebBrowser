@@ -1,8 +1,4 @@
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrowserFromWpf.csprojResolveAssemblyReference.cache
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\App.baml
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\MainWindow.baml
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\App.g.cs
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\MainWindow.g.cs
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrowserFromWpf_MarkupCompile.cache
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrowserFromWpf.g.resources
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrowserFromWpf.Properties.Resources.resources
@@ -33,3 +29,10 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\Newtonsoft.Js
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\System.ValueTuple.xml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrowserFromWpf.exe
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrowserFromWpf.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\MainWindowWpf.baml
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\MainWindowWpf.g.cs
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WpfAdornedControl.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\HostAppInPanelLib.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WebDriver.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\HostAppInPanelLib.pdb
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WebDriver.xml

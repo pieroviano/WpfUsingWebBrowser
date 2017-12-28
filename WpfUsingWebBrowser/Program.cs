@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using HostAppInPanelLib.Utility;
 using UsingWebBrowserFromWpf.Properties;
 using UsingWebBrowserLib.Model;
 using UsingWebBrowserLib.WebServer;
@@ -16,9 +17,8 @@ namespace UsingWebBrowserFromWpf
 
             var ws = new EmbeddedWebServer(SendResponse, MainWindowModel.UrlPrefix);
             ws.Run();
-            var app = new UsingWebBrowserFromWpf.App();
-            app.InitializeComponent();
-            app.Run();
+            var wpfRunner = new WpfRunner(typeof(MainWindowWpf));
+            wpfRunner.RunWpfFromMain();
             ws.Stop();
         }
 
