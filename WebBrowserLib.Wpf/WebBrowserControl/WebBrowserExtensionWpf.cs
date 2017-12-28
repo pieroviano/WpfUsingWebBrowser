@@ -214,23 +214,13 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             return WebBrowserExtensionMsHtmlDocument.Instance.GetElementsByCssQuery(htmlDocument, cssQuery);
         }
 
-        public object GetGlobalVariable(string variable)
+        public dynamic GetGlobalVariable(string variable)
         {
-            var variablePath = variable.Split('.');
-            var i = 0;
-            object result = null;
-            var variableName = "window";
-            while (i < variablePath.Length)
+            if (!Enabled)
             {
-                variableName = variableName + "." + variablePath[i];
-                result = InjectAndExecuteJavascript(variableName);
-                if (result == null)
-                {
-                    return null;
-                }
-                i++;
+                return null;
             }
-            return result;
+            return ScriptHelper.GetGlobalVariable(variable, InjectAndExecuteJavascript);
         }
 
         public dynamic InjectAndExecuteJavascript(string javascriptToExecute)

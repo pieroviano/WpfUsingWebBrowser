@@ -124,14 +124,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HostAppInPanel\HostAppInPanelLib\HostAppInPanelLib.csproj">
-      <Project>{69CFBE7E-52AB-4B81-A9F9-52830B9D9748}</Project>
-      <Name>HostAppInPanelLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WpfAdornedControl\WpfAdornedControl\WpfAdornedControl.csproj">
-      <Project>{bfc4e960-d657-4aff-910c-396834743241}</Project>
-      <Name>WpfAdornedControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib.mshtml\WebBrowserLib.MsHtml.csproj">
       <Project>{DEDFCF81-A59C-4688-B089-38E56D7AFB41}</Project>
       <Name>WebBrowserLib.MsHtml</Name>

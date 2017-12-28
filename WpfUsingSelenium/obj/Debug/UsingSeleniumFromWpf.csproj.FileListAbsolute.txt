@@ -36,6 +36,4 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFr
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\chromedriver.exe
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.Selenium.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WebBrowserLib.Selenium.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\HostAppInPanelLib.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\bin\Debug\WpfAdornedControl.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingSelenium\obj\Debug\UsingSeleniumFromWpf.csproj.UsingSeleniumFromWpf.exe.config

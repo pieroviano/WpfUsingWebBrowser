@@ -37,6 +37,9 @@ namespace UsingWebBrowserLib.Model
 
         public static string UrlPrefix => $"http://localhost:{Port}/";
 
+        public static string CallBackUrl => $"{UrlPrefix}callback.html";
+        public static string IndexUrl => $"{UrlPrefix}index.html";
+
 
         public static string IdentityServerUrl => ConfigurationManager.AppSettings["IdentityServerUrl"];
 

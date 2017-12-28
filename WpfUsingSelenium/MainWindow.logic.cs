@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using UsingWebBrowserLib.Controllers;
 using UsingWebBrowserLib.Model;
+using WebBrowserLib.Interfaces;
 using WpfAdornedControl.WpfControls.Extensions;
 
 namespace UsingSeleniumFromWpf
@@ -14,8 +15,10 @@ namespace UsingSeleniumFromWpf
 
         private string GetCurrentUrl()
         {
-            var url = WebBrowser.WebDriver.Url;
-            return url;
+            var url = _controller.WebBrowserExtensionWithEvent.GetGlobalVariable("document.location");
+            if (url == null)
+                return null;
+            return url["href"];
         }
 
         private void HandleScripts(bool isIdentityServer, string url)
@@ -39,7 +42,9 @@ namespace UsingSeleniumFromWpf
                 if (isIndexPage)
                 {
                     _controller.WebBrowserExtensionWithEvent
-                        .InjectAndExecuteJavascript("$(function(){$('#login').hide();$('#logout').hide();})");
+                        .InjectAndExecuteJavascript("login();");
+                    var documentWaiter = _controller.WebBrowserExtensionWithEvent as IDocumentWaiter;
+                    documentWaiter?.WaitForDocumentReady(MainWindowModel.IdentityServerUrl);
                 }
             }
             else
@@ -51,6 +56,8 @@ namespace UsingSeleniumFromWpf
                 }
                 _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
                 _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
+                var documentWaiter = _controller.WebBrowserExtensionWithEvent as IDocumentWaiter;
+                documentWaiter?.WaitForDocumentReady(MainWindowModel.CallBackUrl);
             }
         }
 

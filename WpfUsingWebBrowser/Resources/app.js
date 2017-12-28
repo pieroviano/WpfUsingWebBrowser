@@ -18,11 +18,11 @@ document.getElementById("logout").addEventListener("click", logout, false);
 
 var config = {
     authority: "http://localhost:5000",
-    client_id: "js",
-    redirect_uri: "http://localhost:5003/callback.html",
+    client_id: "jswf",
+    redirect_uri: "http://localhost:5004/callback.html",
     response_type: "id_token token",
     scope: "openid profile api1",
-    post_logout_redirect_uri: "http://localhost:5003/index.html"
+    post_logout_redirect_uri: "http://localhost:5004/index.html"
 };
 var mgr = new Oidc.UserManager(config);
 

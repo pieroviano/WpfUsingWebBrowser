@@ -9,6 +9,7 @@ using OpenQA.Selenium;
 using UsingWebBrowserLib.Controllers;
 using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
+using WebBrowserLib.Interfaces;
 using WebBrowserLib.Selenium.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 
@@ -27,6 +28,7 @@ namespace UsingSeleniumFromWpf
             DockPanel.Children.Add(WebBrowser);
 
             _model = new MainWindowModel();
+            MainWindowModel.StartupJavascript = "$('#login').hide();$('#logout').hide();";
             _controller =
                 new MainWindowController<IWebElement>(_model, WebBrowserExtensionSelenium.GetInstance(WebBrowser));
 
@@ -62,17 +64,28 @@ namespace UsingSeleniumFromWpf
                 _controller.HandleStatusAndGetUrl(out isIdentityServer, url);
 
             HandleScripts(isIdentityServer, url);
+            if (url.ToLower().StartsWith(MainWindowModel.IndexUrl.ToLower()))
+            {
+                _controller.WebBrowserExtensionWithEvent.AddJQueryElement();
+                _controller.WebBrowserExtensionWithEvent
+                    .InjectAndExecuteJavascript(MainWindowModel.StartupJavascript);
+            }
+            if (url.ToLower().StartsWith(MainWindowModel.CallBackUrl.ToLower()))
+            {
+                var documentWaiter = _controller.WebBrowserExtensionWithEvent as IDocumentWaiter;
+                documentWaiter?.WaitForDocumentReady(MainWindowModel.IndexUrl);
+            }
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            //WebBrowser.LoadingAdornerControl.StartStopWait(WebBrowser);
+            WebBrowser.LoadingAdornerControl.StartStopWait(WebBrowser);
             _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+            Application.Current.Shutdown(0);
         }
     }
 }

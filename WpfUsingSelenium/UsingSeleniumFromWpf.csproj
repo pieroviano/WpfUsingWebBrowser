@@ -39,6 +39,9 @@
     <StartupObject>UsingSeleniumFromWpf.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HostAppInPanelLib, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HostAppInPanelLib.PieroViano.1.0.0.3\lib\net461\HostAppInPanelLib.dll</HintPath>
+    </Reference>
     <Reference Include="IdentityModel, Version=2.16.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityModel.2.16.1\lib\net461\IdentityModel.dll</HintPath>
     </Reference>
@@ -90,6 +93,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAdornedControl, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAdornedControl.PieroViano.1.0.0.2\lib\net461\WpfAdornedControl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.logic.cs" />
@@ -132,14 +138,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HostAppInPanel\HostAppInPanelLib\HostAppInPanelLib.csproj">
-      <Project>{69cfbe7e-52ab-4b81-a9f9-52830b9d9748}</Project>
-      <Name>HostAppInPanelLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WpfAdornedControl\WpfAdornedControl\WpfAdornedControl.csproj">
-      <Project>{bfc4e960-d657-4aff-910c-396834743241}</Project>
-      <Name>WpfAdornedControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib.Selenium\WebBrowserLib.Selenium.csproj">
       <Project>{9b380ef2-1168-420d-b864-44c7fd827674}</Project>
       <Name>WebBrowserLib.Selenium</Name>

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using HostAppInPanelLib;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using WebBrowserLib.EventHandling;
+using WebBrowserLib.Helpers;
 using WebBrowserLib.Interfaces;
 
 namespace WebBrowserLib.Selenium.WebBrowserControl
 {
-    public class WebBrowserExtensionSelenium : IWebBrowserExtensionWithEventBase<IWebElement>
+    public class WebBrowserExtensionSelenium : IWebBrowserExtensionWithEventBase<IWebElement>, IDocumentWaiter
     {
         private static readonly Dictionary<ChromeWrapperControl, WebBrowserExtensionSelenium>
             WebBrowserExtensionSeleniums =
@@ -27,48 +29,82 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
 
         public bool JavascriptInjectionEnabled { get; set; } = true;
 
+        public void WaitForDocumentReady(string targetUrl)
+        {
+            if (!Enabled)
+            {
+                return;
+            }
+            var thread = new Thread(WaitUntilDocumentIsReady);
+            thread.Start(targetUrl);
+        }
+
         public bool Enabled { get; set; } = true;
 
         public void AddJQueryElement()
         {
+            if (!Enabled)
+            {
+                return;
+            }
             var scriptUrl = "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js";
-            ExecuteJavascriptInSelenium(scriptUrl);
+            AddScriptByUrlInSelenium(scriptUrl);
         }
 
         public void AddScriptElement(string scriptBody)
         {
+            if (!Enabled)
+            {
+                return;
+            }
+            var replace = scriptBody.Replace("\\", "\\\\").Replace("'", "\\'");
             ExecuteJavascriptinSelenium(
                 "var script=document.createElement('script');" +
-                "script.setAttribute('type','text/javascript')" +
-                $"script.innerHTML='{scriptBody}';" +
-                "document.getElementsByTagName('head')[0].appendChild(script);");
+                "script.setAttribute('type','text/javascript');" +
+                $"script.innerHTML='{replace}';" +
+                "document.getElementsByTagName('head')[0].appendChild(script);", false);
         }
 
         public void Navigate(string targetUrl)
         {
+            if (!Enabled)
+            {
+                return;
+            }
             _webBrowser.WebDriver.Url = targetUrl;
-            var thread = new Thread(WaitUntilDocumentIsReady);
-            thread.Start();
+            WaitForDocumentReady(targetUrl);
         }
 
         public void DisableEventOnControl(string controlId, string eventName,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            ExecuteJavascriptinSelenium($"document.getElementById''{controlId}).{eventName}=function()" +
-                                        "{return false;}");
+            if (!Enabled)
+            {
+                return;
+            }
+            ExecuteJavascriptinSelenium($"document.getElementById('{controlId}').{eventName}=function()" +
+                                        "{return false;}", false);
         }
 
         public void DisableEventOnDocument(string eventName,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            ExecuteJavascriptinSelenium($"document.{eventName}=function()" + "{return false;}");
+            if (!Enabled)
+            {
+                return;
+            }
+            ExecuteJavascriptinSelenium($"document.{eventName}=function()" + "{return false;}", false);
         }
 
         public void DisableOnContextMenuOnDocument(Func<CustomWebBrowserControlEventHandler> getControlEventHandler,
             Action<CustomWebBrowserControlEventHandler> setControlEventHandler)
         {
+            if (!Enabled)
+            {
+                return;
+            }
             DisableEventOnDocument("oncontextmenu", getControlEventHandler, setControlEventHandler);
         }
 
@@ -78,44 +114,76 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            ExecuteJavascriptinSelenium($"document.getElementById''{controlId}).{eventName}=null;");
+            if (!Enabled)
+            {
+                return;
+            }
+            ExecuteJavascriptinSelenium($"document.getElementById('{controlId}').{eventName}=null;", false);
         }
 
         public void EnableEventOnDocument(string eventName,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
-            ExecuteJavascriptinSelenium($"document.{eventName}=null");
+            if (!Enabled)
+            {
+                return;
+            }
+            ExecuteJavascriptinSelenium($"document.{eventName}=null", false);
         }
 
         public void EnableOnContextMenuToDocument(Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
         {
+            if (!Enabled)
+            {
+                return;
+            }
             EnableEventOnDocument("oncontextmenu", getCustomEventHandler, setCustomEventHandler);
         }
 
         public dynamic ExecuteJavascript(string javascriptToExecute)
         {
-            return ExecuteJavascriptinSelenium(javascriptToExecute);
+            if (!Enabled)
+            {
+                return null;
+            }
+            return ExecuteJavascriptinSelenium(javascriptToExecute, false);
         }
 
         public dynamic FindElementByAttributeValue(string tagName, string attribute, string value)
         {
+            if (!Enabled)
+            {
+                return null;
+            }
             return _webBrowser.WebDriver.FindElement(By.CssSelector($"{attribute}={value}"));
         }
 
         public IEnumerable<IWebElement> FindElementsByAttributeValue(string tagName, string attribute, string value)
         {
+            if (!Enabled)
+            {
+                return null;
+            }
             return _webBrowser.WebDriver.FindElements(By.CssSelector($"{attribute}={value}"));
         }
 
         public IWebElement GetElementById(string controlId)
         {
+            if (!Enabled)
+            {
+                return null;
+            }
             return _webBrowser.WebDriver.FindElement(By.Id(controlId));
         }
 
         public IEnumerable<IWebElement> GetElementsByCssQuery(string cssQuery)
         {
+            if (!Enabled)
+            {
+                return null;
+            }
             return _webBrowser.WebDriver.FindElements(By.CssSelector(cssQuery));
         }
 
@@ -125,21 +193,7 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             {
                 return null;
             }
-            var variablePath = variable.Split('.');
-            var i = 0;
-            object result = null;
-            var variableName = "window";
-            while (i < variablePath.Length)
-            {
-                variableName = variableName + "." + variablePath[i];
-                result = InjectAndExecuteJavascript(variableName);
-                if (result == null)
-                {
-                    return null;
-                }
-                i++;
-            }
-            return result;
+            return ScriptHelper.GetGlobalVariable(variable, InjectAndExecuteJavascript);
         }
 
         public dynamic InjectAndExecuteJavascript(string javascriptToExecute)
@@ -153,22 +207,51 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
 
         public void AddJavascriptByUrl(string scriptUrl)
         {
-            ExecuteJavascriptInSelenium(scriptUrl);
+            if (!Enabled)
+            {
+                return;
+            }
+            AddScriptByUrlInSelenium(scriptUrl);
         }
 
-        private dynamic ExecuteJavascriptinSelenium(string script)
+        private void AddScriptByUrlInSelenium(string scriptUrl)
         {
-            var javaScriptExecutor = _webBrowser.WebDriver as IJavaScriptExecutor;
-            return javaScriptExecutor?.ExecuteScript(
-                script);
-        }
-
-        private void ExecuteJavascriptInSelenium(string scriptUrl)
-        {
+            if (!Enabled)
+            {
+                return;
+            }
             ExecuteJavascriptinSelenium("var script=document.createElement('script');" +
-                                        "script.setAttribute('type','text/javascript')" +
-                                        $"script.setAttribute('src','{scriptUrl}')" +
-                                        "document.getElementsByTagName('head')[0].appendChild(script);");
+                                        "script.setAttribute('type','text/javascript');" +
+                                        $"script.setAttribute('src','{scriptUrl}');" +
+                                        "document.getElementsByTagName('head')[0].appendChild(script);", false);
+        }
+
+        private dynamic ExecuteJavascriptinSelenium(string script, bool waitForDocumentReady)
+        {
+            if (!Enabled)
+            {
+                return null;
+            }
+            var javaScriptExecutor = _webBrowser.WebDriver as IJavaScriptExecutor;
+            var executeJavascriptinSelenium = javaScriptExecutor?.ExecuteScript(
+                script);
+            if (waitForDocumentReady)
+            {
+                WaitForDocumentReady(null);
+            }
+            return executeJavascriptinSelenium;
+        }
+
+        private string GetCurrentUrl()
+        {
+            if (!Enabled)
+            {
+                return null;
+            }
+            var url = GetGlobalVariable("document.location");
+            if (url == null)
+                return null;
+            return url["href"];
         }
 
         public static WebBrowserExtensionSelenium GetInstance(ChromeWrapperControl webBrowser)
@@ -180,8 +263,9 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             return WebBrowserExtensionSeleniums[webBrowser];
         }
 
-        private void WaitUntilDocumentIsReady()
+        private void WaitUntilDocumentIsReady(object param)
         {
+            var targetUrl = param as string;
             var javaScriptExecutor = _webBrowser.WebDriver as IJavaScriptExecutor;
             var wait = new WebDriverWait(_webBrowser.WebDriver, TimeToWaitPageLoad);
 
@@ -189,11 +273,20 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             var readyCondition = new Func<IWebDriver, bool>(webDriver =>
             {
                 var executeScript = javaScriptExecutor?.ExecuteScript(
-                    "return (document.readyState == 'complete' && jQuery.active == 0)");
-                return executeScript != null && (bool) executeScript;
+                    "return (document.readyState == 'complete');");
+                var value = executeScript != null && (bool) executeScript;
+                var returnValue = value && targetUrl != null  && GetCurrentUrl().ToLower().StartsWith(targetUrl.ToLower());
+                return returnValue;
             });
-            wait.Until(readyCondition);
-            Application.Current.Dispatcher.Invoke(() => { DocumentReady?.Invoke(this, EventArgs.Empty); });
+            try
+            {
+                wait.Until(readyCondition);
+                Application.Current.Dispatcher.Invoke(() => { DocumentReady?.Invoke(this, EventArgs.Empty); });
+            }
+            catch (Exception e)
+            {
+                Debug.Write($"Exception waitning document ready: {e}");
+            }
         }
     }
 }

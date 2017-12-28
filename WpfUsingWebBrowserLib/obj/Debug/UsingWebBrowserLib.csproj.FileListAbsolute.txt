@@ -115,4 +115,3 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebDriver.
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\HostAppInPanelLib.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebBrowserLib.Selenium.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebDriver.xml
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\HostAppInPanelLib.pdb

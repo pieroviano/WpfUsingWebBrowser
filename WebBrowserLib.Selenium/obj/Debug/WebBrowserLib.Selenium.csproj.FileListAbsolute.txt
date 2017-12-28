@@ -12,5 +12,3 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\log4net.x
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebDriver.xml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\HostAppInPanelLib.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WpfAdornedControl.pdb
