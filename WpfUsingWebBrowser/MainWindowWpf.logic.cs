@@ -6,6 +6,7 @@ using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
 using WebBrowserLib.Extensions;
 using WebBrowserLib.Helpers;
+using WebBrowserLib.Interfaces;
 using WebBrowserLib.Wpf.WebBrowserControl;
 using WpfAdornedControl.WpfControls.Extensions;
 
@@ -22,16 +23,17 @@ namespace UsingWebBrowserFromWpf
         {
             var comVisibleClass = new ComVisibleClass();
             comVisibleClass.HitBreakpoint = false;
+            var javascriptExecutor = ((_controller.WebBrowserExtension as IJavascriptExecutor) as IJavascriptExecutor);
             comVisibleClass.EventFromComVisibleClass += (sender, args) =>
             {
                 IdentityServerLogic.SetAuthorization(null);
-                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.LogoutJavascript);
+                javascriptExecutor?.ExecuteJavascript(_model.LogoutJavascript);
             };
-            var registerCsCodeCallableFromJavascript = (_controller.WebBrowserExtensionWithEvent as WebBrowserExtensionWpf)?
+            var registerCsCodeCallableFromJavascript = ((_controller.WebBrowserExtension as IJavascriptExecutor) as WebBrowserExtensionWpf)?
                 .RegisterCsCodeCallableFromJavascript(ref comVisibleClass);
             var javascriptToExecute = "document.all['logout'].onclick = function(){" +
                                       registerCsCodeCallableFromJavascript + "}";
-            _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(javascriptToExecute);
+            javascriptExecutor?.ExecuteJavascript(javascriptToExecute);
         }
 
         private void CustomComVisibleClass_RaisedEvent(object sender, EventArgs e)
@@ -58,6 +60,7 @@ namespace UsingWebBrowserFromWpf
 
         private void HandleScripts(bool isIdentityServer, string url)
         {
+            var javascriptExecutor = (_controller.WebBrowserExtension as IJavascriptExecutor);
             if (!isIdentityServer)
             {
 #if DEBUG
@@ -65,7 +68,7 @@ namespace UsingWebBrowserFromWpf
                 customComVisibleClass.RaisedEvent += CustomComVisibleClass_RaisedEvent;
                 Func<bool> customEventDelegate = customComVisibleClass.CodeToExecute;
                 var functionHash = customEventDelegate.GetFullNameHashCode();
-                var webBrowserExtensionWpf = _controller.WebBrowserExtensionWithEvent as WebBrowserExtensionWpf;
+                var webBrowserExtensionWpf = _controller.WebBrowserExtension  as WebBrowserExtensionWpf;
                 webBrowserExtensionWpf?.AttachCustomFunctionOnDocument(
                     "onclick",
                     customEventDelegate, functionHash,
@@ -74,13 +77,13 @@ namespace UsingWebBrowserFromWpf
 #endif
                 if (!_model.DontDisableOnSelectionStartToDocument)
                 {
-                    _controller.WebBrowserExtensionWithEvent
-                        .InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
+                    javascriptExecutor?
+                        .ExecuteJavascript(_model.IgnoreOnSelectStart);
                 }
                 if (!_model.DontDisableOnContextMenuToDocument)
                 {
-                    _controller.WebBrowserExtensionWithEvent
-                        .InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
+                    javascriptExecutor?
+                        .ExecuteJavascript(_model.IgnoreOnContextMenu);
                 }
                 bool isIndexPage;
                 _controller.ProcessIndexOrCallbackFromidentityServer(url,
@@ -88,8 +91,8 @@ namespace UsingWebBrowserFromWpf
                     out isIndexPage);
                 if (isIndexPage)
                 {
-                    _controller.WebBrowserExtensionWithEvent
-                        .InjectAndExecuteJavascript("$(function(){$('#login').hide();})");
+                    javascriptExecutor?
+                        .ExecuteJavascript("$(function(){$('#login').hide();})");
                     AttachEventHandlerToControl();
                     GetAuthenticationDictionary();
                 }
@@ -101,8 +104,8 @@ namespace UsingWebBrowserFromWpf
                     LoadingAdornerExtension.StartStopWait(LoadingAdorner,WebBrowser);
                     _alreadyEntered = true;
                 }
-                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
-                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
+                javascriptExecutor.ExecuteJavascript(_model.IgnoreOnSelectStart);
+                javascriptExecutor.ExecuteJavascript(_model.IgnoreOnContextMenu);
             }
         }
 
@@ -110,11 +113,11 @@ namespace UsingWebBrowserFromWpf
         {
             if (hasToLogin)
             {
-                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.LoginJavascript);
+                (_controller.WebBrowserExtension as IJavascriptExecutor)?.ExecuteJavascript(_model.LoginJavascript);
             }
             else if (hasToNavigate)
             {
-                _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+                _controller.WebBrowserExtension.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
             }
         }
     }

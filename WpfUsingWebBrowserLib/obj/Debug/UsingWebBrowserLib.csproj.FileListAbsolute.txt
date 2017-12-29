@@ -110,8 +110,8 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\System.Xml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\System.Xml.XmlSerializer.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\System.Xml.XPath.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\System.Xml.XPath.XDocument.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebBrowserLib.Selenium.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebDriver.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\HostAppInPanelLib.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebBrowserLib.Selenium.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebDriver.xml
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebBrowserLib.ChromeSelenium.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowserLib\bin\Debug\WebBrowserLib.ChromeSelenium.pdb

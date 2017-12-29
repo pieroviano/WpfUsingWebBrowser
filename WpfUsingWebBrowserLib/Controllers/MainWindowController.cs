@@ -6,13 +6,11 @@ using UsingWebBrowserLib.Controllers.Logic;
 using UsingWebBrowserLib.Model;
 using WebBrowserLib.EventHandling;
 using WebBrowserLib.Interfaces;
-using WebBrowserLib.Selenium.WebBrowserControl;
 
 namespace UsingWebBrowserLib.Controllers
 {
     public class MainWindowController<THtmlElementType>
     {
-        public IWebBrowserExtensionWithEventBase<THtmlElementType> WebBrowserExtensionWithEvent { get; }
         private readonly MainWindowModel _model;
 
 
@@ -21,8 +19,10 @@ namespace UsingWebBrowserLib.Controllers
         {
             _model = model;
             instance.Enabled = _model.WebBrowserExtensionEnabled;
-            WebBrowserExtensionWithEvent = instance;
+            WebBrowserExtension = instance;
         }
+
+        public IWebBrowserExtensionWithEventBase<THtmlElementType> WebBrowserExtension { get; }
 
 
         public async Task<Tuple<bool, bool>> DoCallApi(string url, Delegate messageBoxShow)
@@ -72,16 +72,31 @@ namespace UsingWebBrowserLib.Controllers
         public string HandleStatusAndGetUrl(out bool isIdentityServer, string url)
         {
             isIdentityServer = false;
-            string returnValue;
+            string returnValue = null;
             if (!MainWindowModel.IsIdentityServerUrl(url))
             {
-                WebBrowserExtensionWithEvent.AddJQueryElement();
+                WebBrowserExtension.AddJQueryElement();
                 returnValue = "";
             }
             else
             {
                 isIdentityServer = true;
-                returnValue = url.Substring(0, url.LastIndexOf('?'));
+                if (url != null)
+                {
+                    returnValue = url.Substring(0, url.LastIndexOf('?'));
+                    var documentWaiter = WebBrowserExtension as IDocumentWaiter;
+                    var targetUrl = MainWindowModel.IdentityServerSite + "consent";
+                    var otherTargetUrl = MainWindowModel.IdentityServerSite + "account/logout";
+                    if (url.ToLower().StartsWith(otherTargetUrl.ToLower()))
+                    {
+                        var modelIndexPage = MainWindowModel.IndexUrl;
+                        documentWaiter?.WaitForDocumentReady(modelIndexPage);
+                    }
+                    else if (!url.ToLower().StartsWith(targetUrl.ToLower()))
+                    {
+                        documentWaiter?.WaitForDocumentReady(targetUrl);
+                    }
+                }
             }
             return returnValue;
         }

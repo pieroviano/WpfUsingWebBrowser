@@ -4,7 +4,7 @@ using UsingWebBrowserLib.Model;
 using WebBrowserLib.Interfaces;
 using WpfAdornedControl.WpfControls.Extensions;
 
-namespace UsingSeleniumFromWpf
+namespace UsingChromeSeleniumFromWpf
 {
     public partial class MainWindow
     {
@@ -13,27 +13,21 @@ namespace UsingSeleniumFromWpf
 
         private bool _alreadyEntered;
 
-        private string GetCurrentUrl()
-        {
-            var url = _controller.WebBrowserExtensionWithEvent.GetGlobalVariable("document.location");
-            if (url == null)
-                return null;
-            return url["href"];
-        }
-
         private void HandleScripts(bool isIdentityServer, string url)
         {
+            var browserExtensionJavascript = _controller.WebBrowserExtension as IWebBrowserExtensionJavascript;
             if (!isIdentityServer)
             {
+                var javascriptExecutor = _controller.WebBrowserExtension as IJavascriptExecutor;
                 if (!_model.DontDisableOnSelectionStartToDocument)
                 {
-                    _controller.WebBrowserExtensionWithEvent
-                        .InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
+                    javascriptExecutor?
+                        .ExecuteJavascript(_model.IgnoreOnSelectStart);
                 }
                 if (!_model.DontDisableOnContextMenuToDocument)
                 {
-                    _controller.WebBrowserExtensionWithEvent
-                        .InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
+                    var webBrowserExtensionJavascript = browserExtensionJavascript;
+                    webBrowserExtensionJavascript?.DisableOnContextMenuOnDocument();
                 }
                 bool isIndexPage;
                 _controller.ProcessIndexOrCallbackFromidentityServer(url,
@@ -41,9 +35,12 @@ namespace UsingSeleniumFromWpf
                     out isIndexPage);
                 if (isIndexPage)
                 {
-                    _controller.WebBrowserExtensionWithEvent
-                        .InjectAndExecuteJavascript("login();");
-                    var documentWaiter = _controller.WebBrowserExtensionWithEvent as IDocumentWaiter;
+                    if (!_alreadyEntered)
+                    {
+                        javascriptExecutor?
+                            .ExecuteJavascript("login();");
+                    }
+                    var documentWaiter = _controller.WebBrowserExtension as IDocumentWaiter;
                     documentWaiter?.WaitForDocumentReady(MainWindowModel.IdentityServerUrl);
                 }
             }
@@ -54,9 +51,15 @@ namespace UsingSeleniumFromWpf
                     WebBrowser.LoadingAdornerControl.StartStopWait(WebBrowser);
                     _alreadyEntered = true;
                 }
-                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnSelectStart);
-                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.IgnoreOnContextMenu);
-                var documentWaiter = _controller.WebBrowserExtensionWithEvent as IDocumentWaiter;
+                if (!_model.DontDisableOnSelectionStartToDocument)
+                {
+                    browserExtensionJavascript?.ExecuteJavascript(_model.IgnoreOnSelectStart);
+                }
+                if (!_model.DontDisableOnContextMenuToDocument)
+                {
+                    browserExtensionJavascript?.DisableOnContextMenuOnDocument();
+                }
+                var documentWaiter = _controller.WebBrowserExtension as IDocumentWaiter;
                 documentWaiter?.WaitForDocumentReady(MainWindowModel.CallBackUrl);
             }
         }
@@ -65,11 +68,11 @@ namespace UsingSeleniumFromWpf
         {
             if (hasToLogin)
             {
-                _controller.WebBrowserExtensionWithEvent.InjectAndExecuteJavascript(_model.LoginJavascript);
+                _controller.WebBrowserExtension?.ExecuteJavascript(_model.LoginJavascript);
             }
             else if (hasToNavigate)
             {
-                _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+                _controller.WebBrowserExtension.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
             }
         }
     }

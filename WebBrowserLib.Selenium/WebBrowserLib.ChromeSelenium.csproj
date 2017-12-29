@@ -7,8 +7,8 @@
     <ProjectGuid>{9B380EF2-1168-420D-B864-44C7FD827674}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebBrowserLib.Selenium</RootNamespace>
-    <AssemblyName>WebBrowserLib.Selenium</AssemblyName>
+    <RootNamespace>WebBrowserLib.ChromeSelenium</RootNamespace>
+    <AssemblyName>WebBrowserLib.ChromeSelenium</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

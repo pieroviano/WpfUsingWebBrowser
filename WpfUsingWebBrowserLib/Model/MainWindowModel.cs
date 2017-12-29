@@ -43,6 +43,9 @@ namespace UsingWebBrowserLib.Model
 
         public static string IdentityServerUrl => ConfigurationManager.AppSettings["IdentityServerUrl"];
 
+        public static string IdentityServerSite => IdentityServerUrl.Substring(0,IdentityServerUrl.IndexOf("/",
+            IdentityServerUrl.LastIndexOf("//", StringComparison.Ordinal) + 3, StringComparison.Ordinal)+1);
+
         public static string ApiServerUrl => ConfigurationManager.AppSettings["ApiServerUrl"];
 
         public CustomWebBrowserControlEventHandler GetCustomEventHandler()

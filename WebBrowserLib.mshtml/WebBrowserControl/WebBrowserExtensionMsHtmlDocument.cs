@@ -23,10 +23,13 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
         public static WebBrowserExtensionMsHtmlDocument Instance { get; } = new WebBrowserExtensionMsHtmlDocument();
 
         public bool Enabled { get; set; } = true;
-        public bool JavascriptInjectionEnabled { get; set; } = true;
 
         public void AddJQueryElement(HTMLHeadElement head)
         {
+            if (!Enabled)
+            {
+                return;
+            }
             var htmlDocument = head.ownerDocument as HTMLDocument;
             var scriptEl = htmlDocument?.createElement("script") as HTMLScriptElement;
             var jQueryElement = (IHTMLScriptElement)scriptEl;
@@ -40,6 +43,10 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
 
         public void AddScriptElement(HTMLHeadElement head, string scriptBody)
         {
+            if (!Enabled)
+            {
+                return;
+            }
             var scriptEl = (head.ownerDocument as HTMLDocument)?.createElement("script") as HTMLScriptElement;
             if (scriptEl != null)
             {
@@ -286,6 +293,11 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
                 }
             }
             return ret;
+        }
+
+        public string GetCurrentUrl(HTMLDocument htmlDocument)
+        {
+            return htmlDocument.location.href;
         }
 
         public IHTMLElement GetElementById(HTMLDocument htmlDocument, string controlId)

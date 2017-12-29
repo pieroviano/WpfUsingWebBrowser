@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserLib", "WpfUs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserFromWinForm", "WinFormUsingWebBrowser\UsingWebBrowserFromWinForm.csproj", "{8825B87E-8525-4EE2-B1E2-74B2DC8A3030}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingSeleniumFromWpf", "WpfUsingSelenium\UsingSeleniumFromWpf.csproj", "{AF17CE70-2D77-4655-8BA2-BD9908B181AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingChromeSeleniumFromWpf", "WpfUsingSelenium\UsingChromeSeleniumFromWpf.csproj", "{AF17CE70-2D77-4655-8BA2-BD9908B181AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{1072F979-E52F-4FA6-BAAA-4B47944FFE85}"
 EndProject
@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{2EE622C4-52D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{EDDB1A85-2E6E-46DB-BAC5-E99E79219C85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.Selenium", "WebBrowserLib.Selenium\WebBrowserLib.Selenium.csproj", "{9B380EF2-1168-420D-B864-44C7FD827674}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.ChromeSelenium", "WebBrowserLib.Selenium\WebBrowserLib.ChromeSelenium.csproj", "{9B380EF2-1168-420D-B864-44C7FD827674}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

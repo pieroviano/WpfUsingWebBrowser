@@ -1,11 +1,11 @@
 ﻿using System;
 using HostAppInPanelLib.Utility;
-using UsingSeleniumFromWpf.Properties;
+using UsingChromeSeleniumFromWpf.Properties;
 using UsingWebBrowserLib.Model;
 using UsingWebBrowserLib.WebServer;
 using WebBrowserLib.mshtml.WebBrowserControl;
 
-namespace UsingSeleniumFromWpf
+namespace UsingChromeSeleniumFromWpf
 {
     internal class Program
     {
@@ -24,7 +24,7 @@ namespace UsingSeleniumFromWpf
                 });
             var ws = new EmbeddedWebServer(resourceResponseSender.SendResponse, MainWindowModel.UrlPrefix);
             ws.Run();
-            var wpfRunner = new WpfRunner(typeof(MainWindow));
+            var wpfRunner = new WpfRunner(typeof(UsingChromeSeleniumFromWpf.MainWindow));
             wpfRunner.RunWpfFromMain();
             ws.Stop();
         }

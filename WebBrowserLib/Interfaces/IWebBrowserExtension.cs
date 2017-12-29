@@ -8,8 +8,6 @@ namespace WebBrowserLib.Interfaces
     {
         bool Enabled { get; set; }
 
-        bool JavascriptInjectionEnabled { get; set; }
-
         void AttachEventHandlerToControl(TControl htmlDocument, string controlId,
             string eventName,
             object firstArgument, Func<bool> customEventDelegate, int functionHash,
@@ -56,6 +54,8 @@ namespace WebBrowserLib.Interfaces
 
         IEnumerable<THtmlElementType> FindElementsByAttributeValue(TControl htmlDocument, string tagName,
             string attribute, string value);
+
+        string GetCurrentUrl(TControl htmlDocument);
 
         THtmlElementType GetElementById(TControl htmlDocument, string controlId);
 

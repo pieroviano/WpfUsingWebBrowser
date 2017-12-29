@@ -26,7 +26,7 @@ namespace UsingWebBrowserFromWpf
             _controller =
                 new MainWindowController<IHTMLElement>(_model, WebBrowserExtensionWpf.GetInstance(WebBrowser));
 
-            (_controller.WebBrowserExtensionWithEvent as WebBrowserExtensionWpf)?.RemoveHandlersOnNavigating(
+            (_controller.WebBrowserExtension as WebBrowserExtensionWpf)?.RemoveHandlersOnNavigating(
                 _model.GetCustomEventHandler,
                 _model.SetCustomEventHandler);
             LoadingAdorner = AdornedControlWithLoadingWait.AdornControl(DockPanel, WebBrowser);
@@ -69,7 +69,7 @@ namespace UsingWebBrowserFromWpf
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadingAdorner.StartStopWait(WebBrowser);
-            _controller.WebBrowserExtensionWithEvent.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
+            _controller.WebBrowserExtension.Navigate(MainWindowModel.UrlPrefix + _model.IndexPage);
         }
     }
 }

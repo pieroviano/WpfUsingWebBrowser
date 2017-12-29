@@ -31,8 +31,8 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrows
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\UsingWebBrowserFromWpf.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\MainWindowWpf.baml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\obj\Debug\MainWindowWpf.g.cs
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WpfAdornedControl.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\HostAppInPanelLib.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WebDriver.dll
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\HostAppInPanelLib.pdb
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\WebDriver.xml
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\log4net.dll
+E:\Esempi Sviluppo\WpfUsingWebBrowser\WpfUsingWebBrowser\bin\Debug\log4net.xml

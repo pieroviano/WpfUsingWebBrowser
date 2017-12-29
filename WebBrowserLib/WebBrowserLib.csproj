@@ -44,6 +44,8 @@
     <Compile Include="Extensions\DelegateExtender.cs" />
     <Compile Include="Helpers\VersionPatcher.cs" />
     <Compile Include="Interfaces\IDocumentWaiter.cs" />
+    <Compile Include="Interfaces\IJavascriptExecutor.cs" />
+    <Compile Include="Interfaces\IWebBrowserExtensionJavascript.cs" />
     <Compile Include="Interfaces\IWebBrowserExtensionWithEventBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventHandling\CustomWebBrowserControlEventHandler.cs" />

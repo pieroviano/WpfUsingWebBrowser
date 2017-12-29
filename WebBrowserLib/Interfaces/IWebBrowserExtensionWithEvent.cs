@@ -4,10 +4,9 @@ using WebBrowserLib.Helpers;
 
 namespace WebBrowserLib.Interfaces
 {
-    public interface
-        IWebBrowserExtensionWithEvent<out THtmlElementType> : IWebBrowserExtensionWithEventBase<THtmlElementType>
+    public interface IWebBrowserExtensionWithEvent<out THtmlElementType> :
+        IWebBrowserExtensionWithEventBase<THtmlElementType>
     {
-        bool JavascriptInjectionEnabled { get; set; }
 
         void AttachCustomFunctionOnControl(string controlId, string eventName,
             Func<bool> codeToExecute,
@@ -32,6 +31,31 @@ namespace WebBrowserLib.Interfaces
         void DetachEventHandlersFromControl(string controlId,
             bool removeHandlers = false,
             params string[] eventNames);
+
+        void DisableEventOnControl(string controlId, string eventName,
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
+
+        void DisableEventOnDocument(string eventName,
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
+
+        void DisableOnContextMenuOnDocument(
+            Func<CustomWebBrowserControlEventHandler> getControlEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setControlEventHandler);
+
+
+        void EnableEventOnControl(string controlId, string eventName,
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
+
+        void EnableEventOnDocument(string eventName,
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
+
+        void EnableOnContextMenuToDocument(
+            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
+            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
 
         string RegisterCsCodeCallableFromJavascript(ref ComVisibleClass comVisibleClass);
 

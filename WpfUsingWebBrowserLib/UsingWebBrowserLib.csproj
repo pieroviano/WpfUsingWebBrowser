@@ -50,8 +50,8 @@
     <Reference Include="WebDriver">
       <HintPath>..\packages\Selenium.WebDriver.3.8.0\lib\netstandard2.0\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WpfAdornedControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfAdornedControl.PieroViano.1.0.0\lib\net461\WpfAdornedControl.dll</HintPath>
+    <Reference Include="WpfAdornedControl, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAdornedControl.PieroViano.1.0.0.2\lib\net461\WpfAdornedControl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -83,9 +83,9 @@
     <None Include="Resources\oidc-client.js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebBrowserLib.Selenium\WebBrowserLib.Selenium.csproj">
+    <ProjectReference Include="..\WebBrowserLib.Selenium\WebBrowserLib.ChromeSelenium.csproj">
       <Project>{9B380EF2-1168-420D-B864-44C7FD827674}</Project>
-      <Name>WebBrowserLib.Selenium</Name>
+      <Name>WebBrowserLib.ChromeSelenium</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebBrowserLib\WebBrowserLib.csproj">
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>

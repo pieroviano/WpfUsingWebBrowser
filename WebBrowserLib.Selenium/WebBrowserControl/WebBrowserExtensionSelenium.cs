@@ -10,9 +10,9 @@ using WebBrowserLib.EventHandling;
 using WebBrowserLib.Helpers;
 using WebBrowserLib.Interfaces;
 
-namespace WebBrowserLib.Selenium.WebBrowserControl
+namespace WebBrowserLib.ChromeSelenium.WebBrowserControl
 {
-    public class WebBrowserExtensionSelenium : IWebBrowserExtensionWithEventBase<IWebElement>, IDocumentWaiter
+    public class WebBrowserExtensionSelenium : IWebBrowserExtensionWithEventBase<IWebElement>, IWebBrowserExtensionJavascript, IDocumentWaiter
     {
         private static readonly Dictionary<ChromeWrapperControl, WebBrowserExtensionSelenium>
             WebBrowserExtensionSeleniums =
@@ -25,7 +25,7 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             _webBrowser = webBrowser;
         }
 
-        public TimeSpan TimeToWaitPageLoad { get; set; } = TimeSpan.FromSeconds(60);
+        public TimeSpan TimeToWaitPageLoad { get; set; } = TimeSpan.FromSeconds(60*5);
 
         public bool JavascriptInjectionEnabled { get; set; } = true;
 
@@ -75,44 +75,39 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             WaitForDocumentReady(targetUrl);
         }
 
-        public void DisableEventOnControl(string controlId, string eventName,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        public void DisableEventOnControl(string controlId, string eventName, string customFunctionBody = "return false")
         {
             if (!Enabled)
             {
                 return;
             }
             ExecuteJavascriptinSelenium($"document.getElementById('{controlId}').{eventName}=function()" +
-                                        "{return false;}", false);
+                                        "{"+customFunctionBody+"}", false);
         }
 
-        public void DisableEventOnDocument(string eventName,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        public void DisableEventOnDocument(string eventName, string customFunctionBody = "return false")
         {
             if (!Enabled)
             {
                 return;
             }
-            ExecuteJavascriptinSelenium($"document.{eventName}=function()" + "{return false;}", false);
+            ExecuteJavascriptinSelenium($"document.{eventName}=function()" + "{"+customFunctionBody+"}", false);
         }
 
-        public void DisableOnContextMenuOnDocument(Func<CustomWebBrowserControlEventHandler> getControlEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setControlEventHandler)
+        public void DisableOnContextMenuOnDocument()
         {
             if (!Enabled)
             {
                 return;
             }
-            DisableEventOnDocument("oncontextmenu", getControlEventHandler, setControlEventHandler);
+            DisableEventOnDocument("oncontextmenu");
+            DisableEventOnDocument("onmousedown", "if (e.which==3) {return false;}");
+
         }
 
         public event EventHandler DocumentReady;
 
-        public void EnableEventOnControl(string controlId, string eventName,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        public void EnableEventOnControl(string controlId, string eventName)
         {
             if (!Enabled)
             {
@@ -121,9 +116,7 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             ExecuteJavascriptinSelenium($"document.getElementById('{controlId}').{eventName}=null;", false);
         }
 
-        public void EnableEventOnDocument(string eventName,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        public void EnableEventOnDocument(string eventName)
         {
             if (!Enabled)
             {
@@ -132,14 +125,13 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             ExecuteJavascriptinSelenium($"document.{eventName}=null", false);
         }
 
-        public void EnableOnContextMenuToDocument(Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
+        public void EnableOnContextMenuToDocument()
         {
             if (!Enabled)
             {
                 return;
             }
-            EnableEventOnDocument("oncontextmenu", getCustomEventHandler, setCustomEventHandler);
+            EnableEventOnDocument("oncontextmenu");
         }
 
         public dynamic ExecuteJavascript(string javascriptToExecute)
@@ -242,7 +234,7 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
             return executeJavascriptinSelenium;
         }
 
-        private string GetCurrentUrl()
+        public string GetCurrentUrl()
         {
             if (!Enabled)
             {
@@ -275,7 +267,8 @@ namespace WebBrowserLib.Selenium.WebBrowserControl
                 var executeScript = javaScriptExecutor?.ExecuteScript(
                     "return (document.readyState == 'complete');");
                 var value = executeScript != null && (bool) executeScript;
-                var returnValue = value && targetUrl != null  && GetCurrentUrl().ToLower().StartsWith(targetUrl.ToLower());
+                var currentUrl = GetCurrentUrl();
+                var returnValue = value && targetUrl != null && currentUrl != null && currentUrl.ToLower().StartsWith(targetUrl.ToLower());
                 return returnValue;
             });
             try
