@@ -4,8 +4,5 @@
 
 /.vs
 /packages
-[Bb]in/
-[Oo]bj/
-*.user
-*.cache
-**.dll
+[Bb]in
+[Oo]bj
