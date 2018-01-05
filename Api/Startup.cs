@@ -37,6 +37,12 @@ namespace Api
                     policy.WithOrigins("http://localhost:5005")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
+                    policy.WithOrigins("http://localhost:5006")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    policy.WithOrigins("http://localhost:5007")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
         }

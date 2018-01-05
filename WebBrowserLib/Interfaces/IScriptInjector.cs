@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace WebBrowserLib.Interfaces
 {
-    public interface IScriptInjector<in THead>
+    public interface IScriptInjector<in TDocument, TElement>
     {
-        void AddJQueryElement(THead head);
-        void AddScriptByUrl(THead head, string scriptUrl);
-        void AddScriptElement(THead head, string scriptBody);
+        List<TElement> GetJQueryScriptsElements(TDocument document);
+        List<TElement> GetScriptsElements(TDocument document, string scriptUrl);
+        List<TElement> CreateScriptElement(TDocument document, string scriptBody);
     }
 }

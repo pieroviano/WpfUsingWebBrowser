@@ -73,9 +73,9 @@ namespace UsingWebBrowserLib.Controllers
         {
             isIdentityServer = false;
             string returnValue = null;
-            if (!MainWindowModel.IsIdentityServerUrl(url))
+            if (!_model.IsIdentityServerUrl(url))
             {
-                WebBrowserExtension.AddJQueryElement();
+                WebBrowserExtension.AddJQueryScript(@"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js");
                 returnValue = "";
             }
             else
@@ -85,11 +85,11 @@ namespace UsingWebBrowserLib.Controllers
                 {
                     returnValue = url.Substring(0, url.LastIndexOf('?'));
                     var documentWaiter = WebBrowserExtension as IDocumentWaiter;
-                    var targetUrl = MainWindowModel.IdentityServerSite + "consent";
-                    var otherTargetUrl = MainWindowModel.IdentityServerSite + "account/logout";
+                    var targetUrl = _model.IdentityServerSite + "consent";
+                    var otherTargetUrl = _model.IdentityServerSite + "account/logout";
                     if (url.ToLower().StartsWith(otherTargetUrl.ToLower()))
                     {
-                        var modelIndexPage = MainWindowModel.IndexUrl;
+                        var modelIndexPage = _model.IndexUrl;
                         documentWaiter?.WaitForDocumentReady(modelIndexPage);
                     }
                     else if (!url.ToLower().StartsWith(targetUrl.ToLower()))

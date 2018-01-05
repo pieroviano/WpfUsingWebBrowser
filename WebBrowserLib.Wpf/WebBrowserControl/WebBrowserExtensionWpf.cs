@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using mshtml;
 using WebBrowserLib.EventHandling;
 using WebBrowserLib.Extensions;
@@ -14,45 +19,55 @@ using WebBrowserLib.Wpf.Utility;
 
 namespace WebBrowserLib.Wpf.WebBrowserControl
 {
-    public class WebBrowserExtensionWpf : IWebBrowserExtensionWithEvent<IHTMLElement>
+    public class WebBrowserExtensionWpf : IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>
     {
         private static readonly Dictionary<WebBrowser, WebBrowserExtensionWpf> WebBrowserExtensionWpfs =
             new Dictionary<WebBrowser, WebBrowserExtensionWpf>();
 
-        private readonly WebBrowser _webBrowser;
-
         private WebBrowserExtensionWpf(WebBrowser webBrowser)
         {
-            _webBrowser = webBrowser;
-            _webBrowser.Loaded += (sender, args) => { DocumentReady?.Invoke(this, args); };
+            Browser = webBrowser;
+            Browser.Loaded += (sender, args) => { DocumentReady?.Invoke(this, args); };
         }
+
+        public WebBrowser Browser { get; }
+
+        public string DocumentEventPrefix
+        {
+            get => ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.DocumentEventPrefix;
+            set => ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.DocumentEventPrefix = value;
+        }
+
+        IBaseWebBrowserExtension<HTMLDocument, IHTMLElement> IWebBrowserExtensionWithEvent<IHTMLElement,
+            HTMLDocument, IHTMLElement>.WebBrowserExtension => WebBrowserExtensionMsHtmlDocument.Instance;
 
 
         public bool Enabled
         {
-            get => WebBrowserExtensionMsHtmlDocument.Instance.Enabled;
-            set => WebBrowserExtensionMsHtmlDocument.Instance.Enabled = value;
+            get => ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.Enabled;
+            set => ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.Enabled = value;
         }
 
-        public void AddJQueryElement()
+        public void AddScriptsElements(string scriptUrl)
         {
             if (!Enabled)
             {
                 return;
             }
-            var head = (HTMLHeadElement) ((HTMLDocument) _webBrowser.Document)?.getElementsByTagName("head").item(0);
+            var htmlDocument = Browser.Document as HTMLDocument;
 
-            if (head != null)
+            EnsureScriptIsInCache(scriptUrl);
+            var scriptsElements = ((WebBrowserExtensionMsHtmlDocument) (
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension).GetScriptsElements(htmlDocument, scriptUrl);
+            var item = htmlDocument?.getElementsByTagName("head").item(null, 0) as HTMLHeadElement;
+            foreach (var scriptsElement in scriptsElements)
             {
-                var htmlDocument = head.ownerDocument as HTMLDocument;
-                var scriptEl = htmlDocument?.createElement("script") as HTMLScriptElement;
-                var jQueryElement = (IHTMLScriptElement) scriptEl;
-                if (jQueryElement != null)
-                {
-                    jQueryElement.src = @"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js";
-                }
-
-                head.appendChild((IHTMLDOMNode) scriptEl);
+                item?.appendChild(scriptsElement as IHTMLDOMNode);
             }
         }
 
@@ -62,7 +77,7 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return;
             }
-            var head = (HTMLHeadElement) ((HTMLDocument) _webBrowser.Document)?.getElementsByTagName("head").item(0);
+            var head = (HTMLHeadElement) ((HTMLDocument) Browser.Document)?.getElementsByTagName("head").item(0);
             var scriptEl = (head?.ownerDocument as HTMLDocument)?.createElement("script") as HTMLScriptElement;
             if (scriptEl != null)
             {
@@ -78,7 +93,7 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return;
             }
-            _webBrowser.Navigate(targetUrl);
+            Browser.Navigate(targetUrl);
         }
 
         public void AttachEventHandlerToControl(string controlId, string eventName,
@@ -90,11 +105,12 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToControl(htmlDocument, controlId, eventName,
-                firstArgument,
-                customEventDelegate,
-                functionHash, getCustomEventHandler, setCustomEventHandler, removeHandlers);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.AttachEventHandlerToControl(htmlDocument, controlId, eventName,
+                    firstArgument,
+                    customEventDelegate,
+                    functionHash, getCustomEventHandler, setCustomEventHandler, removeHandlers);
         }
 
         public void AttachEventHandlerToDocument(string eventName,
@@ -106,11 +122,12 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToDocument(htmlDocument, eventName,
-                firstArgument,
-                customEventDelegate, functionHash,
-                getCustomEventHandler, setCustomEventHandler);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.AttachEventHandlerToDocument(htmlDocument, eventName,
+                    firstArgument,
+                    customEventDelegate, functionHash,
+                    getCustomEventHandler, setCustomEventHandler);
         }
 
         public void DetachEventHandlersFromControl(string controlId,
@@ -220,6 +237,30 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
                 "oncontextmenu", functionHash, getCustomEventHandler);
         }
 
+        public void EnsureScriptIsInCache(string url)
+        {
+            var webBrowser = new WebBrowser();
+            var formattableString = $"<html><head><script type='text/javascript' src='{url}'></script></head></html>";
+            var combine = Path.Combine(Environment.GetEnvironmentVariable("TEMP"),Guid.NewGuid()+ ".htm");
+            var streamWriter = new StreamWriter(File.OpenWrite(combine));
+            streamWriter.Write(formattableString);
+            streamWriter.Close();
+            webBrowser.Navigate(combine);
+            var webBrowserExtensionMsHtmlDocument = ((WebBrowserExtensionMsHtmlDocument) (
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension);
+            var expression = webBrowserExtensionMsHtmlDocument.EvaluateExpression(Browser.Document as HTMLDocument, "document.readyState=='complete'");
+            while (expression as string!="true")
+            {
+                expression = webBrowserExtensionMsHtmlDocument.EvaluateExpression(Browser.Document as HTMLDocument, "eval(document.readyState=='complete')");
+                Application.Current.Dispatcher.Invoke(
+                    DispatcherPriority.Background,
+                    new ThreadStart(delegate { }));
+            }
+            webBrowser.Dispose();
+            File.Delete(combine);
+        }
+
         public dynamic FindElementByAttributeValue(string tagName, string attribute,
             string value)
         {
@@ -227,9 +268,11 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return null;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
+            var htmlDocument = Browser.Document as HTMLDocument;
 
-            return WebBrowserExtensionMsHtmlDocument.Instance.FindElementByAttributeValue(htmlDocument, tagName,
+            return ((WebBrowserExtensionMsHtmlDocument) (
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension).FindElementByAttributeValue(htmlDocument, tagName,
                 attribute, value);
         }
 
@@ -240,8 +283,10 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return null;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            return WebBrowserExtensionMsHtmlDocument.Instance.FindElementsByAttributeValue(htmlDocument, tagName,
+            var htmlDocument = Browser.Document as HTMLDocument;
+            return ((WebBrowserExtensionMsHtmlDocument) (
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension).FindElementsByAttributeValue(htmlDocument, tagName,
                 attribute, value);
         }
 
@@ -251,8 +296,10 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return null;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            return WebBrowserExtensionMsHtmlDocument.Instance.GetCurrentUrl(htmlDocument);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            return ((WebBrowserExtensionMsHtmlDocument) (
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension).GetCurrentUrl(htmlDocument);
         }
 
         public IHTMLElement GetElementById(string controlId)
@@ -261,8 +308,9 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return null;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            return WebBrowserExtensionMsHtmlDocument.Instance.GetElementById(htmlDocument, controlId);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            return ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.GetElementById(htmlDocument, controlId);
         }
 
         public IEnumerable<IHTMLElement> GetElementsByCssQuery(
@@ -272,8 +320,10 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return null;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            return WebBrowserExtensionMsHtmlDocument.Instance.GetElementsByCssQuery(htmlDocument, cssQuery);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            return ((WebBrowserExtensionMsHtmlDocument) (
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension).GetElementsByCssQuery(htmlDocument, cssQuery);
         }
 
         public dynamic GetGlobalVariable(string variable)
@@ -282,7 +332,22 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return null;
             }
-            return ScriptHelper.GetGlobalVariable(variable, ExecuteJavascript);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            return ((WebBrowserExtensionMsHtmlDocument)(
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>)this)
+                .WebBrowserExtension).GetGlobalVariable(htmlDocument, variable);
+        }
+
+        public dynamic EvaluateExpression(string variable)
+        {
+            if (!Enabled)
+            {
+                return null;
+            }
+            var htmlDocument = Browser.Document as HTMLDocument;
+            return ((WebBrowserExtensionMsHtmlDocument)(
+                    (IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>)this)
+                .WebBrowserExtension).EvaluateExpression(htmlDocument, variable);
         }
 
         public dynamic ExecuteJavascript(string javascriptToExecute)
@@ -291,9 +356,10 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return null;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            return WebBrowserExtensionMsHtmlDocument.Instance.ExecuteJavascript(htmlDocument,
-                javascriptToExecute);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            return ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.ExecuteJavascript(htmlDocument,
+                    javascriptToExecute);
         }
 
         public void RemoveEventHandlerToControl(string controlId, string eventName,
@@ -303,10 +369,11 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToControl(htmlDocument, controlId, eventName,
-                functionHash,
-                getCustomEventHandler);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.RemoveEventHandlerToControl(htmlDocument, controlId, eventName,
+                    functionHash,
+                    getCustomEventHandler);
         }
 
         public void RemoveEventHandlerToDocument(string eventName,
@@ -316,9 +383,10 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToDocument(htmlDocument, eventName,
-                functionHash, getCustomEventHandler);
+            var htmlDocument = Browser.Document as HTMLDocument;
+            ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.RemoveEventHandlerToDocument(htmlDocument, eventName,
+                    functionHash, getCustomEventHandler);
         }
 
         public void RemoveHandlersOnNavigating(
@@ -329,7 +397,7 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 return;
             }
-            _webBrowser.Navigating += new NavigatingInterceptorWpf(getCustomEventHandler, _webBrowser)
+            Browser.Navigating += new NavigatingInterceptorWpf(getCustomEventHandler, this)
                 .WebBrowserOnNavigating;
             if (getCustomEventHandler() != null)
             {
@@ -351,11 +419,12 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             var codeToExecuteClass = new CodeToExecuteClass(codeToExecute);
             functionHash += new Func<bool>(codeToExecuteClass.CustomEventDelegate).GetFullNameHashCode();
 
-            WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToControl(_webBrowser.Document as HTMLDocument,
-                controlId,
-                eventName, codeToExecuteClass,
-                codeToExecuteClass.CustomEventDelegate, functionHash,
-                getCustomEventHandler, setCustomEventHandler);
+            ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.AttachEventHandlerToControl(Browser.Document as HTMLDocument,
+                    controlId,
+                    eventName, codeToExecuteClass,
+                    codeToExecuteClass.CustomEventDelegate, functionHash,
+                    getCustomEventHandler, setCustomEventHandler);
         }
 
         public void AttachCustomFunctionOnDocument(string eventName, Func<bool> codeToExecute,
@@ -369,12 +438,13 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             var codeToExecuteClass = new CodeToExecuteClass(codeToExecute);
             functionHash += new Func<bool>(codeToExecuteClass.CustomEventDelegate).GetFullNameHashCode();
 
-            WebBrowserExtensionMsHtmlDocument.Instance.AttachEventHandlerToDocument(
-                _webBrowser.Document as HTMLDocument,
-                eventName,
-                codeToExecuteClass,
-                codeToExecuteClass.CustomEventDelegate, functionHash,
-                getCustomEventHandler, setCustomEventHandler);
+            ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>) this)
+                .WebBrowserExtension.AttachEventHandlerToDocument(
+                    Browser.Document as HTMLDocument,
+                    eventName,
+                    codeToExecuteClass,
+                    codeToExecuteClass.CustomEventDelegate, functionHash,
+                    getCustomEventHandler, setCustomEventHandler);
         }
 
         public string RegisterCsCodeCallableFromJavascript(ref ComVisibleClass comVisibleClass)
@@ -390,15 +460,13 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             return RegisterCsCodeCallableFromJavascript(comVisibleClass.CodeToExecute);
         }
 
-        public void AddJavascriptByUrl(string scriptUrl)
+        public void AddJQueryScript(string url = @"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js")
         {
             if (!Enabled)
             {
                 return;
             }
-            var htmlDocument = _webBrowser.Document as HTMLDocument;
-            var item = htmlDocument?.getElementsByName("head").item(0);
-            WebBrowserExtensionMsHtmlDocument.Instance.AddScriptByUrl(item, scriptUrl);
+            AddScriptsElements(url);
         }
 
         public void CauseCsBreakpoint(ref ComVisibleClass comVisibleClass)
@@ -435,7 +503,7 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
             {
                 throw new NotSupportedException("The class is not COM visible");
             }
-            _webBrowser.ObjectForScripting = htmlDocumentObjectForScripting;
+            Browser.ObjectForScripting = htmlDocumentObjectForScripting;
             var javascriptToExecute = $"window.external.{codeToExecute.Method.Name}();";
             return javascriptToExecute;
         }
@@ -453,15 +521,16 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
         private class NavigatingInterceptorWpf
         {
             private readonly Func<CustomWebBrowserControlEventHandler> _getCustomEventHandler;
-            private readonly WebBrowser _webBrowser;
+            private readonly WebBrowserExtensionWpf _webBrowserExtensionWpf;
 
             public NavigatingInterceptorWpf(Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-                WebBrowser webBrowser)
+                WebBrowserExtensionWpf webBrowserExtensionWpf)
             {
                 _getCustomEventHandler = getCustomEventHandler;
-                _webBrowser = webBrowser;
+                _webBrowserExtensionWpf = webBrowserExtensionWpf;
             }
 
+            [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
             public void WebBrowserOnNavigating(object sender, NavigatingCancelEventArgs e)
             {
                 var eventHandler = _getCustomEventHandler();
@@ -474,18 +543,25 @@ namespace WebBrowserLib.Wpf.WebBrowserControl
                 {
                     var eventHandlerDelegate = eventHandlerDelegates[index];
                     var eventName = eventHandlerDelegate.Item1;
-                    if (eventName.StartsWith($"{WebBrowserExtensionMsHtmlDocument.Instance.DocumentEventPrefix}."))
+                    var documentEventPrefix = _webBrowserExtensionWpf.DocumentEventPrefix;
+                    if (eventName.StartsWith(
+                        $"{documentEventPrefix}.")
+                    )
                     {
-                        WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToDocument(
-                            _webBrowser.Document as HTMLDocument,
+                        ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>)
+                            _webBrowserExtensionWpf
+                        ).WebBrowserExtension.RemoveEventHandlerToDocument(
+                            _webBrowserExtensionWpf.Browser.Document as HTMLDocument,
                             eventName.Split('.')[1], eventHandlerDelegate.Item3,
                             _getCustomEventHandler);
                     }
                     else
                     {
                         var strings = eventName.Split('.');
-                        WebBrowserExtensionMsHtmlDocument.Instance.RemoveEventHandlerToControl(
-                            _webBrowser.Document as HTMLDocument,
+                        ((IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>)
+                            _webBrowserExtensionWpf
+                        ).WebBrowserExtension.RemoveEventHandlerToControl(
+                            _webBrowserExtensionWpf.Browser.Document as HTMLDocument,
                             strings[0], strings[1], eventHandlerDelegate.Item3,
                             _getCustomEventHandler);
                     }

@@ -3,14 +3,19 @@ using System.Collections.Generic;
 
 namespace WebBrowserLib.Interfaces
 {
-    public interface IWebBrowserExtensionWithEventBase<out THtmlElementType>: IJavascriptExecutor
+    public interface IWebBrowserExtensionWithEventBase<out THtmlElementType> : IJavascriptExecutor
     {
         bool Enabled { get; set; }
 
-        void AddJQueryElement();
+        void AddJQueryScript(string url);
+
         void AddScriptElement(string scriptBody);
 
+        void AddScriptsElements(string scriptUrl);
+
         event EventHandler DocumentReady;
+
+        void EnsureScriptIsInCache(string url);
 
         dynamic FindElementByAttributeValue(string tagName,
             string attribute, string value);
@@ -25,6 +30,8 @@ namespace WebBrowserLib.Interfaces
         IEnumerable<THtmlElementType> GetElementsByCssQuery(string cssQuery);
 
         dynamic GetGlobalVariable(string variable);
+
+        dynamic EvaluateExpression(string expression);
 
         void Navigate(string targetUrl);
     }

@@ -14,7 +14,7 @@ namespace UsingWebBrowserLib.Controllers.Logic
         {
             var client = new HttpClient();
             client.SetBearerToken(accessToken);
-            var response = await client.GetAsync(MainWindowModel.ApiServerUrl);
+            var response = await client.GetAsync(MainWindowModel.Instance.ApiServerUrl);
             if (!response.IsSuccessStatusCode)
             {
                 messageBoxShow.DynamicInvoke(response.StatusCode.ToString());

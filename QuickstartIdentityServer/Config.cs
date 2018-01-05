@@ -77,8 +77,8 @@ namespace QuickstartIdentityServer
                 // JavaScript Client
                 new Client
                 {
-                    ClientId = "js",
-                    ClientName = "JavaScript Client",
+                    ClientId = "jswpf",
+                    ClientName = "JavaScript WPF Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
@@ -97,7 +97,7 @@ namespace QuickstartIdentityServer
                 new Client
                 {
                     ClientId = "jswf",
-                    ClientName = "JavaScript Client",
+                    ClientName = "JavaScript Windows Forms Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
@@ -116,13 +116,51 @@ namespace QuickstartIdentityServer
                 new Client
                 {
                     ClientId = "jsselenium",
-                    ClientName = "JavaScript Client",
+                    ClientName = "JavaScript Selenium Chrome Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
                     RedirectUris = {"http://localhost:5005/callback.html"},
                     PostLogoutRedirectUris = {"http://localhost:5005/index.html"},
                     AllowedCorsOrigins = {"http://localhost:5005"},
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    }
+                },
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "jsseleniumff",
+                    ClientName = "JavaScript Selenium Firefox Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = {"http://localhost:5006/callback.html"},
+                    PostLogoutRedirectUris = {"http://localhost:5006/index.html"},
+                    AllowedCorsOrigins = {"http://localhost:5006"},
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    }
+                },
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "jsCefSharp",
+                    ClientName = "JavaScript CefSharp Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = {"http://localhost:5007/callback.html"},
+                    PostLogoutRedirectUris = {"http://localhost:5007/index.html"},
+                    AllowedCorsOrigins = {"http://localhost:5007"},
 
                     AllowedScopes =
                     {

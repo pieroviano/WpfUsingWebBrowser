@@ -14,19 +14,26 @@ namespace WebBrowserLib.Helpers
             while (i < variablePath.Length)
             {
                 variableName = variableName + "." + variablePath[i];
-                try
-                {
-                    result = injectAndExecuteJavascript($"return eval({variableName});");
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-                if (result == null)
+                result = EvaluateExpression(variableName, injectAndExecuteJavascript);
+                if(result==null)
                 {
                     return null;
                 }
                 i++;
+            }
+            return result;
+        }
+
+        public static object EvaluateExpression(string expression, Func<string, object> injectAndExecuteJavascript)
+        {
+            object result = null;
+            try
+            {
+                result = injectAndExecuteJavascript(expression);
+            }
+            catch (Exception)
+            {
+                return result;
             }
             return result;
         }

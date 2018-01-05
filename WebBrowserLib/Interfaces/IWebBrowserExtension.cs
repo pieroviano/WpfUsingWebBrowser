@@ -4,73 +4,81 @@ using WebBrowserLib.EventHandling;
 
 namespace WebBrowserLib.Interfaces
 {
-    public interface IWebBrowserExtension<in TControl, THead, out THtmlElementType> : IScriptInjector<THead>
+    public interface IWebBrowserExtension<in TDocument, THtmlElementType> : IScriptInjector<TDocument, THtmlElementType>
     {
         bool Enabled { get; set; }
 
-        void AttachEventHandlerToControl(TControl htmlDocument, string controlId,
+        string DocumentEventPrefix { get; set; }
+
+        void AttachEventHandlerToControl(TDocument htmlDocument, string controlId,
             string eventName,
             object firstArgument, Func<bool> customEventDelegate, int functionHash,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler, bool removeHandlers = false);
 
-        void AttachEventHandlerToDocument(TControl htmlDocument, string eventName,
+        void AttachEventHandlerToDocument(TDocument htmlDocument, string eventName,
             object firstArgument, Func<bool> customEventDelegate, int functionHash,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
 
-        void DetachEventHandlersFromControl(TControl htmlDocument, string controlId,
+        void DetachEventHandlersFromControl(TDocument htmlDocument, string controlId,
             bool removeHandlers = false,
             params string[] eventNames);
 
-        void DisableEventOnControl(TControl htmlDocument, string controlId, string eventName,
+        void DisableEventOnControl(TDocument htmlDocument, string controlId, string eventName,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
 
-        void DisableEventOnDocument(TControl htmlDocument, string eventName,
+        void DisableEventOnDocument(TDocument htmlDocument, string eventName,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
 
-        void DisableOnContextMenuOnDocument(TControl htmlDocument,
+        object InvokeScript(TDocument htmlDocument, string scriptName, params object[] args);
+
+        void DisableOnContextMenuOnDocument(TDocument htmlDocument,
             Func<CustomWebBrowserControlEventHandler> getControlEventHandler,
             Action<CustomWebBrowserControlEventHandler> setControlEventHandler);
 
-        void EnableEventOnControl(TControl htmlDocument, string controlId, string eventName,
+        void EnableEventOnControl(TDocument htmlDocument, string controlId, string eventName,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
 
-        void EnableEventOnDocument(TControl htmlDocument, string eventName,
+        void EnableEventOnDocument(TDocument htmlDocument, string eventName,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
 
-        void EnableOnContextMenuToDocument(TControl htmlDocument,
+        void EnableOnContextMenuToDocument(TDocument htmlDocument,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandler);
 
-        dynamic ExecuteJavascript(TControl htmlDocument, string javascriptToExecute);
+        object EvaluateExpression(TDocument htmlDocument, string variableName);
 
-        dynamic FindElementByAttributeValue(TControl htmlDocument, string tagName,
+        dynamic ExecuteJavascript(TDocument htmlDocument, string javascriptToExecute);
+
+        dynamic InvokeJavascript(TDocument htmlDocument, string javascriptToExecute);
+
+        dynamic FindElementByAttributeValue(TDocument htmlDocument, string tagName,
             string attribute, string value);
 
-        IEnumerable<THtmlElementType> FindElementsByAttributeValue(TControl htmlDocument, string tagName,
+        IEnumerable<THtmlElementType> FindElementsByAttributeValue(TDocument htmlDocument, string tagName,
             string attribute, string value);
 
-        string GetCurrentUrl(TControl htmlDocument);
+        string GetCurrentUrl(TDocument htmlDocument);
 
-        THtmlElementType GetElementById(TControl htmlDocument, string controlId);
+        THtmlElementType GetElementById(TDocument htmlDocument, string controlId);
 
-        IEnumerable<THtmlElementType> GetElementsByCssQuery(TControl htmlDocument, string cssQuery);
+        IEnumerable<THtmlElementType> GetElementsByCssQuery(TDocument htmlDocument, string cssQuery);
 
-        object GetGlobalVariable(TControl htmlDocument, string variable);
+        object GetGlobalVariable(TDocument htmlDocument, string variable);
 
-        void RemoveEventHandlerToControl(TControl htmlDocument, string controlId,
+        void RemoveEventHandlerToControl(TDocument htmlDocument, string controlId,
             string eventName, int functionHash,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler);
 
-        void RemoveEventHandlerToDocument(TControl htmlDocument, string eventName,
+        void RemoveEventHandlerToDocument(TDocument htmlDocument, string eventName,
             int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler);
 
-        void RemoveHandlersOnNavigating(TControl htmlDocument,
+        void RemoveHandlersOnNavigating(TDocument htmlDocument,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandle,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandlerr);
     }

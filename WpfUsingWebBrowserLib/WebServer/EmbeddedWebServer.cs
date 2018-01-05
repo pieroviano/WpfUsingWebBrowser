@@ -51,6 +51,7 @@ namespace UsingWebBrowserLib.WebServer
             ThreadPool.QueueUserWorkItem(o =>
             {
                 Thread.CurrentThread.IsBackground = true;
+                Thread.CurrentThread.Name = "EmbeddedWebServer";
                 Debug.WriteLine("Webserver running...");
                 try
                 {

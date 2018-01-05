@@ -1,161 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices.Expando;
 using mshtml;
 using WebBrowserLib.EventHandling;
 using WebBrowserLib.Extensions;
-using WebBrowserLib.Helpers;
 using WebBrowserLib.Interfaces;
+using WebBrowserLib.MsHtml.Utility;
+using WebBrowserLib.WebBrowserControl;
 
 namespace WebBrowserLib.MsHtml.WebBrowserControl
 {
-    public class WebBrowserExtensionMsHtmlDocument : IWebBrowserExtension<HTMLDocument, HTMLHeadElement, IHTMLElement>
+    public class WebBrowserExtensionMsHtmlDocument : BaseWebBrowserExtension<HTMLDocument, IHTMLElement>,
+        IWebBrowserExtension<HTMLDocument, IHTMLElement>
     {
-        public string
-            DocumentEventPrefix = "document";
-
         private WebBrowserExtensionMsHtmlDocument()
         {
         }
 
         public static WebBrowserExtensionMsHtmlDocument Instance { get; } = new WebBrowserExtensionMsHtmlDocument();
 
-        public bool Enabled { get; set; } = true;
-
-        public void AddJQueryElement(HTMLHeadElement head)
+        public List<IHTMLElement> GetJQueryScriptsElements(HTMLDocument document)
         {
             if (!Enabled)
             {
-                return;
+                return null;
             }
-            var htmlDocument = head.ownerDocument as HTMLDocument;
+            var returnValue = new List<IHTMLElement>();
+            var htmlDocument = document;
             var scriptEl = htmlDocument?.createElement("script") as HTMLScriptElement;
             var jQueryElement = (IHTMLScriptElement)scriptEl;
             if (jQueryElement != null)
             {
                 jQueryElement.src = @"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js";
             }
-
-            head.appendChild((IHTMLDOMNode)scriptEl);
+            returnValue.Add((IHTMLElement)scriptEl);
+            return returnValue;
         }
 
-        public void AddScriptElement(HTMLHeadElement head, string scriptBody)
+        public List<IHTMLElement> GetScriptsElements(HTMLDocument htmlDocument, string scriptUrl)
         {
             if (!Enabled)
             {
-                return;
+                return null;
             }
-            var scriptEl = (head.ownerDocument as HTMLDocument)?.createElement("script") as HTMLScriptElement;
+            var returnValue = new List<IHTMLElement>();
+            var htmlElement = htmlDocument?.createElement("meta");
+            if (htmlElement != null)
+            {
+                htmlElement.setAttribute("http-equiv", "x-ua-compatible");
+                htmlElement.setAttribute("content", "IE=9");
+                returnValue.Add(htmlElement);
+            }
+            htmlElement = htmlDocument?.createElement("script");
+            if (htmlElement != null)
+            {
+                htmlElement.setAttribute("type", "text/javascript");
+                htmlElement.setAttribute("src", scriptUrl);
+                returnValue.Add(htmlElement);
+            }
+            return returnValue;
+        }
+
+        public List<IHTMLElement> CreateScriptElement(HTMLDocument document, string scriptBody)
+        {
+            if (!Enabled)
+            {
+                return null;
+            }
+            var returnValue = new List<IHTMLElement>();
+            var scriptEl = document?.createElement("script") as HTMLScriptElement;
             if (scriptEl != null)
             {
                 scriptEl.innerHTML = scriptBody;
 
-                head.appendChild((IHTMLDOMNode)scriptEl);
+                returnValue.Add((IHTMLElement)scriptEl);
             }
-        }
-
-        public void AttachEventHandlerToControl(HTMLDocument htmlDocument, string controlId,
-            string eventName,
-            object firstArgument, Func<bool> customEventDelegate, int functionHash,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler, bool removeHandlers = false)
-        {
-            if (!Enabled)
-            {
-                return;
-            }
-            DetachEventHandlersFromControl(htmlDocument, controlId, removeHandlers, eventName);
-
-            if (htmlDocument != null)
-            {
-                var element = GetElementById(htmlDocument, controlId);
-                var formattableString = $"{controlId}.{eventName}";
-                var customWebBrowserControlEventHandler = getCustomEventHandler();
-                if (customWebBrowserControlEventHandler == null)
-                {
-                    var customEventDelegates = new List<Tuple<string, Delegate, int>>();
-                    setCustomEventHandler(new CustomWebBrowserControlEventHandler(customEventDelegates));
-                    customWebBrowserControlEventHandler = getCustomEventHandler();
-                }
-                if (element != null)
-                {
-                    Delegate @delegate;
-                    var eventInfo = EventHandlerAttacher.GetEventInfo(element, eventName);
-                    if (eventInfo != null)
-                    {
-                        var eventInfoEventHandlerType = eventInfo.EventHandlerType;
-                        if (!customWebBrowserControlEventHandler.EventHandlerIsAttached(formattableString, functionHash,
-                            eventInfoEventHandlerType, firstArgument, customEventDelegate, out @delegate))
-                        {
-                            eventInfo.AddEventHandler(element, @delegate);
-                            customWebBrowserControlEventHandler.TrackHandler(formattableString, @delegate,
-                                functionHash);
-                        }
-                    }
-                }
-            }
-        }
-
-        public void AttachEventHandlerToDocument(HTMLDocument htmlDocument, string eventName,
-            object firstArgument, Func<bool> customEventDelegate, int functionHash,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
-            Action<CustomWebBrowserControlEventHandler> setCustomEventHandler)
-        {
-            if (!Enabled)
-            {
-                return;
-            }
-            var document = (HTMLDocumentEvents_Event)htmlDocument;
-            if (document != null)
-            {
-                var formattableString = $"{DocumentEventPrefix}.{eventName}";
-                var customWebBrowserControlEventHandler = getCustomEventHandler();
-                if (customWebBrowserControlEventHandler == null)
-                {
-                    var customEventDelegates = new List<Tuple<string, Delegate, int>>();
-                    setCustomEventHandler(new CustomWebBrowserControlEventHandler(customEventDelegates));
-                    customWebBrowserControlEventHandler = getCustomEventHandler();
-                }
-                Delegate @delegate;
-                var eventInfo = EventHandlerAttacher.GetEventInfo(document, eventName);
-                if (eventInfo != null)
-                {
-                    var eventInfoEventHandlerType = eventInfo.EventHandlerType;
-                    if (!customWebBrowserControlEventHandler.EventHandlerIsAttached(formattableString, functionHash,
-                        eventInfoEventHandlerType, firstArgument, customEventDelegate, out @delegate))
-                    {
-                        eventInfo.AddEventHandler(document, @delegate);
-                        customWebBrowserControlEventHandler.TrackHandler(formattableString, @delegate, functionHash);
-                    }
-                }
-            }
-        }
-
-        public void DetachEventHandlersFromControl(HTMLDocument htmlDocument, string controlId,
-            bool removeHandlers = false,
-            params string[] eventNames)
-        {
-            if (!Enabled)
-            {
-                return;
-            }
-            var cleanHandlers = ScriptHelper.PrepareCleanHandlers(eventNames);
-            if (!removeHandlers)
-            {
-                if (!string.IsNullOrEmpty(cleanHandlers))
-                {
-                    ExecuteJavascript(htmlDocument, cleanHandlers);
-                }
-                return;
-            }
-            var javascriptToExecuteToRemoveHandlers =
-                ScriptHelper.GetJavascriptToExecuteToRemoveHandlers(controlId, cleanHandlers);
-            if (!string.IsNullOrEmpty(javascriptToExecuteToRemoveHandlers))
-            {
-                ExecuteJavascript(htmlDocument, javascriptToExecuteToRemoveHandlers);
-            }
+            return returnValue;
         }
 
         public void DisableEventOnControl(HTMLDocument browser, string controlId, string eventName,
@@ -245,7 +166,17 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
                 "oncontextmenu", functionHash, getCustomEventHandler);
         }
 
-        public dynamic ExecuteJavascript(HTMLDocument htmlDocument, string javascriptToExecute)
+        public override dynamic ExecuteJavascript(HTMLDocument htmlDocument, string javascriptToExecute)
+        {
+            if (!Enabled)
+            {
+                return null;
+            }
+            var htmlWindow2 = (htmlDocument.Script as HTMLWindow2);
+            return htmlWindow2.execScript(javascriptToExecute, "javascript");
+        }
+
+        public override dynamic InvokeJavascript(HTMLDocument htmlDocument, string javascriptToExecute)
         {
             if (!Enabled)
             {
@@ -264,7 +195,7 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
             var all = htmlDocument.getElementsByTagName(tagName);
             for (var i = 0; i < all.length; i++)
             {
-                if (all.item(i).GetAttribute(attribute) == value)
+                if ((string)((IHTMLElement)all.item(i)).getAttribute(attribute) == value)
                 {
                     return all.item(i);
                 }
@@ -283,12 +214,12 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
             var all = htmlDocument.getElementsByTagName(tagName);
             for (var i = 0; i < all.length; i++)
             {
-                var str = all.item(i).GetAttribute(attribute);
+                var str = (string)((IHTMLElement)all.item(i)).getAttribute(attribute);
                 if (str != "")
                 {
                     if (str == value)
                     {
-                        ret.Add(all.item(i));
+                        ret.Add((IHTMLElement)all.item(i));
                     }
                 }
             }
@@ -300,7 +231,7 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
             return htmlDocument.location.href;
         }
 
-        public IHTMLElement GetElementById(HTMLDocument htmlDocument, string controlId)
+        public override IHTMLElement GetElementById(HTMLDocument htmlDocument, string controlId)
         {
             return htmlDocument?.getElementById(controlId);
         }
@@ -328,117 +259,104 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
             }
             var variablePath = variable.Split('.');
             var i = 0;
-            object result = null;
+            string result = null;
             var variableName = "window";
             while (i < variablePath.Length)
             {
                 variableName = variableName + "." + variablePath[i];
-                result = ExecuteJavascript(htmlDocument, variableName);
-                if (result == null)
-                {
-                    return null;
-                }
+                if ((result = (string)EvaluateExpression(htmlDocument, variableName)) == null) return null;
                 i++;
             }
             return result;
         }
 
-        public void AddScriptByUrl(HTMLHeadElement htmlHeadElement, string scriptUrl)
+        public object EvaluateExpression(HTMLDocument htmlDocument, string variableName)
         {
-            var htmlElement = htmlHeadElement.document?.createElement("meta");
-            if (htmlElement != null)
+            var script =
+                "if(document.all['_GlobalVariable_']==null){var input = document.createElement('input'); input.setAttribute('type', 'hidden'); " +
+                "input.setAttribute('name', '_GlobalVariable_');input.setAttribute('id', '_GlobalVariable_'); " +
+                "document.body.appendChild(input); } document.all['_GlobalVariable_'].value=''+" + $"eval({variableName});";
+            ExecuteJavascript(htmlDocument, script);
+            var htmlInputHiddenElement = htmlDocument.getElementById("_GlobalVariable_") as HTMLInputElement;
+            var result = htmlInputHiddenElement?.value;
+            if (string.IsNullOrEmpty(result) || result == "undefined")
             {
-                htmlElement.setAttribute("http-equiv", "x-ua-compatible");
-                htmlElement.setAttribute("content", "IE=9");
-                htmlHeadElement.appendChild((IHTMLDOMNode)htmlElement);
+                return null;
             }
-            htmlElement = htmlHeadElement.document?.createElement("script");
-            if (htmlElement != null)
-            {
-                htmlElement.setAttribute("type", "text/javascript");
-                htmlElement.setAttribute("src", scriptUrl);
-                htmlHeadElement.appendChild((IHTMLDOMNode)htmlElement);
-            }
-
-            ExecuteJavascript(htmlHeadElement.document, @"var markup = document.documentElement.innerHTML;alert(markup);");
-        }
-
-
-        public void RemoveEventHandlerToControl(HTMLDocument htmlDocument, string controlId,
-            string eventName, int functionHash,
-            Func<CustomWebBrowserControlEventHandler> getCustomEventHandler)
-        {
-            if (!Enabled)
-            {
-                return;
-            }
-            var customWebBrowserControlEventHandler = getCustomEventHandler();
-            if (customWebBrowserControlEventHandler == null)
-            {
-                return;
-            }
-            var element = htmlDocument?.getElementById(controlId);
-            if (element != null)
-            {
-                var eventInfo = EventHandlerAttacher.GetEventInfo(element, eventName);
-                if (eventInfo != null)
-                {
-                    var formattableString = $"{controlId}.{eventName}";
-                    var @delegate = customWebBrowserControlEventHandler
-                        .GetDelegate(formattableString, eventInfo.EventHandlerType, null, null, functionHash);
-                    eventInfo.RemoveEventHandler(element, @delegate);
-                    customWebBrowserControlEventHandler.UntrackHandler(formattableString, @delegate, functionHash);
-                }
-            }
-        }
-
-        public void RemoveEventHandlerToDocument(HTMLDocument htmlDocument, string eventName,
-            int functionHash, Func<CustomWebBrowserControlEventHandler> getCustomEventHandler)
-        {
-            if (!Enabled)
-            {
-                return;
-            }
-            var customWebBrowserControlEventHandler = getCustomEventHandler();
-            if (customWebBrowserControlEventHandler == null)
-            {
-                return;
-            }
-
-            var evn = htmlDocument as HTMLDocumentEvents_Event;
-            if (evn != null)
-            {
-                var eventInfo = EventHandlerAttacher.GetEventInfo(evn, eventName);
-                if (eventInfo != null)
-                {
-                    var formattableString = $"{DocumentEventPrefix}.{eventName}";
-                    var @delegate = customWebBrowserControlEventHandler
-                        .GetDelegate(formattableString, eventInfo.EventHandlerType, null, null, functionHash);
-                    var dictionary = customWebBrowserControlEventHandler.Delegates;
-                    if (@delegate != null && dictionary.ContainsKey(formattableString, functionHash) &&
-                        dictionary.Items(formattableString, @delegate, functionHash).Any())
-                    {
-                        try
-                        {
-                            eventInfo.RemoveEventHandler(evn, @delegate);
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.Write(e);
-                        }
-                    }
-                    customWebBrowserControlEventHandler.UntrackHandler(formattableString, @delegate, functionHash);
-                }
-            }
+            return result;
         }
 
         public void RemoveHandlersOnNavigating(HTMLDocument webBrowser,
             Func<CustomWebBrowserControlEventHandler> getCustomEventHandler,
             Action<CustomWebBrowserControlEventHandler> setCustomEventHandlerr)
         {
-            webBrowser.parentWindow.onbeforeunload += new Func<bool>(
-                new NavigatingInterceptor(this, getCustomEventHandler, webBrowser)
-                    .WebBrowserOnNavigating);
+            var htmlWindowEvents2 = webBrowser.parentWindow as HTMLWindowEvents_Event;
+            if (htmlWindowEvents2 != null)
+            {
+                htmlWindowEvents2.onbeforeunload +=
+                    new NavigatingInterceptor(this, getCustomEventHandler, webBrowser)
+                        .WebBrowserOnNavigating;
+            }
+        }
+
+        public object InvokeScript(HTMLDocument htmlDocument_, string scriptName, params object[] args)
+        {
+            var htmlDocument = htmlDocument_ as IHTMLDocument2;
+            object invokeScript = null;
+            var pDispParams = new DispParams
+            {
+                rgvarg = IntPtr.Zero
+            };
+            try
+            {
+                var script = htmlDocument.Script as IDispatch;
+                if (script == null)
+                {
+                    return null;
+                }
+                var empty = Guid.Empty;
+                string[] rgszNames = { scriptName };
+                int[] rgDispId = { -1 };
+                var iDsOfNames = script.GetIDsOfNames(ref empty, rgszNames, 1,
+                    Win32Interop.GetThreadLCID(), rgDispId);
+                if (!MsHtmlNativeUtility.Succeeded(iDsOfNames) || rgDispId[0] == -1)
+                {
+                    return null;
+                }
+                if (args != null)
+                {
+                    Array.Reverse(args);
+                }
+                pDispParams.rgvarg = args == null ? IntPtr.Zero : MsHtmlNativeUtility.ArrayToVariantVector(args);
+                pDispParams.cArgs = args?.Length ?? 0;
+                pDispParams.rgdispidNamedArgs = IntPtr.Zero;
+                pDispParams.cNamedArgs = 0;
+                var pVarResult = new object[1];
+                var pExcepInfo = new ExcepInfo();
+                if (script.Invoke(rgDispId[0], ref empty, Win32Interop.GetThreadLCID(), 1, pDispParams, pVarResult,
+                        pExcepInfo, null) == 0)
+                {
+                    invokeScript = pVarResult[0];
+                }
+            }
+            catch (Exception exception)
+            {
+                if (MsHtmlNativeUtility.IsSecurityOrCriticalException(exception))
+                {
+                    throw;
+                }
+            }
+            finally
+            {
+                if (pDispParams.rgvarg != IntPtr.Zero)
+                {
+                    if (args != null)
+                    {
+                        MsHtmlNativeUtility.FreeVariantVector(pDispParams.rgvarg, args.Length);
+                    }
+                }
+            }
+            return invokeScript;
         }
 
         private class NavigatingInterceptor
@@ -456,12 +374,12 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
                 _webBrowserExtensionMsHtmlDocument = webBrowserExtensionMsHtmlDocument;
             }
 
-            public bool WebBrowserOnNavigating()
+            public void WebBrowserOnNavigating()
             {
                 var eventHandler = _getCustomEventHandler();
                 if (eventHandler == null)
                 {
-                    return true;
+                    return;
                 }
                 var eventHandlerDelegates = eventHandler.Delegates;
                 foreach (var eventHandlerDelegate in eventHandlerDelegates)
@@ -482,7 +400,6 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
                             _getCustomEventHandler);
                     }
                 }
-                return true;
             }
         }
     }

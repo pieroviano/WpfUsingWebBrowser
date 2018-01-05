@@ -4,9 +4,12 @@ using WebBrowserLib.Helpers;
 
 namespace WebBrowserLib.Interfaces
 {
-    public interface IWebBrowserExtensionWithEvent<out THtmlElementType> :
+    public interface IWebBrowserExtensionWithEvent<out THtmlElementType, in THtmlDocument, out THtmlElement> :
         IWebBrowserExtensionWithEventBase<THtmlElementType>
     {
+        string DocumentEventPrefix { get; set; }
+
+        IBaseWebBrowserExtension<THtmlDocument, THtmlElement> WebBrowserExtension { get; }
 
         void AttachCustomFunctionOnControl(string controlId, string eventName,
             Func<bool> codeToExecute,
