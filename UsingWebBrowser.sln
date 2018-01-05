@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.Wpf", "WebBro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.MsHtml", "WebBrowserLib.mshtml\WebBrowserLib.MsHtml.csproj", "{DEDFCF81-A59C-4688-B089-38E56D7AFB41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserLib", "WpfUsingWebBrowserLib\UsingWebBrowserLib.csproj", "{CC2918D6-7A8A-44E3-A59A-63B81346FD53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserLib", "UsingWebBrowserLib\UsingWebBrowserLib.csproj", "{CC2918D6-7A8A-44E3-A59A-63B81346FD53}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{1072F979-E52F-4FA6-BAAA-4B47944FFE85}"
 EndProject
@@ -38,10 +38,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserFromWinForm", "UsingWebBrowserFromWinForm\UsingWebBrowserFromWinForm.csproj", "{8825B87E-8525-4EE2-B1E2-74B2DC8A3030}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserFromWpf", "UsingWebBrowserFromWpf\UsingWebBrowserFromWpf.csproj", "{F6DF6FEC-67A5-4CAB-B5E3-C5B83EDBDF29}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.CefSharp", "WebBrowserLib.CefSharp\WebBrowserLib.CefSharp.csproj", "{810AFE94-0123-413A-A59A-B523FC611BA4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingCefSharpFromWpf", "UsingCefSharpFromWpf\UsingCefSharpFromWpf.csproj", "{904490FF-3A18-424B-A130-5E143D446AD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,22 +151,6 @@ Global
 		{F6DF6FEC-67A5-4CAB-B5E3-C5B83EDBDF29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6DF6FEC-67A5-4CAB-B5E3-C5B83EDBDF29}.Release|x64.ActiveCfg = Release|x64
 		{F6DF6FEC-67A5-4CAB-B5E3-C5B83EDBDF29}.Release|x64.Build.0 = Release|x64
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Debug|x64.ActiveCfg = Debug|x64
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Debug|x64.Build.0 = Debug|x64
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Release|x64.ActiveCfg = Release|x64
-		{810AFE94-0123-413A-A59A-B523FC611BA4}.Release|x64.Build.0 = Release|x64
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Debug|x64.ActiveCfg = Debug|x64
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Debug|x64.Build.0 = Debug|x64
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Release|x64.ActiveCfg = Release|x64
-		{904490FF-3A18-424B-A130-5E143D446AD3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -192,8 +172,6 @@ Global
 		{5DCA70F2-065C-4586-8D1A-48B4F5D55809} = {EDDB1A85-2E6E-46DB-BAC5-E99E79219C85}
 		{8825B87E-8525-4EE2-B1E2-74B2DC8A3030} = {EDDB1A85-2E6E-46DB-BAC5-E99E79219C85}
 		{F6DF6FEC-67A5-4CAB-B5E3-C5B83EDBDF29} = {EDDB1A85-2E6E-46DB-BAC5-E99E79219C85}
-		{810AFE94-0123-413A-A59A-B523FC611BA4} = {1072F979-E52F-4FA6-BAAA-4B47944FFE85}
-		{904490FF-3A18-424B-A130-5E143D446AD3} = {EDDB1A85-2E6E-46DB-BAC5-E99E79219C85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4916AC67-3E5C-4FB6-9A57-4FEA88D81C88}

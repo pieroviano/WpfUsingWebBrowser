@@ -146,7 +146,7 @@
       <Project>{844655d9-f659-447e-90cd-8162a41262af}</Project>
       <Name>WebBrowserLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WpfUsingWebBrowserLib\UsingWebBrowserLib.csproj">
+    <ProjectReference Include="..\UsingWebBrowserLib\UsingWebBrowserLib.csproj">
       <Project>{cc2918d6-7a8a-44e3-a59a-63b81346fd53}</Project>
       <Name>UsingWebBrowserLib</Name>
     </ProjectReference>
