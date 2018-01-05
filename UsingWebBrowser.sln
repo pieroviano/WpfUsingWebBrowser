@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.Wpf", "WebBro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserLib.MsHtml", "WebBrowserLib.mshtml\WebBrowserLib.MsHtml.csproj", "{DEDFCF81-A59C-4688-B089-38E56D7AFB41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserLib", "WpfUsingWebBrowserLib\UsingWebBrowserLib.csproj", "{CC2918D6-7A8A-44E3-A59A-63B81346FD53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWebBrowserLib", "UsingWebBrowserLib\UsingWebBrowserLib.csproj", "{CC2918D6-7A8A-44E3-A59A-63B81346FD53}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{1072F979-E52F-4FA6-BAAA-4B47944FFE85}"
 EndProject

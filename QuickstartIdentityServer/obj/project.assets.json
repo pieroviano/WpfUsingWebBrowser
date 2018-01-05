@@ -12572,11 +12572,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\Esempi Sviluppo\\WpfUsingWebBrowser\\QuickstartIdentityServer\\QuickstartIdentityServer.csproj",
+      "projectUniqueName": "E:\\UsingWebBrowser\\QuickstartIdentityServer\\QuickstartIdentityServer.csproj",
       "projectName": "QuickstartIdentityServer",
-      "projectPath": "E:\\Esempi Sviluppo\\WpfUsingWebBrowser\\QuickstartIdentityServer\\QuickstartIdentityServer.csproj",
+      "projectPath": "E:\\UsingWebBrowser\\QuickstartIdentityServer\\QuickstartIdentityServer.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "E:\\Esempi Sviluppo\\WpfUsingWebBrowser\\QuickstartIdentityServer\\obj\\",
+      "outputPath": "E:\\UsingWebBrowser\\QuickstartIdentityServer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

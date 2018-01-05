@@ -2,4 +2,10 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/UsingWebBrowser/v15/Server/sqlite3
+/.vs
+/packages
+[Bb]in/
+[Oo]bj/
+*.user
+*.cache
+**.dll
