@@ -12,3 +12,38 @@ E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\log4net.x
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebDriver.xml
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.dll
 E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.pdb
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csproj.CoreCompileInputs.cache
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.ChromeSelenium.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.ChromeSelenium.pdb
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.ChromeSelenium.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.ChromeSelenium.pdb
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\HostAppInPanelLib.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\log4net.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\System.Net.Http.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\System.Security.Cryptography.Algorithms.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\System.Security.Cryptography.Encoding.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\System.Security.Cryptography.Primitives.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\System.Security.Cryptography.X509Certificates.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebDriver.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WpfAdornedControl.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\log4net.xml
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebDriver.xml
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\CreateHiddenProcessLib.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csprojAssemblyReference.cache
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csproj.CopyComplete
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csprojAssemblyReference.cache
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csproj.CoreCompileInputs.cache
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.ChromeSelenium.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.ChromeSelenium.pdb
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\CreateHiddenProcessLib.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\HostAppInPanelLib.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\log4net.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebDriver.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WpfAdornedControl.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\bin\Debug\WebBrowserLib.pdb
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.Selenium.csproj.CopyComplete
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.ChromeSelenium.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib.Selenium\obj\Debug\WebBrowserLib.ChromeSelenium.pdb

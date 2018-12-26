@@ -19,7 +19,7 @@ using WebBrowserLib.Wpf.Utility;
 
 namespace WebBrowserLib.Wpf.WebBrowserControl
 {
-    public class WebBrowserExtensionWpf : IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>
+    public partial class WebBrowserExtensionWpf : IWebBrowserExtensionWithEvent<IHTMLElement, HTMLDocument, IHTMLElement>
     {
         private static readonly Dictionary<WebBrowser, WebBrowserExtensionWpf> WebBrowserExtensionWpfs =
             new Dictionary<WebBrowser, WebBrowserExtensionWpf>();

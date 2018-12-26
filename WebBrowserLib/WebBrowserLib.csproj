@@ -1,4 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+    <Authors>Piero Viano</Authors>
+    <Company>Piero Viano</Company>
+    <Product>WebBrowser Library</Product>
+    <Copyright>Copyright (c) 2018 Piero Viano</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+</Project>
+<!--<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -9,8 +21,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebBrowserLib</RootNamespace>
     <AssemblyName>WebBrowserLib</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Extensions\DelegateExtender.cs" />
     <Compile Include="Helpers\VersionPatcher.cs" />
+    <Compile Include="Helpers\WindowHookNet.cs" />
     <Compile Include="Interfaces\IDocumentWaiter.cs" />
     <Compile Include="Interfaces\IJavascriptExecutor.cs" />
     <Compile Include="Interfaces\IWebBrowserExtensionJavascript.cs" />
@@ -96,4 +110,4 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-</Project>
+</Project>-->

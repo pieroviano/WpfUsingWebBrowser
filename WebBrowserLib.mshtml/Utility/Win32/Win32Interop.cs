@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace WebBrowserLib.MsHtml.Utility
+namespace WebBrowserLib.MsHtml.Utility.Win32
 {
     public static class Win32Interop
     {

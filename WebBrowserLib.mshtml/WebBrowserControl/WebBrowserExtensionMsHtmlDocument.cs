@@ -7,11 +7,12 @@ using WebBrowserLib.EventHandling;
 using WebBrowserLib.Extensions;
 using WebBrowserLib.Interfaces;
 using WebBrowserLib.MsHtml.Utility;
+using WebBrowserLib.MsHtml.Utility.Win32;
 using WebBrowserLib.WebBrowserControl;
 
 namespace WebBrowserLib.MsHtml.WebBrowserControl
 {
-    public class WebBrowserExtensionMsHtmlDocument : BaseWebBrowserExtension<HTMLDocument, IHTMLElement>,
+    public partial class WebBrowserExtensionMsHtmlDocument : BaseWebBrowserExtension<HTMLDocument, IHTMLElement>,
         IWebBrowserExtension<HTMLDocument, IHTMLElement>
     {
         private WebBrowserExtensionMsHtmlDocument()
@@ -238,7 +239,7 @@ namespace WebBrowserLib.MsHtml.WebBrowserControl
 
         public IEnumerable<IHTMLElement> GetElementsByCssQuery(HTMLDocument htmlDocument, string cssQuery)
         {
-            var comObject =
+            object comObject =
                 ExecuteJavascript(htmlDocument,
                     $"Array.prototype.slice.call(document.querySelectorAll('{cssQuery}'));");
             Type type = comObject.GetType();

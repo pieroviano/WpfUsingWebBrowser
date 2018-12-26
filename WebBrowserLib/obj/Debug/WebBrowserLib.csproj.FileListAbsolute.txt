@@ -11,4 +11,29 @@ D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csproj.CoreCompileInputs.cache
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.dll
 D:\Development Samples\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.pdb
-E:\Esempi Sviluppo\WpfUsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csprojResolveAssemblyReference.cache
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csproj.CoreCompileInputs.cache
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.pdb
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.tlb
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Net.Http.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.Algorithms.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.Encoding.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.Primitives.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.X509Certificates.dll
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csprojAssemblyReference.cache
+E:\Esempi Sviluppo\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csproj.CopyComplete
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.pdb
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\WebBrowserLib.tlb
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Net.Http.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.Algorithms.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.Encoding.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.Primitives.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\bin\Debug\System.Security.Cryptography.X509Certificates.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csproj.CoreCompileInputs.cache
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csproj.CopyComplete
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.dll
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.pdb
+E:\CommonLibrary\UsingWebBrowser\WebBrowserLib\obj\Debug\WebBrowserLib.csprojAssemblyReference.cache

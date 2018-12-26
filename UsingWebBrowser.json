@@ -1,0 +1,6 @@
+﻿{
+  "appSettings": {
+    "ConfigurationName": "Release",
+    "ProjectsToInclude": "WebBrowserLib.csproj|WebBrowserLib.MsHtml.csproj|WebBrowserLib.WinForms.csproj|WebBrowserLib.Wpf.csproj|WebBrowserLib.Selenium.csproj|UsingSeleniumFromWpf.csproj"
+  }
+}

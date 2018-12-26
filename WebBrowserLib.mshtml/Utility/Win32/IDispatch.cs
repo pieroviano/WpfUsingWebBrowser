@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace WebBrowserLib.MsHtml.Utility
+namespace WebBrowserLib.MsHtml.Utility.Win32
 {
     [ComImport]
     [Guid("00020400-0000-0000-C000-000000000046")]
